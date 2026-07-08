@@ -551,6 +551,23 @@ app.get('/api/google-geocode', async (req, res) => {
 async function resolveCoordsWithSpellingCorrection(query, province = '') {
   // 0. Static coordinate overrides for exact Cambodian major landmarks
   const normQuery = query.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+  // Static override for Ang Tasom (Angtasom / Angk Ta Saom) in Takeo Province
+  const isAngtasom = normQuery.includes('angtasom') || 
+                     normQuery.includes('angtarsom') || 
+                     normQuery.includes('angtasong') || 
+                     (normQuery.includes('ang') && normQuery.includes('tasom')) ||
+                     normQuery.includes('angktaasom') || 
+                     normQuery.includes('angkktasaom') ||
+                     query.includes('អង្គតាសោម');
+  if (isAngtasom) {
+    return {
+      lat: 11.0131,
+      lng: 104.6732,
+      name: "Angk Ta Saom (អង្គតាសោម)"
+    };
+  }
+
   const isPP = normQuery.includes('phnompenh') || normQuery.includes('pp') || province.toLowerCase().includes('phnom penh');
 
   if (isPP) {
@@ -680,10 +697,23 @@ async function crawlGoogleMapsCoords(query) {
 
     const finalUrl = response.url;
     const urlMatch = finalUrl.match(/@([-+]?\d+\.\d+),([-+]?\d+\.\d+)/);
+    
+    // Helper to check if resolved coordinates are just the default Phnom Penh viewport center
+    const checkDefaultCoords = (lat, lng) => {
+      const isDefaultPP = Math.abs(lat - 11.57422315) < 0.005 && Math.abs(lng - 104.9264128) < 0.005;
+      const queryMentionsPP = query.toLowerCase().includes('phnom') || query.toLowerCase().includes('pp') || query.includes('ភ្នំពេញ');
+      return isDefaultPP && !queryMentionsPP;
+    };
+
     if (urlMatch) {
+      const lat = parseFloat(urlMatch[1]);
+      const lng = parseFloat(urlMatch[2]);
+      if (checkDefaultCoords(lat, lng)) {
+        return null;
+      }
       return {
-        lat: parseFloat(urlMatch[1]),
-        lng: parseFloat(urlMatch[2]),
+        lat,
+        lng,
         name: query
       };
     }
@@ -692,18 +722,28 @@ async function crawlGoogleMapsCoords(query) {
 
     const staticMapMatch = html.match(/center=([-+]?\d+\.\d+)(?:%2C|,)([-+]?\d+\.\d+)/i);
     if (staticMapMatch) {
+      const lat = parseFloat(staticMapMatch[1]);
+      const lng = parseFloat(staticMapMatch[2]);
+      if (checkDefaultCoords(lat, lng)) {
+        return null;
+      }
       return {
-        lat: parseFloat(staticMapMatch[1]),
-        lng: parseFloat(staticMapMatch[2]),
+        lat,
+        lng,
         name: query
       };
     }
 
     const inlineMatch = html.match(/\/maps\/preview\/place\/[^\/]+\/@([-+]?\d+\.\d+),([-+]?\d+\.\d+)/);
     if (inlineMatch) {
+      const lat = parseFloat(inlineMatch[1]);
+      const lng = parseFloat(inlineMatch[2]);
+      if (checkDefaultCoords(lat, lng)) {
+        return null;
+      }
       return {
-        lat: parseFloat(inlineMatch[1]),
-        lng: parseFloat(inlineMatch[2]),
+        lat,
+        lng,
         name: query
       };
     }

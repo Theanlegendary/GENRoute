@@ -514,6 +514,7 @@ async function runSearch(page = 1) {
 // Select a market, village, commune, or district and find its nearest Post Offices (within 30km)
 // With Mushroom Network (Dashed Lines & Popup List) + Close Zoom!
 async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly = true) {
+  currentResults = allMatchedLocs || [selectedLoc];
   showState('loading');
   try {
     const radius = 30; // Max 30km
