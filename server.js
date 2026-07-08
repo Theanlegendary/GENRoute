@@ -168,6 +168,7 @@ const PROVINCE_MAP = {
   'mondul kiri': 'មណ្ឌលគីរី',
   'mondulkiri': 'មណ្ឌលគីរី',
   'oddar meanchey': 'ឧត្តរមានជ័យ',
+  'otdar meanchey': 'ឧត្តរមានជ័យ',
   'pailin': 'ប៉ៃលិន',
   'preah sihanouk': 'ព្រះសីហនុ',
   'preah vihear': 'ព្រះវិហារ',

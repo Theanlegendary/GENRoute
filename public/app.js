@@ -95,15 +95,11 @@ function initMap() {
     maxZoom: 20
   });
 
-  // Hybrid Satellite = Esri World Imagery + Voyager Road Labels
-  const satelliteBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-  });
-  const satelliteLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
+  // Hybrid Satellite = Google Hybrid (Satellite + Roads/Labels)
+  tileLayers.satellite = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+    attribution: 'Map data &copy; Google',
     maxZoom: 20
   });
-  tileLayers.satellite = L.layerGroup([satelliteBase, satelliteLabels]);
 
   // Set default active layer
   tileLayers.voyager.addTo(map);
@@ -244,7 +240,7 @@ function setupEventListeners() {
 
   // Close autocomplete when clicking outside
   document.addEventListener('click', e => {
-    if (!e.target.closest('.search-section') && !e.target.closest('.grid-section')) {
+    if (!e.target.closest('.search-panel') && !e.target.closest('.autocomplete-dropdown')) {
       closeAutocomplete();
     }
   });
