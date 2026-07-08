@@ -520,7 +520,32 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
   showState('loading');
   try {
     const radius = 30; // Max 30km
-    const res = await fetch(`${API}/api/nearby?lat=${selectedLoc.latitude}&lng=${selectedLoc.longitude}&radius=${radius}&limit=10&type=branch`);
+    const province = provinceSelect ? provinceSelect.value : '';
+
+    // Fetch default PO for this location if it has branch_id
+    let defaultPO = null;
+    if (selectedLoc.branch_id) {
+      try {
+        const resDef = await fetch(`${API}/api/search?branch_id=${selectedLoc.branch_id}`);
+        const dataDef = await resDef.json();
+        if (dataDef.results && dataDef.results.length > 0) {
+          defaultPO = dataDef.results[0];
+        }
+      } catch (err) {
+        console.warn('Failed to fetch default PO metadata:', err.message);
+      }
+    }
+
+    const nearbyParams = new URLSearchParams({
+      lat: selectedLoc.latitude,
+      lng: selectedLoc.longitude,
+      radius: radius,
+      limit: 10,
+      type: 'branch'
+    });
+    if (province) nearbyParams.set('province', province);
+
+    const res = await fetch(`${API}/api/nearby?${nearbyParams}`);
     const data = await res.json();
     const nearbyPOs = data.results;
 
@@ -532,9 +557,24 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     const targetTitle = selectedLoc.market || selectedLoc.village || selectedLoc.commune || 'Selected Location';
     
     let poListHtml = '';
-    nearbyPOs.forEach((nearPo, idx) => {
+
+    // Add default registered PO at the top of the list if it exists
+    if (defaultPO) {
+      const distToDefault = nearbyPOs.find(po => po.branch_id === defaultPO.branch_id)?.distance_km 
+        || haversine(selectedLoc.latitude, selectedLoc.longitude, defaultPO.latitude, defaultPO.longitude);
+        
       poListHtml += `
-        <div class="popup-po-item" style="margin-top: 4px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e2e8f0; padding-bottom: 2px; font-family: sans-serif;">
+        <div class="popup-po-item" style="margin-top: 4px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #3b82f6; padding-bottom: 3px; font-family: sans-serif; background-color: #eff6ff; padding: 2px 4px; border-radius: 4px; margin-bottom: 6px;">
+          <span style="color:#1e3a8a;"><b>📮 REG ZONE PO:</b> ${escHtml(defaultPO.market || defaultPO.store_name)} (${defaultPO.branch_id})</span>
+          <span style="color:#1e3a8a; font-weight: 700; margin-left: 8px;">${formatDistance(distToDefault)}</span>
+        </div>
+      `;
+    }
+
+    nearbyPOs.forEach((nearPo, idx) => {
+      const isDefault = defaultPO && (defaultPO.branch_id === nearPo.branch_id);
+      poListHtml += `
+        <div class="popup-po-item" style="margin-top: 4px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e2e8f0; padding-bottom: 2px; font-family: sans-serif; ${isDefault ? 'background-color: #eff6ff;' : ''}">
           <span style="color:#1e293b;"><b>${idx + 1}.</b> ${escHtml(nearPo.market || nearPo.store_name || 'Post Office')} (${nearPo.branch_id})</span>
           <span style="color:var(--metfone-red, #d32f2f); font-weight: 700; margin-left: 8px;">${formatDistance(nearPo.distance_km)}</span>
         </div>
@@ -562,7 +602,26 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     activeMarkers.push({ id: selectedLoc.id, marker: targetMarker });
     activeStickerMarkers.push({ marker: targetMarker, r: selectedLoc });
 
-    // Draw connection line on map ("like mushroom")
+    // Plot default PO on map if not in nearby list
+    if (defaultPO && defaultPO.latitude && defaultPO.longitude) {
+      const isAlreadyPlotted = nearbyPOs.some(po => po.branch_id === defaultPO.branch_id);
+      if (!isAlreadyPlotted) {
+        const marker = L.marker([defaultPO.latitude, defaultPO.longitude], { icon: redIcon }).addTo(markerClusterGroup);
+        marker.bindPopup(`
+          <div class="map-popup-content">
+            <div class="popup-header" style="background-color:#1e3a8a; margin-bottom: 6px;">
+              <span class="popup-badge" style="background-color:#1e3a8a; color:#fff;">DEFAULT REGISTERED PO</span>
+              <span class="popup-coord">${defaultPO.latitude.toFixed(4)}°, ${defaultPO.longitude.toFixed(4)}°</span>
+            </div>
+            <h4>📮 ${escHtml(defaultPO.market || defaultPO.store_name)}</h4>
+            <p class="popup-addr">${escHtml([defaultPO.district, defaultPO.province].filter(Boolean).join(', '))}</p>
+          </div>
+        `);
+        activeMarkers.push({ id: defaultPO.id, marker: marker });
+      }
+    }
+
+    // Draw connection line to nearest PO
     if (nearbyPOs.length > 0) {
       const nearestPO = nearbyPOs[0];
       const nearestLine = L.polyline([
@@ -575,6 +634,24 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
         opacity: 0.8
       }).addTo(vectorLayerGroup);
       nearestLine.bindPopup(`Nearest PO: ${nearestPO.market} (${formatDistance(nearestPO.distance_km)})`);
+    }
+
+    // Draw connection line to default PO
+    if (defaultPO && defaultPO.latitude && defaultPO.longitude) {
+      const nearestPO = nearbyPOs[0];
+      const isSame = (nearestPO && nearestPO.branch_id === defaultPO.branch_id);
+      if (!isSame) {
+        const defaultLine = L.polyline([
+          [selectedLoc.latitude, selectedLoc.longitude],
+          [defaultPO.latitude, defaultPO.longitude]
+        ], {
+          color: '#3b82f6',
+          weight: 3.5,
+          dashArray: '2, 6',
+          opacity: 0.8
+        }).addTo(vectorLayerGroup);
+        defaultLine.bindPopup(`Default Registered PO Zone: ${defaultPO.market}`);
+      }
     }
 
     // Plot all nearby post offices
@@ -609,8 +686,8 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     });
     refreshStickerLabels();
 
-    // Render nearby POs in the sidebar results list WITH back button!
-    renderResultsList(nearbyPOs, true, targetTitle);
+    // Render nearby POs in the sidebar results list WITH back button and target item!
+    renderResultsList(nearbyPOs, true, targetTitle, selectedLoc);
 
     // Update results metadata
     if (resultsCount) {
@@ -803,7 +880,7 @@ async function runSmartFind() {
 }
 
 // Render locations in the sidebar list
-function renderResultsList(results, isNearbyList = false, targetTitle = null) {
+function renderResultsList(results, isNearbyList = false, targetTitle = null, targetLoc = null) {
   resultsList.innerHTML = '';
 
   // If showing nearby results for a selected market or search target, show banner at top!
@@ -830,6 +907,57 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null) {
         }
         map.setView([12.5657, 104.9910], 7.5);
       });
+    }
+
+    // Render the target location itself at the very top of the list!
+    if (targetLoc) {
+      const targetCard = document.createElement('div');
+      targetCard.className = 'location-card target-location-card';
+      targetCard.style.backgroundColor = '#eff6ff'; // Light blue highlight
+      targetCard.style.borderLeft = '4px solid #3b82f6';
+      targetCard.style.marginBottom = '12px';
+
+      const tTitle = targetLoc.market || targetLoc.village || targetLoc.commune || 'Target Location';
+      const tTitleKh = targetLoc.market_kh || targetLoc.village_kh || targetLoc.commune_kh || '';
+      const q = normalizeKhmer(searchInput.value);
+
+      targetCard.innerHTML = `
+        <div class="card-grid">
+          <div class="card-index" style="background-color: #3b82f6; color: #fff; padding: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
+            <span class="index-num" style="font-size: 1.1rem; line-height: 1;">🎯</span>
+            <span class="type-badge" style="background-color: #1e3a8a; color: #fff; font-size: 8px; font-weight: 700; padding: 1px 3px; border-radius: 3px;">TARGET</span>
+          </div>
+          <div class="card-content">
+            <div class="card-top">
+              <span class="card-title" style="color: #1e3a8a; font-weight: 700;">${highlightMatch(tTitle, q)}</span>
+              ${targetLoc.branch_id ? `<span class="card-branch-tag" style="background-color: #dbeafe; color: #1e40af;">ID: ${highlightMatch(targetLoc.branch_id, q)}</span>` : ''}
+            </div>
+            ${tTitleKh ? `<div class="card-title-kh">${highlightMatch(tTitleKh, q)}</div>` : ''}
+            <div class="card-address">
+              <span class="label-mono">📍</span> ${highlightMatch([targetLoc.village, targetLoc.commune, targetLoc.district, targetLoc.province].filter(Boolean).join(', '), q)}
+            </div>
+            ${targetLoc.village_kh || targetLoc.district_kh ? `
+            <div class="card-address-kh">
+              ${highlightMatch([targetLoc.village_kh, targetLoc.commune_kh, targetLoc.district_kh, targetLoc.province_kh].filter(Boolean).join(', '), q)}
+            </div>` : ''}
+            <a class="card-gmaps-link" href="${targetLoc.google_maps_url || `https://www.google.com/maps?q=${targetLoc.latitude},${targetLoc.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open in Google Maps ↗</a>
+          </div>
+        </div>
+      `;
+
+      targetCard.addEventListener('click', () => {
+        document.querySelectorAll('.location-card').forEach(c => c.classList.remove('selected'));
+        targetCard.classList.add('selected');
+        if (targetLoc.latitude && targetLoc.longitude) {
+          map.flyTo([targetLoc.latitude, targetLoc.longitude], 15, { animate: true, duration: 1.2 });
+          const am = activeMarkers.find(m => m.id === 'target_loc' || m.id === targetLoc.id);
+          if (am) {
+            setTimeout(() => am.marker.openPopup(), 1200);
+          }
+        }
+      });
+
+      resultsList.appendChild(targetCard);
     }
 
     // If there are multiple matched search targets, render the horizontal switch bar!
