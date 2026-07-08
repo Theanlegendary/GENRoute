@@ -1342,8 +1342,8 @@ strong {
 /* Floating Map Sticker Labels Controls */
 .map-labels-control {
   position: absolute;
-  bottom: var(--space-4);
-  left: 20px; /* Offset next to theme switcher / zoom */
+  bottom: 24px;
+  right: 24px; /* Placed bottom-right, replacing the legend card */
   z-index: 1000;
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
