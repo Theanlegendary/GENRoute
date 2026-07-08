@@ -660,7 +660,33 @@ async function resolveCoordsWithSpellingCorrection(query, province = '') {
   // Build the search query string, restricting strictly to Cambodia
   const searchQuery = province ? `${query}, ${province}, Cambodia` : `${query}, Cambodia`;
 
-  // 1. Try to geocode the query directly using Nominatim (with our high-precision User-Agent)
+  // 1. PRIMARY: Photon geocoder (OSM-based, excellent Khmer script support!)
+  const photonResults = await queryPhoton(query, 5);
+  if (photonResults && photonResults.length > 0) {
+    console.log(`✅ Photon geocoded "${query}" -> ${photonResults.length} result(s)`);
+    if (photonResults.length === 1) {
+      return {
+        lat: photonResults[0].lat,
+        lng: photonResults[0].lng,
+        name: photonResults[0].name || query
+      };
+    } else {
+      return {
+        type: 'multiple',
+        results: photonResults.map((r, idx) => ({
+          id: 'target_' + idx + '_' + Date.now(),
+          market: r.name || query,
+          latitude: r.lat,
+          longitude: r.lng,
+          province: r.province || '',
+          district: r.city || '',
+          google_maps_url: `https://www.google.com/maps?q=${r.lat},${r.lng}`
+        }))
+      };
+    }
+  }
+
+  // 2. SECONDARY: Nominatim geocoder 
   let nomResults = await queryNominatim(searchQuery, 5);
   if (nomResults && nomResults.length > 0) {
     // Sort results: prioritize Phnom Penh matches first if no specific province is selected!
@@ -696,7 +722,7 @@ async function resolveCoordsWithSpellingCorrection(query, province = '') {
     }
   }
 
-  // 2. If it fails, query Google Autocomplete suggestions to get the corrected spelling
+  // 3. If direct geocoding fails, try Google Autocomplete spelling correction -> then Photon/Nominatim
   try {
     const autocompleteUrl = `https://clients1.google.com/complete/search?client=chrome&hl=km&gl=kh&q=${encodeURIComponent(searchQuery)}`;
     const autoRes = await fetch(autocompleteUrl, {
@@ -705,9 +731,20 @@ async function resolveCoordsWithSpellingCorrection(query, province = '') {
     const autoData = await autoRes.json();
     const suggestions = autoData[1] || [];
     
-    // Try to geocode the first 6 suggestions
+    // Try to geocode each suggestion via Photon first, then Nominatim
     for (const sugg of suggestions.slice(0, 6)) {
       if (sugg.toLowerCase() !== searchQuery.toLowerCase()) {
+        // Try Photon first
+        const photonCoords = await queryPhoton(sugg, 1);
+        if (photonCoords && photonCoords.length > 0) {
+          console.log(`✨ Spelling corrected "${searchQuery}" -> "${sugg}" via Photon!`);
+          return {
+            lat: photonCoords[0].lat,
+            lng: photonCoords[0].lng,
+            name: photonCoords[0].name || sugg
+          };
+        }
+        // Then Nominatim
         const suggCoords = await queryNominatim(sugg, 1);
         if (suggCoords && suggCoords.length > 0) {
           console.log(`✨ Corrected spelling "${searchQuery}" -> "${sugg}" and geocoded successfully!`);
@@ -723,7 +760,7 @@ async function resolveCoordsWithSpellingCorrection(query, province = '') {
     console.error('Spelling correction autocomplete failed:', err.message);
   }
 
-  // 3. Fallback to Google Maps HTML crawler geocoding for the original query
+  // 4. Last resort: Google Maps HTML crawler geocoding
   const coords = await crawlGoogleMapsCoords(searchQuery);
   return coords;
 }
@@ -741,6 +778,42 @@ async function queryNominatim(query, limit = 1) {
     return nomData || [];
   } catch (err) {
     console.error(`Nominatim query failed for "${query}":`, err.message);
+  }
+  return [];
+}
+
+/**
+ * Query Photon geocoder (free, OSM-based, excellent Khmer/Unicode support)
+ * Restricted to Cambodia via countrycode filter
+ */
+async function queryPhoton(query, limit = 5) {
+  try {
+    // Use Cambodia bounding box to bias results, then filter by country code
+    const photonUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&bbox=102.35,9.90,107.63,14.69&limit=${limit + 5}&lang=en`;
+    const photonRes = await fetch(photonUrl, {
+      headers: {
+        'User-Agent': 'MetfoneExpressBranchLocator/1.0 (contact@metfone.com.kh)'
+      }
+    });
+    const photonData = await photonRes.json();
+    
+    if (photonData.features && photonData.features.length > 0) {
+      // Filter: only keep results that are in Cambodia (KH country code)
+      const cambodiaResults = photonData.features
+        .filter(f => (f.properties.countrycode || '').toUpperCase() === 'KH')
+        .slice(0, limit);
+      
+      return cambodiaResults.map(f => ({
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0],
+        name: f.properties.name || query,
+        city: f.properties.city || f.properties.county || '',
+        province: f.properties.state || '',
+        type: f.properties.osm_value || f.properties.type || ''
+      }));
+    }
+  } catch (err) {
+    console.error(`Photon query failed for "${query}":`, err.message);
   }
   return [];
 }
