@@ -548,7 +548,7 @@ app.get('/api/google-autocomplete', async (req, res) => {
   if (!q || !q.trim()) return res.json([]);
 
   const query = q.trim();
-  const searchString = province ? `${query} ${province}` : query;
+  const searchString = province ? `${query}, ${province}, Cambodia` : `${query}, Cambodia`;
 
   try {
     const url = `https://clients1.google.com/complete/search?client=chrome&hl=km&gl=kh&q=${encodeURIComponent(searchString)}`;
@@ -635,8 +635,8 @@ async function resolveCoordsWithSpellingCorrection(query, province = '') {
     }
   }
 
-  // Build the search query string, appending the province if specified
-  const searchQuery = province ? `${query}, ${province}` : query;
+  // Build the search query string, restricting strictly to Cambodia
+  const searchQuery = province ? `${query}, ${province}, Cambodia` : `${query}, Cambodia`;
 
   // 1. Try to geocode the query directly using Nominatim (with our high-precision User-Agent)
   let nomResults = await queryNominatim(searchQuery, 5);

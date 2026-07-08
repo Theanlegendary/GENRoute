@@ -385,7 +385,7 @@ async function showAutocomplete(q) {
           isBranch: false,
           label: text,
           displayLabel: text,
-          address: `🌐 Google Maps Search`,
+          address: prov ? `🌐 Google Maps Search (in ${prov})` : `🌐 Google Maps Search (in Cambodia)`,
           lat: null, // Will geocode dynamically on click!
           lng: null
         });
@@ -400,7 +400,7 @@ async function showAutocomplete(q) {
         isBranch: false,
         label: q,
         displayLabel: `Search for "${q}"`,
-        address: `🌐 Google Maps Search`,
+        address: prov ? `🌐 Google Maps Search (in ${prov})` : `🌐 Google Maps Search (in Cambodia)`,
         lat: null,
         lng: null
       });
