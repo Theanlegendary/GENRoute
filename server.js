@@ -210,6 +210,28 @@ function findNearestPickupBranch(lat, lng, maxDist = Infinity, province = '') {
   return scored[0] || null;
 }
 
+/** Find the nearest market in routes.json to a coordinate */
+function findNearestRouteMarket(lat, lng, maxDist = 3.0, province = '') {
+  if (routes.length === 0) return null;
+
+  let list = routes;
+  if (province) {
+    const normProv = normalizeKhmer(province);
+    list = list.filter(r => 
+      (r.province && normalizeKhmer(r.province).includes(normProv)) ||
+      (r.province_kh && normalizeKhmer(r.province_kh).includes(normProv))
+    );
+  }
+
+  const scored = list
+    .map(r => ({ ...r, distance_km: haversine(lat, lng, r.latitude, r.longitude) }))
+    .filter(r => r.distance_km <= maxDist)
+    .sort((a, b) => a.distance_km - b.distance_km);
+
+  return scored[0] || null;
+}
+
+
 
 /** Check if a route matches a free-text query (Unicode normalized and case-insensitive) */
 function normalizeKhmer(str) {
@@ -795,23 +817,49 @@ async function crawlGoogleMapsCoords(query) {
 // SMART FINDER (LEGACY BACKUP)
 // ──────────────────────────────────────────────────────────────────
 
-app.get('/api/smart-find', (req, res) => {
+app.get('/api/smart-find', async (req, res) => {
   const { q = '', max_dist, province } = req.query;
   if (!q.trim()) {
     return res.status(400).json({ error: 'Query q is required' });
   }
 
-  let coords = null;
-  let source = '';
-  let resolvedMarket = null;
-
-  const localResult = resolveMarketLocal(q.trim(), province);
-  if (localResult) {
-    resolvedMarket = localResult.match;
-    coords = { lat: resolvedMarket.latitude, lng: resolvedMarket.longitude };
-    source = localResult.source;
+  // 1. Try Google Maps Geocoder first to get the most accurate coordinates!
+  try {
+    const geoCoords = await resolveCoordsWithSpellingCorrection(q.trim(), province);
+    if (geoCoords && geoCoords.lat && geoCoords.lng) {
+      coords = { lat: geoCoords.lat, lng: geoCoords.lng };
+      source = 'google_geocoding';
+      
+      // Look up if there's a matching market in our routes.json database
+      // to extract metadata like district, province, and default assigned branch_id!
+      const localResult = resolveMarketLocal(q.trim(), province);
+      if (localResult) {
+        resolvedMarket = localResult.match;
+      } else {
+        // If no text match, find the nearest market in routes.json within 3km of Google's coordinates
+        const nearestMarket = findNearestRouteMarket(coords.lat, coords.lng, 3.0, province);
+        if (nearestMarket) {
+          resolvedMarket = nearestMarket;
+        } else {
+          resolvedMarket = { market: geoCoords.name || q.trim() };
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Google geocoding failed in smart-find:', err.message);
   }
 
+  // 2. Fallback: Search local database (routes.json) if geocoding fails
+  if (!coords) {
+    const localResult = resolveMarketLocal(q.trim(), province);
+    if (localResult) {
+      resolvedMarket = localResult.match;
+      coords = { lat: resolvedMarket.latitude, lng: resolvedMarket.longitude };
+      source = localResult.source;
+    }
+  }
+
+  // 3. Fallback: Search saved place cache (geocoding_cache.json)
   if (!coords) {
     try {
       const cachePath = path.join(__dirname, '..', 'geocoding_cache.json');
