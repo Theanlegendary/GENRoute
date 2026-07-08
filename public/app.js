@@ -452,7 +452,7 @@ async function showAutocomplete(q) {
             if (resultsCount) {
               resultsCount.innerHTML = `Found Metfone Express Branch: <span>${s.raw.branch_id}</span>`;
             }
-            map.setView([s.lat, s.lng], 15);
+            map.setView([s.lat, s.lng], 17);
             marker.openPopup(); // Auto-open branch popup
           } else {
             // Local Partner Market Click
@@ -806,7 +806,7 @@ async function runSmartFind() {
         if (resultsCount) {
           resultsCount.innerHTML = `Found Metfone Express Branch: <span>${branchMatch.branch_id}</span>`;
         }
-        map.setView([branchMatch.latitude, branchMatch.longitude], 15);
+        map.setView([branchMatch.latitude, branchMatch.longitude], 17);
         marker.openPopup(); // Auto-open branch popup
         return;
       }
@@ -953,7 +953,7 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null, ta
         document.querySelectorAll('.location-card').forEach(c => c.classList.remove('selected'));
         targetCard.classList.add('selected');
         if (targetLoc.latitude && targetLoc.longitude) {
-          map.flyTo([targetLoc.latitude, targetLoc.longitude], 15, { animate: true, duration: 1.2 });
+          map.flyTo([targetLoc.latitude, targetLoc.longitude], 17, { animate: true, duration: 1.2 });
           const am = activeMarkers.find(m => m.id === 'target_loc' || m.id === targetLoc.id);
           if (am) {
             setTimeout(() => am.marker.openPopup(), 1200);
@@ -1037,7 +1037,7 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null, ta
       } else {
         // If it is already a nearby Post Office or branch, just fly to it on map!
         if (r.latitude && r.longitude) {
-          map.flyTo([r.latitude, r.longitude], 15, { animate: true, duration: 1.2 });
+          map.flyTo([r.latitude, r.longitude], 17, { animate: true, duration: 1.2 });
           const am = activeMarkers.find(m => m.id === r.id);
           if (am) {
             setTimeout(() => am.marker.openPopup(), 1200);
