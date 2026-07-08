@@ -888,6 +888,9 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null) {
             <span class="distance-badge">📡 ${formatDistance(r.distance_km)}</span>
           </div>` : ''}
           <a class="card-gmaps-link" href="${r.google_maps_url || `https://www.google.com/maps?q=${r.latitude},${r.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open in Google Maps ↗</a>
+          ${!r.branch_id && !isNearbyList ? `
+            <button class="card-correct-btn" onclick="event.stopPropagation(); triggerCorrectMarketCoords('${r.id}', '${escHtml(title)}', '${escHtml(r.province || '')}')" style="margin-left: var(--space-3); background: none; border: none; color: #3b82f6; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0;">✏️ Correct via Google</button>
+          ` : ''}
         </div>
       </div>
     `;
@@ -1040,6 +1043,54 @@ window.triggerSelectLocation = function(id) {
     selectLocationAndFindNearbyPOs(matched, currentResults);
   }
 };
+
+window.triggerCorrectMarketCoords = async function(id, name, province) {
+  const confirmSearch = confirm(`Do you want to search Google Maps for "${name}" in "${province || 'Cambodia'}" and update its coordinates in the database?`);
+  if (!confirmSearch) return;
+
+  showState('loading');
+  try {
+    const geoRes = await fetch(`${API}/api/google-geocode?q=${encodeURIComponent(name)}` + (province ? `&province=${encodeURIComponent(province)}` : ''));
+    if (!geoRes.ok) throw new Error('Location not found on Google Maps');
+    const coords = await geoRes.json();
+
+    const confirmUpdate = confirm(`Google Maps found "${coords.name || name}" at:\nLatitude: ${coords.lat}\nLongitude: ${coords.lng}\n\nDo you want to save this to the database?`);
+    if (!confirmUpdate) {
+      showState('none');
+      return;
+    }
+
+    const updateRes = await fetch(`${API}/api/update-market-coords`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: id,
+        latitude: coords.lat,
+        longitude: coords.lng
+      })
+    });
+
+    if (!updateRes.ok) {
+      const errData = await updateRes.json();
+      throw new Error(errData.error || 'Failed to update coordinates');
+    }
+
+    alert(`Success! Updated database coordinates for "${name}".`);
+    
+    // Auto-refresh the current search
+    if (searchInput.value.trim()) {
+      runSmartFind();
+    } else {
+      showState('welcome');
+    }
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+    showState('none');
+  }
+};
+
 
 function clearAllMapLayers() {
   activeStickerMarkers = [];

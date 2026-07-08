@@ -907,6 +907,42 @@ app.get('/api/smart-find', (req, res) => {
 
 });
 
+/**
+ * POST /api/update-market-coords
+ * Update market coordinates and persist to routes.json
+ */
+app.post('/api/update-market-coords', (req, res) => {
+  const { id, latitude, longitude } = req.body;
+  if (id == null || latitude == null || longitude == null) {
+    return res.status(400).json({ error: 'Parameters id, latitude, and longitude are required' });
+  }
+
+  // Find the index of the route in our in-memory list
+  const idx = routes.findIndex(r => String(r.id) === String(id));
+  if (idx === -1) {
+    return res.status(404).json({ error: 'Market not found in database' });
+  }
+
+  // Update in memory
+  routes[idx].latitude = parseFloat(latitude);
+  routes[idx].longitude = parseFloat(longitude);
+  routes[idx].google_maps_url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+  // Persist to routes.json
+  try {
+    fs.writeFileSync(DATA_PATH, JSON.stringify(routes, null, 2), 'utf-8');
+    console.log(`💾 Persisted market correction for ID ${id}: (${latitude}, ${longitude})`);
+    
+    // Re-initialize search index
+    initializeFuse();
+    
+    res.json({ success: true, message: 'Market coordinates updated successfully', updated: routes[idx] });
+  } catch (err) {
+    console.error('Failed to write to routes.json:', err.message);
+    res.status(500).json({ error: 'Failed to persist updates to database file' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Branch Search Server running at http://localhost:${PORT}`);
 });
