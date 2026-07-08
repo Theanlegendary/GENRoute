@@ -702,8 +702,12 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
       radius: 30000
     }).addTo(vectorLayerGroup);
 
-    // Zoom in close around the mushroom cluster! Never zoom out to zoom level 12!
-    fitMapToMarkers(15);
+    // Zoom in close directly to the target location at zoom level 17!
+    if (selectedLoc.latitude && selectedLoc.longitude) {
+      map.setView([selectedLoc.latitude, selectedLoc.longitude], 17, { animate: true, duration: 1.2 });
+    } else {
+      fitMapToMarkers(15);
+    }
     
     // Auto-open target popup with detailed list
     if (targetMarker) {
