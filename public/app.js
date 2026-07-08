@@ -465,7 +465,7 @@ async function showAutocomplete(q) {
               district: s.raw.district,
               google_maps_url: `https://www.google.com/maps?q=${s.lat},${s.lng}`
             };
-            selectLocationAndFindNearbyPOs(selectedLoc, [selectedLoc]);
+            showSingleTargetOnMap(selectedLoc, [selectedLoc]);
           }
         } else {
           // Dynamically geocode the Google suggestion for FREE!
@@ -484,7 +484,7 @@ async function showAutocomplete(q) {
               district: '',
               google_maps_url: `https://www.google.com/maps?q=${coords.lat},${coords.lng}`
             };
-            selectLocationAndFindNearbyPOs(selectedLoc, [selectedLoc]);
+            showSingleTargetOnMap(selectedLoc, [selectedLoc]);
           } catch (err) {
             console.error(err);
             showState('empty');
@@ -827,7 +827,7 @@ async function runSmartFind() {
           currentResults = coordsData.results;
           // Automatically select the first (most popular/Google primary) match,
           // while rendering other matched options as pills at the top of the sidebar list!
-          await selectLocationAndFindNearbyPOs(coordsData.results[0], coordsData.results);
+          showSingleTargetOnMap(coordsData.results[0], coordsData.results);
           return;
         }
 
@@ -840,7 +840,7 @@ async function runSmartFind() {
           district: '',
           google_maps_url: `https://www.google.com/maps?q=${coordsData.lat},${coordsData.lng}`
         };
-        await selectLocationAndFindNearbyPOs(selectedLoc, [selectedLoc]);
+        showSingleTargetOnMap(selectedLoc, [selectedLoc]);
         return;
       }
     } catch (err) {
@@ -868,7 +868,7 @@ async function runSmartFind() {
         district: topMatch.district,
         google_maps_url: topMatch.google_maps_url || `https://www.google.com/maps?q=${topMatch.latitude},${topMatch.longitude}`
       };
-      await selectLocationAndFindNearbyPOs(selectedLoc, [selectedLoc]);
+      showSingleTargetOnMap(selectedLoc, filteredLocal);
       return;
     }
 
@@ -1275,3 +1275,130 @@ function setupLabelsControl() {
     });
   });
 }
+
+// Show a single geocoded target on the map first (clean Google Maps style)
+function showSingleTargetOnMap(selectedLoc, allMatchedLocs) {
+  currentResults = allMatchedLocs || [selectedLoc];
+  showState('none');
+  clearAllMapLayers();
+  activeMarkers = [];
+
+  const targetTitle = selectedLoc.market || selectedLoc.village || selectedLoc.commune || 'Target Location';
+  
+  // Plot target marker
+  const targetMarker = L.marker([selectedLoc.latitude, selectedLoc.longitude], { icon: selectedMarketIcon }).addTo(markerClusterGroup);
+  targetMarker.bindPopup(`
+    <div class="map-popup-content" style="width: 240px;">
+      <div class="popup-header" style="background-color: #173020; margin-bottom: 6px;">
+        <span class="popup-badge" style="background-color: #173020; color: #fff;">TARGET LOCATION</span>
+        <span class="popup-coord">${selectedLoc.latitude.toFixed(4)}°, ${selectedLoc.longitude.toFixed(4)}°</span>
+      </div>
+      <h4 style="margin: 4px 0; font-size:13px; color:#1e293b;">📍 ${escHtml(targetTitle)}</h4>
+      <p class="popup-addr" style="margin: 2px 0 8px 0; font-size: 11px; color: #64748b;">${escHtml([selectedLoc.district, selectedLoc.province].filter(Boolean).join(', ') || '')}</p>
+      
+      <button class="popup-find-nearby-btn" onclick="event.stopPropagation(); triggerSelectLocation('${selectedLoc.id}')" style="background-color: var(--metfone-red, #d32f2f); color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-top: 6px; width: 100%; font-weight: bold; text-align: center;">🔍 Find Nearby POs</button>
+      <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; font-size:11px; text-align:right;">Open in Google Maps ↗</a>
+    </div>
+  `);
+  
+  activeMarkers.push({ id: selectedLoc.id, marker: targetMarker });
+  activeStickerMarkers.push({ marker: targetMarker, r: selectedLoc });
+  refreshStickerLabels();
+
+  // Zoom in very close directly to the target location at zoom level 17!
+  map.setView([selectedLoc.latitude, selectedLoc.longitude], 17, { animate: true, duration: 1.2 });
+  
+  // Render results in the sidebar list (shows only this target with a big "Find Nearby POs" button)
+  renderSingleTargetList(selectedLoc, currentResults);
+
+  // Auto-open target popup
+  setTimeout(() => {
+    targetMarker.openPopup();
+  }, 500);
+}
+
+// Render a single target location in the sidebar list (before finding nearby POs)
+function renderSingleTargetList(selectedLoc, allMatchedLocs) {
+  resultsList.innerHTML = '';
+  const targetTitle = selectedLoc.market || selectedLoc.village || selectedLoc.commune || 'Target Location';
+
+  // If there are multiple matches, render the switch bar
+  if (allMatchedLocs && allMatchedLocs.length > 1) {
+    const matchBar = document.createElement('div');
+    matchBar.className = 'search-matches-bar';
+    matchBar.innerHTML = `
+      <div class="matches-title">📍 Alternative Matches:</div>
+      <div class="matches-pills">
+        ${allMatchedLocs.map(r => {
+          const isActive = (r.market === targetTitle);
+          return `
+            <button class="match-pill ${isActive ? 'active' : ''}" onclick="triggerShowSingleLocation('${r.id}')">
+              ${escHtml(r.market)}
+            </button>
+          `;
+        }).join('')}
+      </div>
+    `;
+    resultsList.appendChild(matchBar);
+  }
+
+  const card = document.createElement('div');
+  card.className = 'location-card selected';
+  card.setAttribute('data-id', selectedLoc.id);
+  card.style.borderLeft = '4px solid var(--metfone-red, #d32f2f)';
+
+  const title = selectedLoc.market || selectedLoc.village || selectedLoc.commune || 'Target Location';
+  const titleKh = selectedLoc.market_kh || selectedLoc.village_kh || selectedLoc.commune_kh || '';
+  const q = normalizeKhmer(searchInput.value);
+
+  card.innerHTML = `
+    <div class="card-grid">
+      <div class="card-index" style="background-color: var(--metfone-red, #d32f2f); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
+        <span class="index-num">🎯</span>
+        <span class="type-badge" style="background-color: #1e3a8a; color: white;">TARGET</span>
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <span class="card-title" style="font-weight: 700;">${highlightMatch(title, q)}</span>
+          ${selectedLoc.branch_id ? `<span class="card-branch-tag">ID: ${highlightMatch(selectedLoc.branch_id, q)}</span>` : ''}
+        </div>
+        ${titleKh ? `<div class="card-title-kh">${highlightMatch(titleKh, q)}</div>` : ''}
+        <div class="card-address">
+          <span class="label-mono">📍</span> ${highlightMatch([selectedLoc.village, selectedLoc.commune, selectedLoc.district, selectedLoc.province].filter(Boolean).join(', '), q)}
+        </div>
+        ${selectedLoc.village_kh || selectedLoc.district_kh ? `
+        <div class="card-address-kh">
+          ${highlightMatch([selectedLoc.village_kh, selectedLoc.commune_kh, selectedLoc.district_kh, selectedLoc.province_kh].filter(Boolean).join(', '), q)}
+        </div>` : ''}
+        <a class="card-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open in Google Maps ↗</a>
+        ${!selectedLoc.branch_id ? `
+          <button class="card-correct-btn" onclick="event.stopPropagation(); triggerCorrectMarketCoords('${selectedLoc.id}', '${escHtml(title)}', '${escHtml(selectedLoc.province || '')}')" style="margin-left: var(--space-3); background: none; border: none; color: #3b82f6; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0;">✏️ Correct via Google</button>
+        ` : ''}
+        
+        <button class="card-nearby-action-btn" onclick="event.stopPropagation(); selectLocationAndFindNearbyPOs(currentResults.find(r => r.id === '${selectedLoc.id}'), currentResults)" style="background: var(--metfone-red, #d32f2f); color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: bold; width: 100%; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <span>🔍</span> Find Nearby Post Offices
+        </button>
+      </div>
+    </div>
+  `;
+
+  // Clicking the card itself also triggers finding nearby POs!
+  card.addEventListener('click', () => {
+    selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs);
+  });
+
+  resultsList.appendChild(card);
+  
+  if (resultsCount) {
+    resultsCount.innerHTML = `Found Location: <span>${escHtml(targetTitle)}</span>. Click "Find Nearby Post Offices" to see routing.`;
+  }
+}
+
+// Global selector wrapper for alternative matches in single target view
+window.triggerShowSingleLocation = function(id) {
+  const matched = (currentResults || []).find(r => r.id === id);
+  if (matched) {
+    showSingleTargetOnMap(matched, currentResults);
+  }
+};
+
