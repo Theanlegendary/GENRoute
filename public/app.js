@@ -292,12 +292,12 @@ async function showAutocomplete(q) {
     // 2. Fetch local database search & FREE Google Autocomplete proxy in parallel
     const prov = provinceSelect ? provinceSelect.value : '';
     
-    const localUrl = `${API}/api/search?q=${encodeURIComponent(q)}&limit=15&type=market` + (prov ? `&province=${encodeURIComponent(prov)}` : '');
+    const localUrl = `${API}/api/search?q=${encodeURIComponent(q)}&limit=50&type=market` + (prov ? `&province=${encodeURIComponent(prov)}` : '');
     const localPromise = fetch(localUrl)
       .then(r => r.json())
       .catch(() => ({ results: [] }));
 
-    const branchUrl = `${API}/api/search?q=${encodeURIComponent(q)}&limit=15` + (prov ? `&province=${encodeURIComponent(prov)}` : '');
+    const branchUrl = `${API}/api/search?q=${encodeURIComponent(q)}&limit=50` + (prov ? `&province=${encodeURIComponent(prov)}` : '');
     const branchPromise = fetch(branchUrl)
       .then(r => r.json())
       .catch(() => ({ results: [] }));
@@ -703,7 +703,7 @@ async function runSmartFind() {
     // 1.5 FIRST: Check local database for exact/close post office branch ID match (e.g. Metfone branch ID like PNP01 or PNPP014)
     // This MUST run before geocoding, so branch ID queries center directly on the post office!
     try {
-      const branchRes = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}&limit=15`);
+      const branchRes = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}&limit=100`);
       const branchData = await branchRes.json();
       const branchMatch = branchData.results?.find(r => r.branch_id && q.toLowerCase().replace(/[^a-z0-9]/g, '') === r.branch_id.toLowerCase().replace(/[^a-z0-9]/g, ''));
       
@@ -771,7 +771,7 @@ async function runSmartFind() {
     }
 
     // 3. Fallback: Check local market database if geocoding/branch matching returns nothing
-    const localRes = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}&limit=15&type=market`);
+    const localRes = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}&limit=100&type=market`);
     const localData = await localRes.json();
 
     const filteredLocal = (localData.results || []).filter(r => {

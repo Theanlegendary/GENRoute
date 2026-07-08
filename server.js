@@ -259,16 +259,53 @@ app.get('/api/search', (req, res) => {
   const isMarket = (type === 'market');
 
   if (isMarket) {
-    if (q.trim()) {
-      let matchedItems = [];
-      if (fuse) {
-        const fuzzyResults = fuse.search(q.trim());
-        matchedItems = fuzzyResults.map(res => res.item);
-      } else {
-        matchedItems = routes.filter(r => matchesQuery(r, q.trim()));
-      }
+    let dataset = routes;
+    
+    // Apply province filter first!
+    if (province) {
+      const normProv = normalizeKhmer(province);
+      dataset = dataset.filter(r =>
+        normalizeKhmer(r.province).includes(normProv) ||
+        normalizeKhmer(r.province_kh).includes(normProv)
+      );
+    }
+    // Apply district filter!
+    if (district) {
+      const normDist = normalizeKhmer(district);
+      dataset = dataset.filter(r =>
+        normalizeKhmer(r.district).includes(normDist) ||
+        normalizeKhmer(r.district_kh).includes(normDist)
+      );
+    }
+    // Apply branch_id filter!
+    if (branch_id) {
+      const normBranch = normalizeKhmer(branch_id);
+      dataset = dataset.filter(r => normalizeKhmer(r.branch_id) === normBranch);
+    }
 
-      // Check if this is a Phsar Thmey/Central Market query and ensure Phnom Penh's Central Market is included
+    // Now search within the filtered dataset!
+    if (q.trim()) {
+      // Substring/Prefix matches first (high priority)
+      const exactMatches = dataset.filter(r => matchesQuery(r, q.trim()));
+      
+      // Fuzzy matches as fallback
+      let fuzzyMatches = [];
+      if (exactMatches.length < 15) {
+        const tempFuse = new Fuse(dataset, {
+          keys: [
+            { name: 'market', weight: 0.5 },
+            { name: 'market_kh', weight: 0.5 }
+          ],
+          threshold: 0.5
+        });
+        fuzzyMatches = tempFuse.search(q.trim()).map(res => res.item);
+      }
+      
+      // Combine and remove duplicates
+      const combined = [...exactMatches, ...fuzzyMatches];
+      results = Array.from(new Set(combined));
+
+      // Check if this is Phsar Thmey query and prioritize central market
       const isPhsarThmeyQuery = /p[h]?s[h]?ar.*t[h]?me[yi]/i.test(q) || 
                                /p[h]?s[h]?ar.*t[h]?o[m]?.*t[h]?me[yi]/i.test(q) || 
                                /central.*market/i.test(q) || 
@@ -279,65 +316,65 @@ app.get('/api/search', (req, res) => {
       if (isPhsarThmeyQuery) {
         const centralMarketRoute = routes.find(r => r.id === 43);
         if (centralMarketRoute) {
-          matchedItems = matchedItems.filter(r => r.id !== 43);
-          matchedItems.unshift(centralMarketRoute);
+          results = results.filter(r => r.id !== 43);
+          results.unshift(centralMarketRoute);
         }
       }
-      results = matchedItems;
     } else {
-      results = routes;
+      results = dataset;
     }
-    // Exact filters
-    if (branch_id) {
-      const normBranch = normalizeKhmer(branch_id);
-      results = results.filter(r => normalizeKhmer(r.branch_id) === normBranch);
-    }
-    if (province) {
-      const normProv = normalizeKhmer(province);
-      results = results.filter(r =>
-        normalizeKhmer(r.province).includes(normProv) ||
-        normalizeKhmer(r.province_kh).includes(normProv)
-      );
-    }
-    if (district) {
-      const normDist = normalizeKhmer(district);
-      results = results.filter(r =>
-        normalizeKhmer(r.district).includes(normDist) ||
-        normalizeKhmer(r.district_kh).includes(normDist)
-      );
-    }
+
   } else {
     // Search in pickup branches (Post Offices)
-    if (q.trim()) {
-      if (branchFuse) {
-        const fuzzyResults = branchFuse.search(q.trim());
-        results = fuzzyResults.map(res => res.item);
-      } else {
-        results = pickupBranches.filter(b => matchesPickupBranchQuery(b, q.trim()));
-      }
-    } else {
-      results = pickupBranches;
-    }
+    let dataset = pickupBranches;
+
+    // Apply province filter first!
     if (province) {
       const normProv = normalizeKhmer(getKhmerProvince(province));
-      results = results.filter(b =>
+      dataset = dataset.filter(b =>
         normalizeKhmer(b.province_kh).includes(normProv)
       );
     }
-
+    // Apply district filter!
     if (district) {
       const normDist = normalizeKhmer(district);
-      results = results.filter(b =>
+      dataset = dataset.filter(b =>
         normalizeKhmer(b.district_en).includes(normDist) ||
         normalizeKhmer(b.district_kh).includes(normDist)
       );
     }
+    // Apply branch_id filter!
     if (branch_id) {
       const normBranch = normalizeKhmer(branch_id);
-      results = results.filter(b =>
+      dataset = dataset.filter(b =>
         normalizeKhmer(b.store_code) === normBranch ||
         normalizeKhmer(b.raw_delivery_store).includes(normBranch)
       );
+    }
+
+    // Now search within the filtered dataset!
+    if (q.trim()) {
+      // Substring matches first (highly reliable)
+      const exactMatches = dataset.filter(b => matchesPickupBranchQuery(b, q.trim()));
+      
+      // Fuzzy matches as fallback
+      let fuzzyMatches = [];
+      if (exactMatches.length < 15) {
+        const tempFuse = new Fuse(dataset, {
+          keys: [
+            { name: 'store_code', weight: 0.3 },
+            { name: 'store_name', weight: 0.4 },
+            { name: 'raw_delivery_store', weight: 0.3 }
+          ],
+          threshold: 0.5
+        });
+        fuzzyMatches = tempFuse.search(q.trim()).map(res => res.item);
+      }
+      
+      const combined = [...exactMatches, ...fuzzyMatches];
+      results = Array.from(new Set(combined));
+    } else {
+      results = dataset;
     }
 
     // Format pickup branch records to match frontend expectations
