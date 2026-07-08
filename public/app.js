@@ -12,6 +12,11 @@ let currentResults = [];
 let currentPage = 1;
 const limit = 50;
 
+// Sticker Labels State
+let showLabelsToggle = true; // default on
+let labelSize = 'normal';    // default normal (medium)
+let activeStickerMarkers = [];
+
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
 const clearBtn = document.getElementById('clearBtn');
@@ -61,6 +66,7 @@ const selectedMarketIcon = L.icon({
   setupThemeSwitcher();
   await loadStats();
   setupEventListeners();
+  setupLabelsControl();
   // Clear/empty map state at startup
   showState('welcome');
 })();
@@ -558,6 +564,7 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
       </div>
     `);
     activeMarkers.push({ id: selectedLoc.id, marker: targetMarker });
+    activeStickerMarkers.push({ marker: targetMarker, r: selectedLoc });
 
     // Draw connection line on map ("like mushroom")
     if (nearbyPOs.length > 0) {
@@ -602,7 +609,9 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
       });
 
       activeMarkers.push({ id: po.id, marker: marker });
+      activeStickerMarkers.push({ marker: marker, r: po });
     });
+    refreshStickerLabels();
 
     // Render nearby POs in the sidebar results list WITH back button!
     renderResultsList(nearbyPOs, true, targetTitle);
@@ -714,6 +723,8 @@ async function runSmartFind() {
           </div>
         `);
         activeMarkers.push({ id: branchMatch.id, marker });
+        activeStickerMarkers.push({ marker: marker, r: branchMatch });
+        refreshStickerLabels();
         renderResultsList([branchMatch], false, null);
         if (resultsCount) {
           resultsCount.innerHTML = `Found Metfone Express Branch: <span>${branchMatch.branch_id}</span>`;
@@ -951,7 +962,9 @@ function renderMapMarkers(results) {
 
     markersToAdd.push(marker);
     activeMarkers.push({ id: r.id, marker: marker });
+    activeStickerMarkers.push({ marker: marker, r: r });
   });
+  refreshStickerLabels();
 
   if (markersToAdd.length > 0) {
     markerClusterGroup.addLayers(markersToAdd);
@@ -1033,6 +1046,53 @@ window.triggerSelectLocation = function(id) {
 };
 
 function clearAllMapLayers() {
+  activeStickerMarkers = [];
   if (markerClusterGroup) markerClusterGroup.clearLayers();
   if (vectorLayerGroup) vectorLayerGroup.clearLayers();
+}
+
+// Sticker labels refresh & controls setup
+function refreshStickerLabels() {
+  activeStickerMarkers.forEach(item => {
+    const { marker, r } = item;
+    
+    // Clear old tooltip
+    marker.unbindTooltip();
+    
+    if (showLabelsToggle) {
+      const districtPart = r.district_kh || r.district || '';
+      const marketPart = r.market_kh || r.market || r.store_name || '';
+      const labelText = [districtPart, marketPart].filter(Boolean).join(' - ');
+      
+      if (labelText) {
+        marker.bindTooltip(labelText, {
+          permanent: true,
+          direction: 'top',
+          className: `map-sticker-tooltip size-${labelSize}`,
+          interactive: false,
+          offset: [0, -12]
+        });
+      }
+    }
+  });
+}
+
+function setupLabelsControl() {
+  const toggleBtn = document.getElementById('toggleLabelsBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('change', () => {
+      showLabelsToggle = toggleBtn.checked;
+      refreshStickerLabels();
+    });
+  }
+  
+  const sizeBtns = document.querySelectorAll('.map-labels-control .size-btn');
+  sizeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      sizeBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      labelSize = btn.getAttribute('data-size');
+      refreshStickerLabels();
+    });
+  });
 }

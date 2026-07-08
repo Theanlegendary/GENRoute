@@ -1338,3 +1338,172 @@ strong {
   border-color: var(--metfone-red);
   transform: translateY(-1px);
 }
+
+/* Floating Map Sticker Labels Controls */
+.map-labels-control {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 20px; /* Offset next to theme switcher / zoom */
+  z-index: 1000;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 170px;
+  font-family: var(--font-sans);
+}
+
+.map-labels-control .control-header {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--forest-900);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--sage-200);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+.map-labels-control .control-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.map-labels-control .toggle-text {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--forest-800);
+}
+
+/* Rounded Switch Slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--sage-200);
+  transition: .3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background-color: var(--metfone-red);
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+.slider.round {
+  border-radius: 18px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Size selector buttons */
+.size-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.size-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.size-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.size-btn {
+  background: transparent;
+  border: 1px solid var(--sage-200);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--forest-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.size-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.size-btn.active {
+  background: var(--metfone-red);
+  border-color: var(--metfone-red);
+  color: var(--white);
+}
+
+/* Leaflet Sticker Tooltips CSS */
+.map-sticker-tooltip {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #111111 !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-weight: 700 !important;
+  font-family: var(--font-sans) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+  white-space: nowrap;
+  opacity: 0.90 !important;
+}
+
+.map-sticker-tooltip.size-small {
+  font-size: 8px !important;
+  padding: 1px 4px !important;
+}
+
+.map-sticker-tooltip.size-normal {
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+}
+
+.map-sticker-tooltip.size-large {
+  font-size: 12px !important;
+  padding: 3px 8px !important;
+}
+
+.map-sticker-tooltip:before {
+  border-top-color: #000000 !important;
+}

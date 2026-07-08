@@ -13,8 +13,8 @@
   
   <!-- Leaflet Map CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
   <link rel="stylesheet" href="style.css?v=10.0" />
 </head>
@@ -27,25 +27,8 @@
 
       <!-- Section 01: Search Bar & Options -->
       <section class="grid-section" style="padding-top: var(--space-4);">
-        <div class="search-bar-wrapper">
-          <div class="search-icon-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </div>
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search market, commune, landmark, or coordinates..."
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <button class="search-clear" id="clearBtn" title="Clear Input">✕</button>
-          <button class="search-submit" id="searchBtn">Search</button>
-        </div>
-
-        <div class="search-options-row" style="margin-top: var(--space-2);">
+        <!-- Dropdown is now placed above search bar -->
+        <div class="search-options-row" style="margin-bottom: var(--space-2);">
           <select id="provinceSelect" class="province-dropdown">
             <option value="">All Provinces (Cambodia)</option>
             <option value="Phnom Penh">Phnom Penh (ភ្នំពេញ)</option>
@@ -74,6 +57,29 @@
             <option value="Takeo">Takeo (តាកែវ)</option>
             <option value="Tboung Khmum">Tboung Khmum (ត្បូងឃ្មុំ)</option>
           </select>
+        </div>
+
+        <!-- Warning label explaining search best practices -->
+        <div class="search-remark" style="font-size: 11px; color: var(--metfone-red); font-weight: 600; margin-bottom: 8px; font-family: 'Noto Sans Khmer', sans-serif; display: flex; align-items: center; gap: 4px;">
+          <span>⚠️</span> ដើម្បីការស្វែងរកឱ្យកាន់តែត្រឹមត្រូវ សូមជ្រើសរើសខេត្តជាមុនសិន (Pick province first for accurate search)
+        </div>
+
+        <div class="search-bar-wrapper">
+          <div class="search-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search market, commune, landmark, or coordinates..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="search-clear" id="clearBtn" title="Clear Input">✕</button>
+          <button class="search-submit" id="searchBtn">Search</button>
         </div>
 
         <!-- Autocomplete Dropdown -->
@@ -154,6 +160,26 @@
         </button>
       </div>
 
+      <!-- Floating Map Sticker Labels Controls -->
+      <div class="map-labels-control">
+        <div class="control-header">🏷️ Label Display</div>
+        <div class="control-row">
+          <label class="switch">
+            <input type="checkbox" id="toggleLabelsBtn" checked>
+            <span class="slider round"></span>
+          </label>
+          <span class="toggle-text">Show Labels</span>
+        </div>
+        <div class="control-row size-selector">
+          <span class="size-label">Size:</span>
+          <div class="size-btns">
+            <button class="size-btn" data-size="small">S</button>
+            <button class="size-btn active" data-size="normal">M</button>
+            <button class="size-btn" data-size="large">L</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Bottom Right Botanical Legend -->
       <div class="map-legend">
         <div class="legend-header">
@@ -180,7 +206,7 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <script src="app.js?v=10.0"></script>
 </body>
 </html>
