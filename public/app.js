@@ -628,6 +628,10 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     }
   } catch (e) {
     console.error(e);
+    showState('empty');
+    if (resultsCount) {
+      resultsCount.textContent = `Error finding nearby branches: ${e.message}`;
+    }
   }
 }
 
