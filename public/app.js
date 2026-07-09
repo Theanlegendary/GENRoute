@@ -1177,20 +1177,11 @@ window.triggerSelectLocation = function(id) {
 };
 
 window.triggerCorrectMarketCoords = async function(id, name, province) {
-  const confirmSearch = confirm(`Do you want to search Google Maps for "${name}" in "${province || 'Cambodia'}" and update its coordinates in the database?`);
-  if (!confirmSearch) return;
-
   showState('loading');
   try {
     const geoRes = await fetch(`${API}/api/google-geocode?q=${encodeURIComponent(name)}` + (province ? `&province=${encodeURIComponent(province)}` : ''));
     if (!geoRes.ok) throw new Error('Location not found on Google Maps');
     const coords = await geoRes.json();
-
-    const confirmUpdate = confirm(`Google Maps found "${coords.name || name}" at:\nLatitude: ${coords.lat}\nLongitude: ${coords.lng}\n\nDo you want to save this to the database?`);
-    if (!confirmUpdate) {
-      showState('none');
-      return;
-    }
 
     const updateRes = await fetch(`${API}/api/update-market-coords`, {
       method: 'POST',
@@ -1209,14 +1200,16 @@ window.triggerCorrectMarketCoords = async function(id, name, province) {
       throw new Error(errData.error || 'Failed to update coordinates');
     }
 
-    alert(`Success! Updated database coordinates for "${name}".`);
-    
-    // Auto-refresh the current search
-    if (searchInput.value.trim()) {
-      runSmartFind();
-    } else {
-      showState('welcome');
-    }
+    // Auto-show nearby posts for the updated location
+    const updatedLoc = {
+      id: id,
+      market: name,
+      latitude: coords.lat,
+      longitude: coords.lng,
+      province: province || 'Cambodia'
+    };
+    await selectLocationAndFindNearbyPOs(updatedLoc, [updatedLoc]);
+
   } catch (err) {
     alert(`Error: ${err.message}`);
     showState('none');
