@@ -1064,6 +1064,169 @@ app.post('/api/update-market-coords', (req, res) => {
   }
 });
 
+/**
+ * POST /api/add-market
+ * Add a new market route record to routes.json
+ */
+app.post('/api/add-market', (req, res) => {
+  const { 
+    market, market_kh, province, province_kh, 
+    district, district_kh, commune, commune_kh, 
+    village, village_kh, latitude, longitude, branch_id 
+  } = req.body;
+
+  if (!market || latitude == null || longitude == null) {
+    return res.status(400).json({ error: 'Parameters market, latitude, and longitude are required' });
+  }
+
+  // Generate new incremented ID
+  const nextId = routes.length > 0 ? Math.max(...routes.map(r => r.id || 0)) + 1 : 1;
+
+  const newRecord = {
+    id: nextId,
+    branch_id: (branch_id || 'UNKNOWN').toUpperCase(),
+    latitude: parseFloat(latitude),
+    longitude: parseFloat(longitude),
+    province: province || '',
+    province_kh: province_kh || '',
+    district: district || '',
+    district_kh: district_kh || '',
+    commune: commune || '',
+    commune_kh: commune_kh || '',
+    village: village || '',
+    village_kh: village_kh || '',
+    market: market,
+    market_kh: market_kh || '',
+    google_maps_url: `https://www.google.com/maps?q=${latitude},${longitude}`
+  };
+
+  routes.push(newRecord);
+
+  // Persist to routes.json
+  try {
+    // Keep a backup before writing
+    const BACKUP_PATH = DATA_PATH + '.bak';
+    if (fs.existsSync(DATA_PATH)) {
+      fs.copyFileSync(DATA_PATH, BACKUP_PATH);
+    }
+
+    // Write atomically
+    const tempPath = DATA_PATH + '.tmp';
+    fs.writeFileSync(tempPath, JSON.stringify(routes, null, 2), 'utf-8');
+    fs.renameSync(tempPath, DATA_PATH);
+    
+    console.log(`💾 Persisted new market added: ${market} (ID: ${nextId})`);
+    
+    // Re-initialize search index
+    initializeFuse();
+    
+    res.json({ success: true, message: 'Location added successfully', record: newRecord });
+  } catch (err) {
+    console.error('Failed to write to routes.json:', err.message);
+    res.status(500).json({ error: 'Failed to save location to database file' });
+  }
+});
+
+/**
+ * POST /api/bulk-import-markets
+ * Bulk import market route records with duplicate detection
+ */
+app.post('/api/bulk-import-markets', (req, res) => {
+  const { locations } = req.body;
+  if (!Array.isArray(locations)) {
+    return res.status(400).json({ error: 'Parameters locations must be an array' });
+  }
+
+  let addedCount = 0;
+  let skippedCount = 0;
+  const skippedList = [];
+
+  const norm = (str) => normalizeKhmer(str).toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  locations.forEach(loc => {
+    const lat = parseFloat(loc.latitude);
+    const lng = parseFloat(loc.longitude);
+    if (!loc.market || isNaN(lat) || isNaN(lng)) {
+      skippedCount++;
+      skippedList.push({ name: loc.market || 'Unknown', reason: 'Missing name or coordinates' });
+      return;
+    }
+
+    // Duplicate detection:
+    // 1. By exact or very close coordinates (within ~10 meters / 0.0001 deg)
+    const isDupCoords = routes.some(r => 
+      Math.abs(parseFloat(r.latitude) - lat) < 0.0001 &&
+      Math.abs(parseFloat(r.longitude) - lng) < 0.0001
+    );
+
+    // 2. By normalized name & province match
+    const isDupName = routes.some(r => 
+      norm(r.market) === norm(loc.market) &&
+      norm(r.province) === norm(loc.province)
+    );
+
+    if (isDupCoords || isDupName) {
+      skippedCount++;
+      skippedList.push({ name: loc.market, reason: isDupCoords ? 'Duplicate coordinates' : 'Duplicate name & province' });
+      return;
+    }
+
+    // Generate next ID
+    const nextId = routes.length > 0 ? Math.max(...routes.map(r => r.id || 0)) + 1 : 1;
+
+    const newRecord = {
+      id: nextId,
+      branch_id: (loc.branch_id || 'UNKNOWN').toUpperCase(),
+      latitude: lat,
+      longitude: lng,
+      province: loc.province || '',
+      province_kh: loc.province_kh || '',
+      district: loc.district || '',
+      district_kh: loc.district_kh || '',
+      commune: loc.commune || '',
+      commune_kh: loc.commune_kh || '',
+      village: loc.village || '',
+      village_kh: loc.village_kh || '',
+      market: loc.market,
+      market_kh: loc.market_kh || '',
+      google_maps_url: `https://www.google.com/maps?q=${lat},${lng}`
+    };
+
+    routes.push(newRecord);
+    addedCount++;
+  });
+
+  if (addedCount > 0) {
+    try {
+      // Keep a backup before writing
+      const BACKUP_PATH = DATA_PATH + '.bak';
+      if (fs.existsSync(DATA_PATH)) {
+        fs.copyFileSync(DATA_PATH, BACKUP_PATH);
+      }
+
+      // Write atomically
+      const tempPath = DATA_PATH + '.tmp';
+      fs.writeFileSync(tempPath, JSON.stringify(routes, null, 2), 'utf-8');
+      fs.renameSync(tempPath, DATA_PATH);
+      
+      console.log(`💾 Bulk imported: added ${addedCount} records, skipped ${skippedCount} duplicates`);
+      
+      // Re-initialize search index
+      initializeFuse();
+    } catch (err) {
+      console.error('Failed to write to routes.json during bulk import:', err.message);
+      return res.status(500).json({ error: 'Failed to persist import updates to database file' });
+    }
+  }
+
+  res.json({
+    success: true,
+    addedCount,
+    skippedCount,
+    skippedList
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Branch Search Server running at http://localhost:${PORT}`);
 });

@@ -113,6 +113,23 @@ function initMap() {
     showCoverageOnHover: false
   }).addTo(map);
   vectorLayerGroup = L.layerGroup().addTo(map);
+
+  // Map click listener for adding custom points
+  map.on('click', (e) => {
+    const lat = e.latlng.lat;
+    const lng = e.latlng.lng;
+    
+    L.popup()
+      .setLatLng(e.latlng)
+      .setContent(`
+        <div class="map-popup-content" style="width: 200px; padding: 2px;">
+          <h4 style="margin: 0 0 6px 0; font-size: 12px; color: #1e293b; font-family: var(--font-heading);">📍 Custom Map Point</h4>
+          <p style="margin: 0 0 8px 0; font-size: 10px; color: #64748b; font-family: monospace;">${lat.toFixed(6)}, ${lng.toFixed(6)}</p>
+          <button onclick="triggerAddLocationModal('', ${lat}, ${lng}, '', '')" style="background-color: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; width: 100%; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">➕ Add Location Here</button>
+        </div>
+      `)
+      .openOn(map);
+  });
 }
 
 // Setup Map Theme Switcher logic
@@ -445,6 +462,7 @@ async function showAutocomplete(q) {
                 </div>
                 <h4>📮 ${escHtml(s.raw.market)}</h4>
                 <p class="popup-addr">${escHtml([s.raw.district, s.raw.province].filter(Boolean).join(', '))}</p>
+                <a class="popup-directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; background-color: #3b82f6; color: white; border-radius: 4px; padding: 6px 12px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center;">🚗 GO (Directions)</a>
               </div>
             `);
             activeMarkers.push({ id: s.raw.id, marker });
@@ -583,6 +601,11 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
 
     // Plot target location with Mushroom popup list
     const targetMarker = L.marker([selectedLoc.latitude, selectedLoc.longitude], { icon: selectedMarketIcon }).addTo(markerClusterGroup);
+    const isGoogleLocation = String(selectedLoc.id).startsWith('target_');
+    const addDbBtnHtml = isGoogleLocation ? `
+      <button class="popup-add-db-btn" onclick="event.stopPropagation(); triggerAddLocationModal('${escHtml(targetTitle)}', ${selectedLoc.latitude}, ${selectedLoc.longitude}, '${escHtml(selectedLoc.province || '')}', '${escHtml(selectedLoc.district || '')}')" style="background-color: #10b981; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-top: 6px; width: 100%; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">➕ Add to Local Database</button>
+    ` : '';
+    
     targetMarker.bindPopup(`
       <div class="map-popup-content" style="width: 260px;">
         <div class="popup-header" style="background-color: #173020; margin-bottom: 6px;">
@@ -596,7 +619,9 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
           <h5 style="margin: 0 0 4px 0; font-size: 11px; color: #0f172a; font-weight: 700; text-transform: uppercase;">🌱 Nearest Post Offices (Max 10)</h5>
           ${poListHtml || '<p style="margin: 0; font-size: 11px; color: #94a3b8;">No post offices found within 30km.</p>'}
         </div>
-        <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; font-size:11px; text-align:right;">Open in Google Maps ↗</a>
+        ${addDbBtnHtml}
+        <a class="popup-directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=${selectedLoc.latitude},${selectedLoc.longitude}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; background-color: #3b82f6; color: white; border-radius: 4px; padding: 6px 12px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center;">🚗 GO (Directions)</a>
+        <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 6px; display: block; font-size:10px; text-align:right; color: #64748b; text-decoration: underline;">View on Google Maps ↗</a>
       </div>
     `);
     activeMarkers.push({ id: selectedLoc.id, marker: targetMarker });
@@ -667,7 +692,8 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
           <div class="popup-divider"></div>
           <p class="popup-addr">${escHtml([po.district, po.province].filter(Boolean).join(', '))}</p>
           <p style="color: var(--metfone-red); font-weight: 700; margin-top: 4px;">📡 Distance: ${formatDistance(po.distance_km)}</p>
-          <a class="popup-gmaps-link" href="${po.google_maps_url || `https://www.google.com/maps?q=${po.latitude},${po.longitude}`}" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+          <a class="popup-directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=${po.latitude},${po.longitude}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; background-color: #3b82f6; color: white; border-radius: 4px; padding: 6px 12px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center;">🚗 GO (Directions)</a>
+          <a class="popup-gmaps-link" href="${po.google_maps_url || `https://www.google.com/maps?q=${po.latitude},${po.longitude}`}" target="_blank" rel="noopener" style="margin-top: 6px; display: block; font-size: 10px; text-align:right; color: #64748b; text-decoration: underline;">View on Google Maps ↗</a>
         </div>
       `;
       marker.bindPopup(popupContent);
@@ -924,6 +950,12 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null, ta
       const tTitle = targetLoc.market || targetLoc.village || targetLoc.commune || 'Target Location';
       const tTitleKh = targetLoc.market_kh || targetLoc.village_kh || targetLoc.commune_kh || '';
       const q = normalizeKhmer(searchInput.value);
+      const isGoogleLocation = String(targetLoc.id).startsWith('target_');
+      const addDbTargetBtnHtml = isGoogleLocation ? `
+        <button class="card-add-db-btn" onclick="event.stopPropagation(); triggerAddLocationModal('${escHtml(tTitle)}', ${targetLoc.latitude}, ${targetLoc.longitude}, '${escHtml(targetLoc.province || '')}', '${escHtml(targetLoc.district || '')}')" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 100%; margin-top: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">
+          <span>➕</span> Add to Local Database
+        </button>
+      ` : '';
 
       targetCard.innerHTML = `
         <div class="card-grid">
@@ -944,10 +976,15 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null, ta
             <div class="card-address-kh">
               ${highlightMatch([targetLoc.village_kh, targetLoc.commune_kh, targetLoc.district_kh, targetLoc.province_kh].filter(Boolean).join(', '), q)}
             </div>` : ''}
-            <a class="card-gmaps-link" href="${targetLoc.google_maps_url || `https://www.google.com/maps?q=${targetLoc.latitude},${targetLoc.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open in Google Maps ↗</a>
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+              <a class="card-directions-link" href="https://www.google.com/maps/dir/?api=1&destination=${targetLoc.latitude},${targetLoc.longitude}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background-color: #3b82f6; color: white; text-decoration: none; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 11px; font-weight: bold; text-align: center; width: 100%;">🚗 GO (Directions)</a>
+              ${addDbTargetBtnHtml}
+              <a class="card-gmaps-link" href="${targetLoc.google_maps_url || `https://www.google.com/maps?q=${targetLoc.latitude},${targetLoc.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="font-size: 11px; color: var(--text-light); text-decoration: underline;">View on Google Maps ↗</a>
+            </div>
           </div>
         </div>
       `;
+    }
 
       targetCard.addEventListener('click', () => {
         document.querySelectorAll('.location-card').forEach(c => c.classList.remove('selected'));
@@ -1019,10 +1056,18 @@ function renderResultsList(results, isNearbyList = false, targetTitle = null, ta
             <span class="label-mono">Ref: <b>${highlightMatch(r.branch_id || 'MKT', q)}</b></span>
             <span class="distance-badge">📡 ${formatDistance(r.distance_km)}</span>
           </div>` : ''}
-          <a class="card-gmaps-link" href="${r.google_maps_url || `https://www.google.com/maps?q=${r.latitude},${r.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open in Google Maps ↗</a>
-          ${!r.branch_id && !isNearbyList ? `
-            <button class="card-correct-btn" onclick="event.stopPropagation(); triggerCorrectMarketCoords('${r.id}', '${escHtml(title)}', '${escHtml(r.province || '')}')" style="margin-left: var(--space-3); background: none; border: none; color: #3b82f6; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0;">✏️ Correct via Google</button>
-          ` : ''}
+          <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+            <a class="card-directions-link" href="https://www.google.com/maps/dir/?api=1&destination=${r.latitude},${r.longitude}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background-color: #3b82f6; color: white; text-decoration: none; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 11px; font-weight: bold; text-align: center; width: 100%;">🚗 GO (Directions)</a>
+            ${String(r.id).startsWith('target_') ? `
+              <button class="card-add-db-btn" onclick="event.stopPropagation(); triggerAddLocationModal('${escHtml(title)}', ${r.latitude}, ${r.longitude}, '${escHtml(r.province || '')}', '${escHtml(r.district || '')}')" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">➕ Add to Local Database</button>
+            ` : ''}
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <a class="card-gmaps-link" href="${r.google_maps_url || `https://www.google.com/maps?q=${r.latitude},${r.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="font-size: 11px; color: var(--text-light); text-decoration: underline;">View on Google Maps ↗</a>
+              ${!r.branch_id && !isNearbyList && !String(r.id).startsWith('target_') ? `
+                <button class="card-correct-btn" onclick="event.stopPropagation(); triggerCorrectMarketCoords('${r.id}', '${escHtml(title)}', '${escHtml(r.province || '')}')" style="background: none; border: none; color: #3b82f6; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0;">✏️ Correct via Google</button>
+              ` : ''}
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -1062,6 +1107,11 @@ function renderMapMarkers(results) {
     const marker = L.marker([r.latitude, r.longitude], { icon: redIcon });
 
     const title = r.market || r.village || 'Location';
+    const isGoogleLocation = String(r.id).startsWith('target_');
+    const addDbBtnHtml = isGoogleLocation ? `
+      <button class="popup-add-db-btn" onclick="event.stopPropagation(); triggerAddLocationModal('${escHtml(title)}', ${r.latitude}, ${r.longitude}, '${escHtml(r.province || '')}', '${escHtml(r.district || '')}')" style="background-color: #10b981; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-top: 6px; width: 100%; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">➕ Add to Local Database</button>
+    ` : '';
+
     const popupContent = `
       <div class="map-popup-content">
         <div class="popup-header">
@@ -1072,7 +1122,9 @@ function renderMapMarkers(results) {
         ${r.market_kh || r.village_kh ? `<p class="popup-kh">${escHtml(r.market_kh || r.village_kh)}</p>` : ''}
         <div class="popup-divider"></div>
         <p class="popup-addr">${escHtml([r.district, r.province].filter(Boolean).join(', '))}</p>
-        <a class="popup-gmaps-link" href="${r.google_maps_url || `https://www.google.com/maps?q=${r.latitude},${r.longitude}`}" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+        ${addDbBtnHtml}
+        <a class="popup-directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=${r.latitude},${r.longitude}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; background-color: #3b82f6; color: white; border-radius: 4px; padding: 6px 12px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center;">🚗 GO (Directions)</a>
+        <a class="popup-gmaps-link" href="${r.google_maps_url || `https://www.google.com/maps?q=${r.latitude},${r.longitude}`}" target="_blank" rel="noopener" style="margin-top: 6px; display: block; font-size: 10px; text-align:right; color: #64748b; text-decoration: underline;">View on Google Maps ↗</a>
       </div>
     `;
 
@@ -1280,6 +1332,11 @@ function showSingleTargetOnMap(selectedLoc, allMatchedLocs) {
   
   // Plot target marker
   const targetMarker = L.marker([selectedLoc.latitude, selectedLoc.longitude], { icon: selectedMarketIcon }).addTo(markerClusterGroup);
+  const isGoogleLocation = String(selectedLoc.id).startsWith('target_');
+  const addDbBtnHtml = isGoogleLocation ? `
+    <button class="popup-add-db-btn" onclick="event.stopPropagation(); triggerAddLocationModal('${escHtml(targetTitle)}', ${selectedLoc.latitude}, ${selectedLoc.longitude}, '${escHtml(selectedLoc.province || '')}', '${escHtml(selectedLoc.district || '')}')" style="background-color: #10b981; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-top: 6px; width: 100%; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">➕ Add to Local Database</button>
+  ` : '';
+
   targetMarker.bindPopup(`
     <div class="map-popup-content" style="width: 240px;">
       <div class="popup-header" style="background-color: #173020; margin-bottom: 6px;">
@@ -1290,7 +1347,9 @@ function showSingleTargetOnMap(selectedLoc, allMatchedLocs) {
       <p class="popup-addr" style="margin: 2px 0 8px 0; font-size: 11px; color: #64748b;">${escHtml([selectedLoc.district, selectedLoc.province].filter(Boolean).join(', ') || '')}</p>
       
       <button class="popup-find-nearby-btn" onclick="event.stopPropagation(); triggerSelectLocation('${selectedLoc.id}')" style="background-color: var(--metfone-red, #d32f2f); color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-top: 6px; width: 100%; font-weight: bold; text-align: center;">🔍 Find Nearby POs</button>
-      <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; font-size:11px; text-align:right;">Open in Google Maps ↗</a>
+      ${addDbBtnHtml}
+      <a class="popup-directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=${selectedLoc.latitude},${selectedLoc.longitude}" target="_blank" rel="noopener" style="margin-top: 8px; display: block; background-color: #3b82f6; color: white; border-radius: 4px; padding: 6px 12px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center;">🚗 GO (Directions)</a>
+      <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 6px; display: block; font-size:10px; text-align:right; color: #64748b; text-decoration: underline;">View on Google Maps ↗</a>
     </div>
   `);
   
@@ -1363,10 +1422,18 @@ function renderSingleTargetList(selectedLoc, allMatchedLocs) {
         <div class="card-address-kh">
           ${highlightMatch([selectedLoc.village_kh, selectedLoc.commune_kh, selectedLoc.district_kh, selectedLoc.province_kh].filter(Boolean).join(', '), q)}
         </div>` : ''}
-        <a class="card-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open in Google Maps ↗</a>
-        ${!selectedLoc.branch_id ? `
-          <button class="card-correct-btn" onclick="event.stopPropagation(); triggerCorrectMarketCoords('${selectedLoc.id}', '${escHtml(title)}', '${escHtml(selectedLoc.province || '')}')" style="margin-left: var(--space-3); background: none; border: none; color: #3b82f6; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0;">✏️ Correct via Google</button>
-        ` : ''}
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+          <a class="card-directions-link" href="https://www.google.com/maps/dir/?api=1&destination=${selectedLoc.latitude},${selectedLoc.longitude}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; background-color: #3b82f6; color: white; text-decoration: none; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 11px; font-weight: bold; text-align: center; width: 100%;">🚗 GO (Directions)</a>
+          ${String(selectedLoc.id).startsWith('target_') ? `
+            <button class="card-add-db-btn" onclick="event.stopPropagation(); triggerAddLocationModal('${escHtml(title)}', ${selectedLoc.latitude}, ${selectedLoc.longitude}, '${escHtml(selectedLoc.province || '')}', '${escHtml(selectedLoc.district || '')}')" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-body);">➕ Add to Local Database</button>
+          ` : ''}
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="card-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="font-size: 11px; color: var(--text-light); text-decoration: underline;">View on Google Maps ↗</a>
+            ${!selectedLoc.branch_id && !String(selectedLoc.id).startsWith('target_') ? `
+              <button class="card-correct-btn" onclick="event.stopPropagation(); triggerCorrectMarketCoords('${selectedLoc.id}', '${escHtml(title)}', '${escHtml(selectedLoc.province || '')}')" style="background: none; border: none; color: #3b82f6; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0;">✏️ Correct via Google</button>
+            ` : ''}
+          </div>
+        </div>
         
         <button class="card-nearby-action-btn" onclick="event.stopPropagation(); selectLocationAndFindNearbyPOs(currentResults.find(r => r.id === '${selectedLoc.id}'), currentResults)" style="background: var(--metfone-red, #d32f2f); color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: bold; width: 100%; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           <span>🔍</span> Find Nearby Post Offices
@@ -1394,4 +1461,287 @@ window.triggerShowSingleLocation = function(id) {
     showSingleTargetOnMap(matched, currentResults);
   }
 };
+
+// ──────────────────────────────────────────────────────────────────
+// ADD LOCATION MODAL HANDLERS
+// ──────────────────────────────────────────────────────────────────
+const addLocationModal = document.getElementById('addLocationModal');
+const addLocationForm = document.getElementById('addLocationForm');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const cancelModalBtn = document.getElementById('cancelModalBtn');
+
+window.triggerAddLocationModal = function(name = '', lat, lng, province = '', district = '') {
+  document.getElementById('modalMarketName').value = name;
+  document.getElementById('modalMarketNameKh').value = '';
+  document.getElementById('modalProvince').value = province;
+  document.getElementById('modalProvinceKh').value = '';
+  document.getElementById('modalDistrict').value = district;
+  document.getElementById('modalDistrictKh').value = '';
+  document.getElementById('modalCommune').value = '';
+  document.getElementById('modalCommuneKh').value = '';
+  document.getElementById('modalVillage').value = '';
+  document.getElementById('modalVillageKh').value = '';
+  document.getElementById('modalLatitude').value = lat;
+  document.getElementById('modalLongitude').value = lng;
+  document.getElementById('modalBranchId').value = '';
+
+  addLocationModal.style.display = 'flex';
+};
+
+function closeLocationModal() {
+  addLocationModal.style.display = 'none';
+  addLocationForm.reset();
+}
+
+if (closeModalBtn) closeModalBtn.addEventListener('click', closeLocationModal);
+if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeLocationModal);
+
+if (addLocationModal) {
+  addLocationModal.addEventListener('click', (e) => {
+    if (e.target === addLocationModal) {
+      closeLocationModal();
+    }
+  });
+}
+
+if (addLocationForm) {
+  addLocationForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const payload = {
+      market: document.getElementById('modalMarketName').value.trim(),
+      market_kh: document.getElementById('modalMarketNameKh').value.trim(),
+      province: document.getElementById('modalProvince').value.trim(),
+      province_kh: document.getElementById('modalProvinceKh').value.trim(),
+      district: document.getElementById('modalDistrict').value.trim(),
+      district_kh: document.getElementById('modalDistrictKh').value.trim(),
+      commune: document.getElementById('modalCommune').value.trim(),
+      commune_kh: document.getElementById('modalCommuneKh').value.trim(),
+      village: document.getElementById('modalVillage').value.trim(),
+      village_kh: document.getElementById('modalVillageKh').value.trim(),
+      latitude: parseFloat(document.getElementById('modalLatitude').value),
+      longitude: parseFloat(document.getElementById('modalLongitude').value),
+      branch_id: document.getElementById('modalBranchId').value.trim()
+    };
+
+    if (!payload.market || isNaN(payload.latitude) || isNaN(payload.longitude)) {
+      alert('Name, Latitude, and Longitude are required.');
+      return;
+    }
+
+    try {
+      showState('loading');
+      closeLocationModal();
+      
+      const res = await fetch(`${API}/api/add-market`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed to save location');
+      }
+
+      const resData = await res.json();
+      const savedRecord = resData.record;
+      
+      alert(`Location "${savedRecord.market}" successfully added to routes.json (ID: ${savedRecord.id})!`);
+      
+      loadStats();
+
+      // Plot and show it on the map
+      const selectedLoc = {
+        id: savedRecord.id,
+        market: savedRecord.market,
+        latitude: savedRecord.latitude,
+        longitude: savedRecord.longitude,
+        province: savedRecord.province,
+        district: savedRecord.district,
+        google_maps_url: savedRecord.google_maps_url
+      };
+      
+      await selectLocationAndFindNearbyPOs(selectedLoc, [selectedLoc]);
+      
+    } catch (err) {
+      alert(`Error adding location: ${err.message}`);
+      showState('none');
+    }
+  });
+}
+
+// ──────────────────────────────────────────────────────────────────
+// BULK CSV IMPORT HANDLERS
+// ──────────────────────────────────────────────────────────────────
+const bulkImportBtn = document.getElementById('bulkImportBtn');
+const bulkImportModal = document.getElementById('bulkImportModal');
+const bulkImportForm = document.getElementById('bulkImportForm');
+const csvTextarea = document.getElementById('csvTextarea');
+const importSummary = document.getElementById('importSummary');
+const closeBulkModalBtn = document.getElementById('closeBulkModalBtn');
+const cancelBulkModalBtn = document.getElementById('cancelBulkModalBtn');
+
+if (bulkImportBtn) {
+  bulkImportBtn.addEventListener('click', () => {
+    importSummary.style.display = 'none';
+    importSummary.innerHTML = '';
+    csvTextarea.value = '';
+    bulkImportModal.style.display = 'flex';
+  });
+}
+
+function closeBulkModal() {
+  bulkImportModal.style.display = 'none';
+  bulkImportForm.reset();
+}
+
+if (closeBulkModalBtn) closeBulkModalBtn.addEventListener('click', closeBulkModal);
+if (cancelBulkModalBtn) cancelBulkModalBtn.addEventListener('click', closeBulkModal);
+
+if (bulkImportModal) {
+  bulkImportModal.addEventListener('click', (e) => {
+    if (e.target === bulkImportModal) {
+      closeBulkModal();
+    }
+  });
+}
+
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(line => line.trim() !== '');
+  if (lines.length === 0) return [];
+  
+  // Detect headers
+  const firstLine = lines[0].toLowerCase();
+  const hasHeaders = firstLine.includes('market') || firstLine.includes('name') || firstLine.includes('latitude') || firstLine.includes('lat');
+  
+  let headers = ['market', 'province', 'latitude', 'longitude', 'branch_id'];
+  let startIndex = 0;
+  
+  if (hasHeaders) {
+    const rawHeaders = splitCSVLine(lines[0]);
+    headers = rawHeaders.map(h => h.trim().toLowerCase().replace(/[^a-z0-9_]/g, ''));
+    startIndex = 1;
+  }
+  
+  const results = [];
+  for (let i = startIndex; i < lines.length; i++) {
+    const values = splitCSVLine(lines[i]);
+    if (values.length < 2) continue;
+    
+    const row = {};
+    headers.forEach((header, idx) => {
+      let key = header;
+      if (header === 'name') key = 'market';
+      if (header === 'lat') key = 'latitude';
+      if (header === 'lng' || header === 'lon') key = 'longitude';
+      if (header === 'branch' || header === 'code') key = 'branch_id';
+      
+      row[key] = values[idx] ? values[idx].trim() : '';
+    });
+    
+    if (row.market && row.latitude && row.longitude) {
+      results.push({
+        market: row.market,
+        market_kh: row.market_kh || '',
+        province: row.province || '',
+        province_kh: row.province_kh || '',
+        district: row.district || '',
+        district_kh: row.district_kh || '',
+        commune: row.commune || '',
+        commune_kh: row.commune_kh || '',
+        village: row.village || '',
+        village_kh: row.village_kh || '',
+        latitude: parseFloat(row.latitude),
+        longitude: parseFloat(row.longitude),
+        branch_id: row.branch_id || 'UNKNOWN'
+      });
+    }
+  }
+  return results;
+}
+
+function splitCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  result.push(current);
+  return result.map(s => s.replace(/^"|"$/g, '').trim());
+}
+
+if (bulkImportForm) {
+  bulkImportForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const rawCSV = csvTextarea.value.trim();
+    if (!rawCSV) return;
+    
+    const parsedLocations = parseCSV(rawCSV);
+    if (parsedLocations.length === 0) {
+      alert('Could not parse any valid location records from the CSV. Ensure columns include market, latitude, and longitude.');
+      return;
+    }
+
+    try {
+      importSummary.style.display = 'block';
+      importSummary.innerHTML = `<span style="color:#2563eb; font-weight:bold;">⏳ Uploading ${parsedLocations.length} locations to server...</span>`;
+      
+      const res = await fetch(`${API}/api/bulk-import-markets`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ locations: parsedLocations })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed to bulk import data');
+      }
+
+      const data = await res.json();
+      
+      // Render summary output
+      let skippedHtml = '';
+      if (data.skippedCount > 0) {
+        const listItems = data.skippedList.slice(0, 5).map(item => `<li><strong>${escHtml(item.name)}</strong>: ${escHtml(item.reason)}</li>`).join('');
+        skippedHtml = `
+          <div style="margin-top: var(--space-2); color: #9a3412;">
+            <strong>Skipped Duplicates (${data.skippedCount}):</strong>
+            <ul style="padding-left: 18px; margin-top: 4px; font-size:11px;">
+              ${listItems}
+              ${data.skippedList.length > 5 ? `<li>...and ${data.skippedList.length - 5} more</li>` : ''}
+            </ul>
+          </div>
+        `;
+      }
+
+      importSummary.innerHTML = `
+        <div style="color: #15803d; font-weight: bold; font-size:13px; margin-bottom:4px;">✅ Bulk Import Completed!</div>
+        <div>Added: <strong>${data.addedCount}</strong> new locations.</div>
+        <div>Skipped: <strong>${data.skippedCount}</strong> existing duplicates.</div>
+        ${skippedHtml}
+        <button type="button" onclick="window.location.reload()" style="margin-top:12px; background:#15803d; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%;">🔄 Reload Page to Refresh Map</button>
+      `;
+      
+      loadStats();
+    } catch (err) {
+      importSummary.innerHTML = `<span style="color:#b91c1c; font-weight:bold;">❌ Import Error: ${escHtml(err.message)}</span>`;
+    }
+  });
+}
 

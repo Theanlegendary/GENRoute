@@ -28,8 +28,8 @@
       <!-- Section 01: Search Bar & Options -->
       <section class="grid-section" style="padding-top: var(--space-4);">
         <!-- Dropdown is now placed above search bar -->
-        <div class="search-options-row" style="margin-bottom: var(--space-2);">
-          <select id="provinceSelect" class="province-dropdown">
+        <div class="search-options-row" style="margin-bottom: var(--space-2); display: flex; gap: var(--space-2); align-items: center; justify-content: space-between;">
+          <select id="provinceSelect" class="province-dropdown" style="flex: 1;">
             <option value="">All Provinces (Cambodia)</option>
             <option value="Phnom Penh">Phnom Penh (ភ្នំពេញ)</option>
             <option value="Banteay Meanchey">Banteay Meanchey (បន្ទាយមានជ័យ)</option>
@@ -57,6 +57,7 @@
             <option value="Takeo">Takeo (តាកែវ)</option>
             <option value="Tboung Khmum">Tboung Khmum (ត្បូងឃ្មុំ)</option>
           </select>
+          <button id="bulkImportBtn" class="theme-btn" style="padding: 10px 14px; font-size: 11px; white-space: nowrap; display: flex; align-items: center; gap: 4px; border: 1px solid var(--sage-200); border-radius: var(--radius-sm); background: var(--bg-surface); cursor: pointer;" title="Bulk import CSV data">📂 Import CSV</button>
         </div>
 
         <!-- Warning label explaining search best practices -->
@@ -184,6 +185,119 @@
 
     </main>
 
+  </div>
+
+  <!-- Modern Modal for Adding Locations -->
+  <div id="addLocationModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>➕ Add Location to Local Database</h3>
+        <button id="closeModalBtn" class="modal-close-btn">&times;</button>
+      </div>
+      <form id="addLocationForm">
+        <div class="form-group">
+          <label>Market / Place Name (EN) *</label>
+          <input type="text" id="modalMarketName" placeholder="e.g. Lucky Mall Siem Reap" required />
+        </div>
+        <div class="form-group">
+          <label>Market / Place Name (KH)</label>
+          <input type="text" id="modalMarketNameKh" placeholder="e.g. ផ្សារឡាក់គី សៀមរាប" />
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Province (EN)</label>
+            <input type="text" id="modalProvince" placeholder="e.g. Siem Reap" />
+          </div>
+          <div class="form-group">
+            <label>Province (KH)</label>
+            <input type="text" id="modalProvinceKh" placeholder="e.g. សៀមរាប" />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>District (EN)</label>
+            <input type="text" id="modalDistrict" placeholder="e.g. Siem Reap Municipality" />
+          </div>
+          <div class="form-group">
+            <label>District (KH)</label>
+            <input type="text" id="modalDistrictKh" placeholder="e.g. ក្រុងសៀមរាប" />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Commune (EN)</label>
+            <input type="text" id="modalCommune" placeholder="e.g. Svay Dangkum" />
+          </div>
+          <div class="form-group">
+            <label>Commune (KH)</label>
+            <input type="text" id="modalCommuneKh" placeholder="e.g. សង្កាត់ស្វាយដង្គំ" />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Village (EN)</label>
+            <input type="text" id="modalVillage" placeholder="e.g. Mundul 1" />
+          </div>
+          <div class="form-group">
+            <label>Village (KH)</label>
+            <input type="text" id="modalVillageKh" placeholder="e.g. ភូមិមណ្ឌល១" />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Latitude *</label>
+            <input type="text" id="modalLatitude" readonly required />
+          </div>
+          <div class="form-group">
+            <label>Longitude *</label>
+            <input type="text" id="modalLongitude" readonly required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Assigned Metfone Post Office Branch Code (Optional)</label>
+          <input type="text" id="modalBranchId" placeholder="e.g. SIE01" style="text-transform: uppercase;" />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="cancelModalBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Save Location</button>
+        </div>
+      </form>
+  </div>
+
+  <!-- Bulk Import CSV Modal -->
+  <div id="bulkImportModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>📂 Bulk Import CSV Search Results</h3>
+        <button id="closeBulkModalBtn" class="modal-close-btn">&times;</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text-light); margin-bottom: var(--space-3); line-height: 1.4; font-family: var(--font-body);">
+        Paste your CSV data below. The columns should include at least <strong>market</strong> (or name), <strong>latitude</strong>, and <strong>longitude</strong>. Other optional fields: <i>market_kh, province, province_kh, district, district_kh, commune, commune_kh, village, village_kh, branch_id</i>.
+        <br/><br/>
+        <strong>Example format:</strong>
+        <pre style="background: var(--bg-subtle); padding: var(--space-2); border-radius: var(--radius-sm); font-size: 10px; overflow-x: auto; margin-top: 4px; font-family: monospace; border: 1px solid var(--sage-200);">market,province,latitude,longitude,branch_id
+Phsar Boeung Chhouk,Battambang,13.10497,103.19501,BAT01
+Angk Ta Saom,Takeo,11.0131,104.6732,TAK03</pre>
+      </div>
+      <form id="bulkImportForm">
+        <div class="form-group">
+          <label>Paste CSV Data Here</label>
+          <textarea id="csvTextarea" rows="8" placeholder="market,province,latitude,longitude,branch_id..." style="width:100%; padding: var(--space-2); border-radius: var(--radius-sm); border: 1px solid var(--sage-200); font-family: monospace; font-size: 11px; outline:none; background: var(--sage-100);" required></textarea>
+        </div>
+        <div id="importSummary" style="display:none; padding: var(--space-3); border-radius: var(--radius-md); font-size: 12px; margin-top: var(--space-2); border: 1px solid #cbd5e1; background: #f8fafc; line-height: 1.4;"></div>
+        <div class="modal-footer">
+          <button type="button" id="cancelBulkModalBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Analyze & Import</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
