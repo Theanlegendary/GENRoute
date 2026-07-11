@@ -1,0 +1,904 @@
+[
+  {
+    "osm_type": "node",
+    "osm_id": 182570,
+    "reason": "close conflict with existing",
+    "existing_id": 988
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 972604090,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 1060132892,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 2188801910,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 2188801917,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 2418695280,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 3332479647,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4116178263,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4245576808,
+    "reason": "close conflict with existing",
+    "existing_id": 906
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4271487591,
+    "reason": "close conflict with existing",
+    "existing_id": 1003
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4689313561,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4696781891,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4700107289,
+    "reason": "close conflict with existing",
+    "existing_id": 1014
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4715094191,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4740942622,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 4745409393,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5199187322,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5227369522,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5280164723,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5307573421,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5349034523,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5398257765,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5398257774,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5437093342,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5561294056,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5561355460,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5561465198,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5561494393,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5619722522,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5768451653,
+    "reason": "close conflict with existing",
+    "existing_id": 1118
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 5779362553,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6067999876,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6068003832,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6189374175,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6224454686,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6251523394,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6251524793,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6251527287,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6328916196,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6328930584,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6337622113,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349199427,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349199434,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349199478,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349202233,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349202250,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349207188,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349216302,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349216321,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349224285,
+    "reason": "close conflict with existing",
+    "existing_id": 1364
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349342610,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349343595,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6349346190,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351673890,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351673902,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351673903,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351675903,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351675914,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351676144,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351676145,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351676233,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351676301,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351687091,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351687092,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351687300,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351687303,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351687304,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351687996,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688297,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688301,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688304,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688305,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688306,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688308,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688790,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688791,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688902,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688903,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688990,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351688991,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351689599,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6351689601,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6360609323,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 6827031617,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 7007786670,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 7104313389,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 7140835586,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 7194565185,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 7250805148,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 7301011385,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 10734872300,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 10740645489,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 10806584605,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 10816493305,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 11472634656,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 11478655767,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 11478674892,
+    "reason": "close conflict with existing",
+    "existing_id": 917
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 11516614849,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12037228343,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12113884153,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12144324563,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12468603501,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12595052442,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12600395992,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12627998603,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12627999301,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12627999303,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12627999308,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12637782102,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 12637782203,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 13065177444,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 13081328656,
+    "reason": "close conflict with existing",
+    "existing_id": 1015
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 13274979886,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 13414939781,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 13660739866,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "node",
+    "osm_id": 13716571083,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 42672883,
+    "reason": "close conflict with existing",
+    "existing_id": 913
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 53356309,
+    "reason": "close conflict with existing",
+    "existing_id": 1010
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 174434399,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 191526660,
+    "reason": "close conflict with existing",
+    "existing_id": 914
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 218585411,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 238687920,
+    "reason": "close conflict with existing",
+    "existing_id": 457
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 308812010,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 309038899,
+    "reason": "close conflict with existing",
+    "existing_id": 918
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 372209479,
+    "reason": "close conflict with existing",
+    "existing_id": 933
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 377358453,
+    "reason": "close conflict with existing",
+    "existing_id": 929
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 377360535,
+    "reason": "close conflict with existing",
+    "existing_id": 902
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 377362272,
+    "reason": "close conflict with existing",
+    "existing_id": 1017
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 377373297,
+    "reason": "close conflict with existing",
+    "existing_id": 931
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 377435100,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 378905988,
+    "reason": "close conflict with existing",
+    "existing_id": 947
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 421308791,
+    "reason": "close conflict with existing",
+    "existing_id": 895
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 487990520,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 488453433,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 488548619,
+    "reason": "close conflict with existing",
+    "existing_id": 935
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 504817520,
+    "reason": "close conflict with existing",
+    "existing_id": 907
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 508485801,
+    "reason": "close conflict with existing",
+    "existing_id": 943
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 519048577,
+    "reason": "close conflict with existing",
+    "existing_id": 925
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 522649282,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 527558637,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 527576257,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 530356632,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 550883159,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 570316185,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 571743422,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 584682034,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 614499535,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 626114547,
+    "reason": "close conflict with existing",
+    "existing_id": 910
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 653383539,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 655228588,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 661096932,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 668071432,
+    "reason": "close conflict with existing",
+    "existing_id": 937
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 764359800,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 789913523,
+    "reason": "close conflict with existing",
+    "existing_id": 927
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 801279845,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 805911784,
+    "reason": "close conflict with existing",
+    "existing_id": 987
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 933860459,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 982175695,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 998293027,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1011600998,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1023394410,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1023823984,
+    "reason": "close conflict with existing",
+    "existing_id": 908
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1060887274,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1071956819,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1083112962,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1098350625,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1112098694,
+    "reason": "close conflict with existing",
+    "existing_id": 911
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1202665093,
+    "reason": "close conflict with existing",
+    "existing_id": 1258
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1229798853,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1304728952,
+    "reason": "close conflict with existing",
+    "existing_id": 909
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1351607389,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1366465938,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1371013924,
+    "reason": "missing name"
+  },
+  {
+    "osm_type": "way",
+    "osm_id": 1497701887,
+    "reason": "missing name"
+  }
+]
