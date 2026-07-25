@@ -124,6 +124,13 @@ async function rebuild() {
       continue;
     }
 
+    // Filter rule 2: Purge non-physical internal vehicle/transport team entries (DVCMEGA1, MEGA1, DVCZ, DVCT)
+    if (storeCode.startsWith('DVC') || storeCode.startsWith('MEGA') || storeName.toLowerCase().includes('transport team') || storeName.toLowerCase().includes('vehicle team')) {
+      missingCoordsCount++;
+      console.log(`❌ REMOVED (Vehicle/Transport Team): ${storeCode} - ${storeName}`);
+      continue;
+    }
+
     if (lat < 8.0 || lat > 16.0 || lng < 101.0 || lng > 108.0) {
       invalidBoundsCount++;
       console.log(`❌ REMOVED (Out of Bounds): ${storeCode} - ${storeName} [Lat: ${lat}, Lng: ${lng}]`);

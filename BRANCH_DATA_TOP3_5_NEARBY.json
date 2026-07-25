@@ -5758,16 +5758,16 @@
         "distance_km": 1.05
       },
       {
-        "store_name": "MEGA transport team",
-        "distance_km": 3.43
-      },
-      {
-        "store_name": "MEGA1",
-        "distance_km": 4.2
-      },
-      {
         "store_name": "Chrang Chamreh Ti Pir",
         "distance_km": 5.67
+      },
+      {
+        "store_name": "Chraoy Chongvar",
+        "distance_km": 6.3
+      },
+      {
+        "store_name": "Kouk Khleang",
+        "distance_km": 7.74
       }
     ]
   },
@@ -7132,70 +7132,6 @@
       {
         "store_name": "Chhloung",
         "distance_km": 13.44
-      }
-    ]
-  },
-  {
-    "store_code": "DVCMEGA1",
-    "store_name": "MEGA transport team",
-    "province_en": "Battambang",
-    "province_kh": "បាត់ដំបង",
-    "district_en": "Battambang",
-    "district_kh": "Battambang",
-    "latitude": 11.63907,
-    "longitude": 104.85378,
-    "top_3_5_nearby_branches": [
-      {
-        "store_name": "MEGA transport team",
-        "distance_km": 0
-      },
-      {
-        "store_name": "MEGA1",
-        "distance_km": 0.91
-      },
-      {
-        "store_name": "Preaek Pnov",
-        "distance_km": 2.4
-      },
-      {
-        "store_name": "Sambuor Meas",
-        "distance_km": 3.43
-      },
-      {
-        "store_name": "Kouk Khleang",
-        "distance_km": 4.88
-      }
-    ]
-  },
-  {
-    "store_code": "MEGA1",
-    "store_name": "MEGA1",
-    "province_en": "Battambang",
-    "province_kh": "បាត់ដំបង",
-    "district_en": "Battambang",
-    "district_kh": "Battambang",
-    "latitude": 11.63108284623856,
-    "longitude": 104.855487538099,
-    "top_3_5_nearby_branches": [
-      {
-        "store_name": "MEGA1",
-        "distance_km": 0
-      },
-      {
-        "store_name": "MEGA transport team",
-        "distance_km": 0.91
-      },
-      {
-        "store_name": "Preaek Pnov",
-        "distance_km": 3.16
-      },
-      {
-        "store_name": "Kouk Khleang",
-        "distance_km": 3.98
-      },
-      {
-        "store_name": "Sambuor Meas",
-        "distance_km": 4.2
       }
     ]
   },
@@ -8686,8 +8622,8 @@
         "distance_km": 3.27
       },
       {
-        "store_name": "MEGA1",
-        "distance_km": 3.98
+        "store_name": "Tuek Thla",
+        "distance_km": 4.02
       }
     ]
   },
@@ -9766,16 +9702,16 @@
         "distance_km": 1.05
       },
       {
-        "store_name": "MEGA transport team",
-        "distance_km": 2.4
-      },
-      {
-        "store_name": "MEGA1",
-        "distance_km": 3.16
-      },
-      {
         "store_name": "Chrang Chamreh Ti Pir",
         "distance_km": 5.29
+      },
+      {
+        "store_name": "Chraoy Chongvar",
+        "distance_km": 6.23
+      },
+      {
+        "store_name": "Kouk Khleang",
+        "distance_km": 6.77
       }
     ]
   },

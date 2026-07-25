@@ -1958,22 +1958,6 @@ District  : Prek Prasab (Prek Prasab)
 Commune   : Preaek Prasab
 Location  : 12.35199, 106.03661
 
-[BRANCH DVCMEGA1]
-Code      : DVCMEGA1
-Name      : MEGA transport team
-Province  : បាត់ដំបង
-District  : Battambang (Battambang)
-Commune   : MEGA transport team
-Location  : 11.63907, 104.85378
-
-[BRANCH MEGA1]
-Code      : MEGA1
-Name      : MEGA1
-Province  : បាត់ដំបង
-District  : Battambang (Battambang)
-Commune   : MEGA1
-Location  : 11.63108284623856, 104.855487538099
-
 [BRANCH MONA001]
 Code      : MONA001
 Name      : Chong Phlah

@@ -3675,36 +3675,6 @@
     "google_maps_url": "https://www.google.com/maps?q=12.35199,106.03661"
   },
   {
-    "id": "po_DVCMEGA1",
-    "store_code": "DVCMEGA1",
-    "store_name": "MEGA transport team",
-    "branch_id": "DVCMEGA1",
-    "market": "MEGA transport team",
-    "province": "Battambang",
-    "province_en": "Battambang",
-    "province_kh": "បាត់ដំបង",
-    "district_en": "Battambang",
-    "district_kh": "Battambang",
-    "latitude": 11.63907,
-    "longitude": 104.85378,
-    "google_maps_url": "https://www.google.com/maps?q=11.63907,104.85378"
-  },
-  {
-    "id": "po_MEGA1",
-    "store_code": "MEGA1",
-    "store_name": "MEGA1",
-    "branch_id": "MEGA1",
-    "market": "MEGA1",
-    "province": "Battambang",
-    "province_en": "Battambang",
-    "province_kh": "បាត់ដំបង",
-    "district_en": "Battambang",
-    "district_kh": "Battambang",
-    "latitude": 11.63108284623856,
-    "longitude": 104.855487538099,
-    "google_maps_url": "https://www.google.com/maps?q=11.63108284623856,104.855487538099"
-  },
-  {
     "id": "po_MONA001",
     "store_code": "MONA001",
     "store_name": "Chong Phlah",
