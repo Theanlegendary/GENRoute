@@ -4054,6 +4054,33 @@ function setupSidebarCurtain() {
 
 // ─── NCDD Cascading Selectors Controller ─────────────────────────────────────
 let provNameToCodeMap = {};
+const ncddProvCodeToName = {
+  '01': 'Banteay Meanchey',
+  '02': 'Battambang',
+  '03': 'Kampong Cham',
+  '04': 'Kampong Chhnang',
+  '05': 'Kampong Speu',
+  '06': 'Kampong Thom',
+  '07': 'Kampot',
+  '08': 'Kandal',
+  '09': 'Koh Kong',
+  '10': 'Kratie',
+  '11': 'Mondul Kiri',
+  '12': 'Phnom Penh',
+  '13': 'Preah Vihear',
+  '14': 'Prey Veng',
+  '15': 'Pursat',
+  '16': 'Ratanak Kiri',
+  '17': 'Siem Reap',
+  '18': 'Preah Sihanouk',
+  '19': 'Stung Treng',
+  '20': 'Svay Rieng',
+  '21': 'Takeo',
+  '22': 'Oddar Meanchey',
+  '23': 'Kep',
+  '24': 'Pailin',
+  '25': 'Tboung Khmum'
+};
 
 async function loadProvNameToCodeMap() {
   try {
@@ -4144,6 +4171,13 @@ function setupNcddCascadingSelectors() {
     villageSelect.style.display = 'none';
 
     if (distCode) {
+      // Auto-sync parent provinceSelect if not already set!
+      const pCode = distCode.slice(0, 2);
+      const mappedProv = ncddProvCodeToName[pCode];
+      if (mappedProv && provinceSelect) {
+        provinceSelect.value = mappedProv;
+      }
+
       try {
         const res = await fetch(`/api/ncdd/communes?districtCode=${distCode}`);
         if (res.ok) {
@@ -4177,6 +4211,13 @@ function setupNcddCascadingSelectors() {
     villageSelect.style.display = 'none';
 
     if (commCode) {
+      // Auto-sync parent provinceSelect if not already set!
+      const pCode = commCode.slice(0, 2);
+      const mappedProv = ncddProvCodeToName[pCode];
+      if (mappedProv && provinceSelect) {
+        provinceSelect.value = mappedProv;
+      }
+
       try {
         const res = await fetch(`/api/ncdd/villages?communeCode=${commCode}`);
         if (res.ok) {
@@ -4206,6 +4247,13 @@ function setupNcddCascadingSelectors() {
   villageSelect.addEventListener('change', () => {
     const villCode = villageSelect.value;
     if (villCode) {
+      // Auto-sync parent provinceSelect if not already set!
+      const pCode = villCode.slice(0, 2);
+      const mappedProv = ncddProvCodeToName[pCode];
+      if (mappedProv && provinceSelect) {
+        provinceSelect.value = mappedProv;
+      }
+
       // Auto-trigger search for selected village
       const villName = villageSelect.options[villageSelect.selectedIndex].text.split(' (')[0];
       const commName = (communeSelect && communeSelect.selectedIndex > 0) ? communeSelect.options[communeSelect.selectedIndex].text.split(' (')[0] : '';
