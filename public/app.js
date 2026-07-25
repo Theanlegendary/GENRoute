@@ -637,10 +637,25 @@ function clientSearch(q, type, province = '') {
       );
     }
     if (processedQ) {
-      if (clientMarketFuse) {
-        const fuseResults = clientMarketFuse.search(processedQ);
-        results = fuseResults.map(res => res.item);
+      const exactMatches = dataset.filter(r => clientMatchesRouteQuery(r, processedQ));
+      let fuzzyMatches = [];
+      if (exactMatches.length < 15) {
+        const tempFuse = new Fuse(dataset, {
+          keys: [
+            { name: 'market', weight: 0.4 },
+            { name: 'market_kh', weight: 0.4 },
+            { name: 'commune', weight: 0.2 },
+            { name: 'commune_kh', weight: 0.2 },
+            { name: 'district', weight: 0.2 },
+            { name: 'district_kh', weight: 0.2 },
+            { name: 'village', weight: 0.1 },
+            { name: 'village_kh', weight: 0.1 }
+          ],
+          threshold: 0.55
+        });
+        fuzzyMatches = tempFuse.search(processedQ).map(res => res.item);
       }
+      results = Array.from(new Set([...exactMatches, ...fuzzyMatches]));
     } else {
       results = dataset;
     }
@@ -4110,9 +4125,10 @@ function setupNcddCascadingSelectors() {
         console.warn('Failed to fetch communes:', e);
       }
 
-      // Auto-trigger search for selected district
+      // Auto-trigger search for selected district — include selected province!
       const distName = districtSelect.options[districtSelect.selectedIndex].text.split(' (')[0];
-      searchInput.value = distName;
+      const provName = provinceSelect ? provinceSelect.value : '';
+      searchInput.value = provName ? `${distName}, ${provName}` : distName;
       clearBtn.style.display = 'block';
       runSmartFind();
     }
@@ -4142,9 +4158,11 @@ function setupNcddCascadingSelectors() {
         console.warn('Failed to fetch villages:', e);
       }
 
-      // Auto-trigger search for selected commune
+      // Auto-trigger search for selected commune — include district and province!
       const commName = communeSelect.options[communeSelect.selectedIndex].text.split(' (')[0];
-      searchInput.value = commName;
+      const distName = (districtSelect && districtSelect.selectedIndex > 0) ? districtSelect.options[districtSelect.selectedIndex].text.split(' (')[0] : '';
+      const provName = provinceSelect ? provinceSelect.value : '';
+      searchInput.value = [commName, distName, provName].filter(Boolean).join(', ');
       clearBtn.style.display = 'block';
       runSmartFind();
     }
@@ -4155,11 +4173,11 @@ function setupNcddCascadingSelectors() {
     if (villCode) {
       // Auto-trigger search for selected village
       const villName = villageSelect.options[villageSelect.selectedIndex].text.split(' (')[0];
-      const commName = communeSelect.options[communeSelect.selectedIndex].text.split(' (')[0];
-      const distName = districtSelect.options[districtSelect.selectedIndex].text.split(' (')[0];
-      const provName = provinceSelect.value;
+      const commName = (communeSelect && communeSelect.selectedIndex > 0) ? communeSelect.options[communeSelect.selectedIndex].text.split(' (')[0] : '';
+      const distName = (districtSelect && districtSelect.selectedIndex > 0) ? districtSelect.options[districtSelect.selectedIndex].text.split(' (')[0] : '';
+      const provName = provinceSelect ? provinceSelect.value : '';
       
-      searchInput.value = `${villName}, ${commName}, ${distName}, ${provName}`;
+      searchInput.value = [villName, commName, distName, provName].filter(Boolean).join(', ');
       clearBtn.style.display = 'block';
       runSmartFind();
     }
