@@ -621,6 +621,41 @@ function clientMatchesPickupBranchQuery(branch, q) {
   return false;
 }
 
+function clientMatchesRouteQuery(route, q) {
+  const normQ = normalizeKhmer(q);
+  if (!normQ) return false;
+
+  const fields = [
+    route.market,
+    route.market_kh,
+    route.commune,
+    route.commune_kh,
+    route.district,
+    route.district_kh,
+    route.village,
+    route.village_kh,
+    route.province,
+    route.province_kh
+  ];
+
+  const matched = fields.some(field => {
+    if (!field) return false;
+    return normalizeKhmer(field).includes(normQ);
+  });
+  if (matched) return true;
+
+  const strippedQ = stripAdministrativePrefixes(normQ);
+  if (strippedQ && strippedQ.length >= 2) {
+    return fields.some(field => {
+      if (!field) return false;
+      const strippedField = stripAdministrativePrefixes(normalizeKhmer(field));
+      return strippedField.includes(strippedQ);
+    });
+  }
+
+  return false;
+}
+
 function clientSearch(q, type, province = '') {
   const cleanQ = q.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim();
   const processedQ = cleanQ;
