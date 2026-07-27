@@ -15116,5 +15116,37 @@
     "confidence": 100,
     "is_verified": true,
     "priority_score": 98
+  },
+  {
+    "id": "fm_sandaek",
+    "market": "Phsar Sandaek",
+    "market_kh": "ផ្សារសណ្ដែក",
+    "province": "Kampong Cham",
+    "province_kh": "កំពង់ចាម",
+    "district": "Batheay",
+    "district_kh": "បាធាយ",
+    "commune": "Sandaek",
+    "commune_kh": "សណ្ដែក",
+    "village": "Sandaek",
+    "village_kh": "សណ្ដែក",
+    "latitude": 12.123065,
+    "longitude": 104.970836,
+    "branch_id": "CHAA004",
+    "aliases": [
+      "ផ្សារសណ្ដែក",
+      "Phsar Sandaek",
+      "Sandaek Market",
+      "សណ្ដែក",
+      "Sandaek"
+    ],
+    "search_keywords": [
+      "CHAA004",
+      "Sandaek",
+      "Phsar Sandaek",
+      "ផ្សារសណ្ដែក",
+      "សណ្ដែក",
+      "Batheay",
+      "Kampong Cham"
+    ]
   }
 ]

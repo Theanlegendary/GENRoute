@@ -95,7 +95,9 @@ const clientKhmerToEnglishManual = {
   'ច្បារអំពៅ': 'chbar ampov',
   'កំបូល': 'kamboul',
   'កោះដាច់': 'koh dach',
-  'ភ្នំពេញថ្មី': 'phnom penh thmei'
+  'ភ្នំពេញថ្មី': 'phnom penh thmei',
+  'សណ្ដែក': 'sandaek',
+  'ផ្សារសណ្ដែក': 'phsar sandaek'
 };
 
 // Sticker Labels State
@@ -310,9 +312,15 @@ const selectedMarketIcon = L.divIcon({
 function initMap() {
   map = L.map('map', {
     zoomControl: false,
-    maxBounds: L.latLngBounds([9.0, 101.5], [15.5, 108.5]),
-    maxBoundsViscosity: 0.9,
-    minZoom: 6
+    maxBounds: L.latLngBounds([8.5, 101.0], [16.0, 109.0]),
+    maxBoundsViscosity: 0.2, // Ultra-light boundary viscosity for effortless smooth zooming
+    minZoom: 5.5,
+    zoomSnap: 0.25,          // Sub-pixel smooth zoom steps
+    zoomDelta: 0.5,           // Fast responsive zoom steps
+    wheelPxPerZoomLevel: 60,  // Smooth mouse wheel zoom speed
+    wheelDebounceTime: 20,    // Instant scroll wheel reaction
+    tapHold: false,           // Prevent touch tap hold delay
+    bounceAtZoomLimits: false
   }).setView([12.5657, 104.9910], 7.5);
 
   tileLayers.voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -598,8 +606,13 @@ function clientMatchesPickupBranchQuery(branch, q) {
     branch.store_name,
     clientGetKhmerStoreName(branch.store_name),
     branch.province_kh,
+    branch.province_en,
     branch.district_en,
     branch.district_kh,
+    branch.commune_en,
+    branch.commune_kh,
+    branch.market,
+    branch.market_kh,
     branch.raw_delivery_store
   ];
 

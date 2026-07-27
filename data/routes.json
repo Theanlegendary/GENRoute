@@ -15228,5 +15228,22 @@
     "market": "Community Market",
     "market_kh": "ផ្សារសហគមន៍",
     "google_maps_url": "https://www.google.com/maps?q=11.5304,104.9605"
+  },
+  {
+    "id": 895,
+    "branch_id": "CHAA004",
+    "latitude": 12.123065,
+    "longitude": 104.970836,
+    "province": "Kampong Cham",
+    "province_kh": "កំពង់ចាម",
+    "district": "Batheay",
+    "district_kh": "បាធាយ",
+    "commune": "Sandaek",
+    "commune_kh": "សណ្ដែក",
+    "village": "Sandaek",
+    "village_kh": "សណ្ដែក",
+    "market": "Phsar Sandaek",
+    "market_kh": "ផ្សារសណ្ដែក",
+    "google_maps_url": "https://www.google.com/maps?q=12.123065,104.970836"
   }
 ]

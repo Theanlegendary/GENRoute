@@ -88,6 +88,13 @@ html, body {
   background: var(--bg-canvas);
   /* Prevent iOS Safari rubber-band / overscroll bounce on the document level */
   overscroll-behavior: none;
+}
+
+#map, .map-container {
+  touch-action: pan-x pan-y pinch-zoom !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
   /* Prevent accidental page scroll when interacting with the map or sheet */
   touch-action: none;
 }
