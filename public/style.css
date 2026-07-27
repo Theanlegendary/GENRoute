@@ -40,10 +40,10 @@
   --white:          #FFFFFF;
 
   /* Typography System */
-  --font-heading:   'Battambang', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body:      'Battambang', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading:   'Outfit', 'Inter', 'Battambang', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:      'Inter', 'Battambang', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-khmer:     'Battambang', sans-serif;
-  --font-sans:      'Battambang', 'Inter', sans-serif;
+  --font-sans:      'Inter', 'Battambang', sans-serif;
 
   /* Type Scale (1.5x bigger) */
   --text-2xs:   0.8rem;
