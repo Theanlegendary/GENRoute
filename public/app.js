@@ -1515,14 +1515,31 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     const radius = 15; // Max 15km (Under 15km spatial logic)
     const province = provinceSelect ? provinceSelect.value : '';
 
-    // Fetch default PO for this location locally if it has branch_id
+    // Fetch default PO for this location locally if it has branch_id or matching commune name
     let defaultPO = null;
     if (selectedLoc.branch_id) {
-      defaultPO = clientBranches.find(po => po.branch_id === selectedLoc.branch_id) || null;
+      defaultPO = clientBranches.find(po => (po.branch_id || po.store_code) === selectedLoc.branch_id) || null;
+    }
+    if (!defaultPO && (selectedLoc.commune || selectedLoc.market || selectedLoc.store_name)) {
+      const comm = normalizeKhmer(selectedLoc.commune || selectedLoc.market || selectedLoc.store_name);
+      defaultPO = clientBranches.find(po => {
+        const sName = normalizeKhmer(po.store_name);
+        const cName = normalizeKhmer(po.commune_en || po.commune_kh || '');
+        return (sName && (sName === comm || comm.includes(sName))) ||
+               (cName && (cName === comm || comm.includes(cName)));
+      }) || null;
     }
 
     // Calculate nearest POs client-side using our local branch cache
-    const nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, radius, 10);
+    let nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, radius, 10);
+
+    // If defaultPO exists, make sure it is floated to the top of nearbyPOs!
+    if (defaultPO) {
+      const defDist = haversine(selectedLoc.latitude, selectedLoc.longitude, defaultPO.latitude, defaultPO.longitude);
+      const defObj = { ...defaultPO, distance_km: defDist };
+      nearbyPOs = nearbyPOs.filter(po => (po.branch_id || po.store_code) !== (defaultPO.branch_id || defaultPO.store_code));
+      nearbyPOs.unshift(defObj);
+    }
 
     showState('none');
 

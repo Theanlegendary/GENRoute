@@ -51,5 +51,25 @@
   },
   "11.572421,104.914311": {
     "display_name": "ក្តាន់២ (Kdan 2 Landmark)"
+  },
+  "sandaek, batheay, kampong cham, cambodia": {
+    "lat": 12.123065,
+    "lng": 104.970836,
+    "display_name": "Sandaek, Batheay, Kampong Cham, Cambodia"
+  },
+  "sandaek, batheay, kampong cham": {
+    "lat": 12.123065,
+    "lng": 104.970836,
+    "display_name": "Sandaek, Batheay, Kampong Cham"
+  },
+  "sandaek, batheay": {
+    "lat": 12.123065,
+    "lng": 104.970836,
+    "display_name": "Sandaek, Batheay"
+  },
+  "ឃុំសណ្ដែក, ស្រុកបាធាយ, ខេត្តកំពង់ចាម": {
+    "lat": 12.123065,
+    "lng": 104.970836,
+    "display_name": "ឃុំសណ្ដែក, ស្រុកបាធាយ, ខេត្តកំពង់ចាម"
   }
 }
