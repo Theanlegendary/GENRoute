@@ -16,7 +16,7 @@ const ExcelJS = require('exceljs');
 
 const ROOT_DIR = path.join(__dirname, '..');
 const DATA_DIR = path.join(ROOT_DIR, 'data');
-const excelFile = path.join(ROOT_DIR, 'PickupBranches_ALL_PICKUP_18.07_10H08.xlsx');
+const excelFile = path.join(ROOT_DIR, 'PickupBranches_ALL_PICKUP_25.07_11H54.xlsx');
 
 const provinceKhmerMap = {
   'Phnom Penh': 'ភ្នំពេញ',
@@ -70,8 +70,9 @@ async function rebuild() {
   const colStore = getColIdx('Delivery Store');
   const colLat = getColIdx('Latitude');
   const colLng = getColIdx('Longitude');
+  const colPhone = getColIdx('Phone');
 
-  console.log(`Columns mapped: Prov=${colProv}, DistEn=${colDistEn}, DistKh=${colDistKh}, Store=${colStore}, Lat=${colLat}, Lng=${colLng}`);
+  console.log(`Columns mapped: Prov=${colProv}, DistEn=${colDistEn}, DistKh=${colDistKh}, Store=${colStore}, Lat=${colLat}, Lng=${colLng}, Phone=${colPhone}`);
 
   let totalRows = 0;
   let missingCoordsCount = 0;
@@ -90,6 +91,7 @@ async function rebuild() {
     const provEn = String(row.getCell(colProv).value || '').trim();
     const distEn = String(row.getCell(colDistEn).value || '').trim();
     const distKh = String(row.getCell(colDistKh).value || '').trim();
+    const phone = colPhone ? String(row.getCell(colPhone).value || '').trim() : '';
     let rawLat = row.getCell(colLat).value;
     let rawLng = row.getCell(colLng).value;
 
@@ -150,6 +152,7 @@ async function rebuild() {
       province_kh: provKh,
       district_en: distEn,
       district_kh: distKh,
+      phone_number: phone,
       latitude: lat,
       longitude: lng,
       google_maps_url: `https://www.google.com/maps?q=${lat},${lng}`
