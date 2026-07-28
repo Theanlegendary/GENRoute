@@ -27,7 +27,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "វត្តភ្នំ",
-    "commune": "Wat Phnom"
+    "commune": "Wat Phnom",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11002,
@@ -60,7 +63,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11003,
@@ -89,7 +95,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ស្ទឹងមានជ័យទី១",
-    "commune": "Steung Meanchey 1"
+    "commune": "Steung Meanchey 1",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11004,
@@ -118,7 +127,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ច្បារអំពៅទី១",
-    "commune": "Chbar Ampov 1"
+    "commune": "Chbar Ampov 1",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11005,
@@ -148,7 +160,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ព្រែកខ្សាយ ប",
-    "commune": "Prek Khsay B"
+    "commune": "Prek Khsay B",
+    "province_id": 4025122,
+    "province_code": "PRE",
+    "province_refs_POSTCODE": "14"
   },
   {
     "id": 11006,
@@ -176,7 +191,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "វាលវង់",
-    "commune": "Veal Vong"
+    "commune": "Veal Vong",
+    "province_id": 4025111,
+    "province_code": "CHA",
+    "province_refs_POSTCODE": "03"
   },
   {
     "id": 11007,
@@ -206,7 +224,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "កាកាបទី១",
-    "commune": "Kakab 1"
+    "commune": "Kakab 1",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11008,
@@ -234,7 +255,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "តាយ៉ែក",
-    "commune": "Tayek"
+    "commune": "Tayek",
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
   },
   {
     "id": 11009,
@@ -262,7 +286,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ស្រះចក",
-    "commune": "Srah Chork"
+    "commune": "Srah Chork",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11010,
@@ -291,7 +318,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទំនប់ទឹក",
-    "commune": "Tumnob Teuk"
+    "commune": "Tumnob Teuk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11011,
@@ -319,7 +349,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11012,
@@ -347,7 +380,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទួលគោក",
-    "commune": "Tuol Kouk"
+    "commune": "Tuol Kouk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11013,
@@ -377,7 +413,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទួលគោក",
-    "commune": "Tuol Kouk"
+    "commune": "Tuol Kouk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11014,
@@ -405,7 +444,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "បឹងកេងកងទី១",
-    "commune": "Boeng Keng Kang 1"
+    "commune": "Boeng Keng Kang 1",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11015,
@@ -437,7 +479,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ពោធិ៍សែនជ័យ",
-    "commune": "Pur SenChey"
+    "commune": "Pur SenChey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11016,
@@ -470,7 +515,10 @@
     "confidence": 90,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11017,
@@ -499,7 +547,10 @@
     "confidence": 90,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11018,
@@ -527,7 +578,10 @@
     "confidence": 90,
     "is_verified": true,
     "commune_kh": "បឹងកេងកង",
-    "commune": "Boeng Keng Kang"
+    "commune": "Boeng Keng Kang",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11019,
@@ -558,7 +612,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11020,
@@ -589,7 +646,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11021,
@@ -620,7 +680,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "មានជ័យ",
-    "commune": "Mean Chey"
+    "commune": "Mean Chey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11022,
@@ -649,7 +712,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "មានជ័យ",
-    "commune": "Mean Chey"
+    "commune": "Mean Chey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11023,
@@ -677,7 +743,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11024,
@@ -705,7 +774,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ជ័យជំនះ",
-    "commune": "Chey Chumneah"
+    "commune": "Chey Chumneah",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11025,
@@ -734,7 +806,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11026,
@@ -762,7 +837,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "បឹងកេងកង",
-    "commune": "Boeng Keng Kang"
+    "commune": "Boeng Keng Kang",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11027,
@@ -790,7 +868,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11028,
@@ -820,7 +901,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11029,
@@ -850,7 +934,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ផ្សារដេប៉ូទី៣",
-    "commune": "Phsar Depo 3"
+    "commune": "Phsar Depo 3",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11030,
@@ -879,7 +966,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចោមចៅទី៣",
-    "commune": "Chom Chao 3"
+    "commune": "Chom Chao 3",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11031,
@@ -907,7 +997,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "និរោធ",
-    "commune": "Niroth"
+    "commune": "Niroth",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11032,
@@ -935,7 +1028,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ច្បារអំពៅ",
-    "commune": "Chbar Ampov"
+    "commune": "Chbar Ampov",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11033,
@@ -962,7 +1058,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ពោធិ៍សែនជ័យ",
-    "commune": "Pur SenChey"
+    "commune": "Pur SenChey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11034,
@@ -990,7 +1089,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់សៀមរាប",
-    "commune": "Siem Reab Sangkat"
+    "commune": "Siem Reab Sangkat",
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
   },
   {
     "id": 11035,
@@ -1018,7 +1120,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ជាំក្សាន្ត",
-    "commune": "Choam Khsant"
+    "commune": "Choam Khsant",
+    "province_id": 4025121,
+    "province_code": "PRH",
+    "province_refs_POSTCODE": "13"
   },
   {
     "id": 11036,
@@ -1046,7 +1151,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់ត្រើយកោះ",
-    "commune": "Traeuy Kaoh Sangkat"
+    "commune": "Traeuy Kaoh Sangkat",
+    "province_id": 4025115,
+    "province_code": "KAM",
+    "province_refs_POSTCODE": "07"
   },
   {
     "id": 11037,
@@ -1074,7 +1182,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ក្រុងព្រះសីហនុ",
-    "commune": "Preah Sihanouk Municipality"
+    "commune": "Preah Sihanouk Municipality",
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
   },
   {
     "id": 11038,
@@ -1102,7 +1213,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់អូរចារ",
-    "commune": "Ou Char Sangkat"
+    "commune": "Ou Char Sangkat",
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
   },
   {
     "id": 11039,
@@ -1131,7 +1245,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "វត្តភ្នំ",
-    "commune": "Wat Phnom"
+    "commune": "Wat Phnom",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11040,
@@ -1159,7 +1276,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "វត្តភ្នំ",
-    "commune": "Wat Phnom"
+    "commune": "Wat Phnom",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11041,
@@ -1187,7 +1307,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11042,
@@ -1217,7 +1340,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "កណ្តាលស្ទឹង",
-    "commune": "Kandal Stueng"
+    "commune": "Kandal Stueng",
+    "province_id": 4025116,
+    "province_code": "KAN",
+    "province_refs_POSTCODE": "08"
   },
   {
     "id": 11050,
@@ -1247,7 +1373,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ប្រាំពីរមករា",
-    "commune": "Prampir Meakkara"
+    "commune": "Prampir Meakkara",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11051,
@@ -1277,7 +1406,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ប្រាំពីរមករា",
-    "commune": "Prampir Meakkara"
+    "commune": "Prampir Meakkara",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11052,
@@ -1306,7 +1438,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11053,
@@ -1335,7 +1470,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11054,
@@ -1363,7 +1501,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11055,
@@ -1391,7 +1532,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11056,
@@ -1419,7 +1563,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11057,
@@ -1447,7 +1594,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ពោធិ៍សែនជ័យ",
-    "commune": "Pur SenChey"
+    "commune": "Pur SenChey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11058,
@@ -1475,7 +1625,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "កំបូល",
-    "commune": "Kamboul"
+    "commune": "Kamboul",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11059,
@@ -1503,7 +1656,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ដង្កោ",
-    "commune": "Dangkao"
+    "commune": "Dangkao",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11060,
@@ -1532,7 +1688,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11061,
@@ -1561,7 +1720,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ពោធិ៍សែនជ័យ",
-    "commune": "Pur SenChey"
+    "commune": "Pur SenChey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11062,
@@ -1591,7 +1753,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទួលគោក",
-    "commune": "Tuol Kouk"
+    "commune": "Tuol Kouk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11063,
@@ -1621,7 +1786,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11064,
@@ -1649,7 +1817,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11065,
@@ -1678,7 +1849,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដង្កោ",
-    "commune": "Dangkao"
+    "commune": "Dangkao",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11066,
@@ -1706,7 +1880,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11067,
@@ -1735,7 +1912,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11068,
@@ -1766,7 +1946,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទួលគោក",
-    "commune": "Tuol Kouk"
+    "commune": "Tuol Kouk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11069,
@@ -1794,7 +1977,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "មានជ័យ",
-    "commune": "Mean Chey"
+    "commune": "Mean Chey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11070,
@@ -1822,7 +2008,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11071,
@@ -1850,7 +2039,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11072,
@@ -1878,7 +2070,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11073,
@@ -1906,7 +2101,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11074,
@@ -1934,7 +2132,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "បាក់ខែង",
-    "commune": "Bak Kheng"
+    "commune": "Bak Kheng",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11075,
@@ -1962,7 +2163,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11076,
@@ -1990,7 +2194,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់សៀមរាប",
-    "commune": "Siem Reab Sangkat"
+    "commune": "Siem Reab Sangkat",
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
   },
   {
     "id": 11077,
@@ -2018,7 +2225,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់អូរចារ",
-    "commune": "Ou Char Sangkat"
+    "commune": "Ou Char Sangkat",
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
   },
   {
     "id": 11078,
@@ -2046,7 +2256,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ក្រុងព្រះសីហនុ",
-    "commune": "Preah Sihanouk Municipality"
+    "commune": "Preah Sihanouk Municipality",
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
   },
   {
     "id": 11079,
@@ -2074,7 +2287,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់ផ្សារកណ្តាល",
-    "commune": "Phsar Kandal Sangkat"
+    "commune": "Phsar Kandal Sangkat",
+    "province_id": 4025109,
+    "province_code": "BAN",
+    "province_refs_POSTCODE": "01"
   },
   {
     "id": 11080,
@@ -2102,7 +2318,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់ព្រៃអង្គុញ",
-    "commune": "Prey Angkunh Sangkat"
+    "commune": "Prey Angkunh Sangkat",
+    "province_id": 4025128,
+    "province_code": "SVA",
+    "province_refs_POSTCODE": "20"
   },
   {
     "id": 11101,
@@ -2130,7 +2349,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11102,
@@ -2158,7 +2380,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11103,
@@ -2186,7 +2411,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទួលគោក",
-    "commune": "Tuol Kouk"
+    "commune": "Tuol Kouk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11104,
@@ -2214,7 +2442,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11105,
@@ -2242,7 +2473,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11106,
@@ -2270,7 +2504,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ពោធិ៍សែនជ័យ",
-    "commune": "Pur SenChey"
+    "commune": "Pur SenChey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11107,
@@ -2299,7 +2536,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11108,
@@ -2328,7 +2568,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11109,
@@ -2356,7 +2599,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "មានជ័យ",
-    "commune": "Mean Chey"
+    "commune": "Mean Chey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11110,
@@ -2384,7 +2630,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11111,
@@ -2412,7 +2661,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ប្រាំពីរមករា",
-    "commune": "Prampir Meakkara"
+    "commune": "Prampir Meakkara",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11112,
@@ -2440,7 +2692,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "មានជ័យ",
-    "commune": "Mean Chey"
+    "commune": "Mean Chey",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11113,
@@ -2468,7 +2723,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11114,
@@ -2496,7 +2754,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11115,
@@ -2525,7 +2786,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "បឹងកេងកង",
-    "commune": "Boeng Keng Kang"
+    "commune": "Boeng Keng Kang",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11116,
@@ -2553,7 +2817,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់តាខ្មៅ",
-    "commune": "Ta Khmao Sangkat"
+    "commune": "Ta Khmao Sangkat",
+    "province_id": 4025116,
+    "province_code": "KAN",
+    "province_refs_POSTCODE": "08"
   },
   {
     "id": 11117,
@@ -2581,7 +2848,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់កំពង់ឆ្នាំង",
-    "commune": "Kampong Chhnang Sangkat"
+    "commune": "Kampong Chhnang Sangkat",
+    "province_id": 4025112,
+    "province_code": "CHH",
+    "province_refs_POSTCODE": "04"
   },
   {
     "id": 11118,
@@ -2609,7 +2879,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់ច្បារមន",
-    "commune": "Chbar Mon Sangkat"
+    "commune": "Chbar Mon Sangkat",
+    "province_id": 4025113,
+    "province_code": "SPE",
+    "province_refs_POSTCODE": "05"
   },
   {
     "id": 11119,
@@ -2637,7 +2910,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សង្កាត់អាចារ្យលាក់",
-    "commune": "Achar Leak Sangkat"
+    "commune": "Achar Leak Sangkat",
+    "province_id": 4025114,
+    "province_code": "THO",
+    "province_refs_POSTCODE": "06"
   },
   {
     "id": 11120,
@@ -2666,7 +2942,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ក្រុងកែប",
-    "commune": "Kep Municipality"
+    "commune": "Kep Municipality",
+    "province_id": 4025131,
+    "province_code": "KEP",
+    "province_refs_POSTCODE": "23"
   },
   {
     "id": 11201,
@@ -2696,7 +2975,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "បឹងកេងកង",
-    "commune": "Boeng Keng Kang"
+    "commune": "Boeng Keng Kang",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11202,
@@ -2726,7 +3008,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "បឹងកេងកង",
-    "commune": "Boeng Keng Kang"
+    "commune": "Boeng Keng Kang",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11203,
@@ -2754,7 +3039,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11204,
@@ -2782,7 +3070,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11205,
@@ -2810,7 +3101,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "ច្បារអំពៅ",
-    "commune": "Chbar Ampov"
+    "commune": "Chbar Ampov",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11206,
@@ -2838,7 +3132,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11207,
@@ -2866,7 +3163,10 @@
     "confidence": 95,
     "is_verified": true,
     "commune_kh": "សែនសុខ",
-    "commune": "Sen Sok"
+    "commune": "Sen Sok",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11208,
@@ -2894,7 +3194,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ប្រាំពីរមករា",
-    "commune": "Prampir Meakkara"
+    "commune": "Prampir Meakkara",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11209,
@@ -2922,7 +3225,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ដូនពេញ",
-    "commune": "Daun Penh"
+    "commune": "Daun Penh",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11210,
@@ -2950,7 +3256,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ប្រាំពីរមករា",
-    "commune": "Prampir Meakkara"
+    "commune": "Prampir Meakkara",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11211,
@@ -2978,7 +3287,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ចំការមន",
-    "commune": "Chamkar Mon"
+    "commune": "Chamkar Mon",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11212,
@@ -3006,7 +3318,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ទួលគោក",
-    "commune": "Tuol Kouk"
+    "commune": "Tuol Kouk",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11213,
@@ -3034,7 +3349,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11214,
@@ -3062,7 +3380,10 @@
     "confidence": 100,
     "is_verified": true,
     "commune_kh": "ព្រែកព្នៅ",
-    "commune": "Prek Pnov"
+    "commune": "Prek Pnov",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11215,
@@ -3090,7 +3411,10 @@
     "confidence": 90,
     "is_verified": true,
     "commune_kh": "ជ្រោយចង្វារ",
-    "commune": "Chroy Changvar"
+    "commune": "Chroy Changvar",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11216,
@@ -3118,7 +3442,10 @@
     "confidence": 90,
     "is_verified": true,
     "commune_kh": "បឹងកេងកង",
-    "commune": "Boeng Keng Kang"
+    "commune": "Boeng Keng Kang",
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11301,
@@ -3147,7 +3474,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.6250,104.9360",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11302,
@@ -3176,7 +3506,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.5160,104.7620",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11303,
@@ -3205,7 +3538,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.4646,104.9142",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11304,
@@ -3234,7 +3570,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.4580,104.9420",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025116,
+    "province_code": "KAN",
+    "province_refs_POSTCODE": "08"
   },
   {
     "id": 11305,
@@ -3263,7 +3602,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.5880,104.8820",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11306,
@@ -3292,7 +3634,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.5490,104.8420",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11307,
@@ -3321,7 +3666,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.6120,104.8710",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11308,
@@ -3350,7 +3698,10 @@
     "google_maps_url": "https://www.google.com/maps?q=11.5520,104.9240",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
   },
   {
     "id": 11309,
@@ -3379,6 +3730,3924 @@
     "google_maps_url": "https://www.google.com/maps?q=11.5525,104.8475",
     "source": "curated_landmark",
     "confidence": 100,
-    "is_verified": true
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11310,
+    "market": "Calmette Hospital",
+    "market_kh": "មន្ទីរពេទ្យកាល់មែត",
+    "object_type": "hospital",
+    "aliases": [
+      "Calmette",
+      "Hopital Calmette",
+      "Hospital Calmette",
+      "មន្ទីរពេទ្យកាល់មែត"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Wat Phnom",
+    "commune_kh": "វត្តភ្នំ",
+    "latitude": 11.5698,
+    "longitude": 104.9275,
+    "search_keywords": [
+      "calmette hospital",
+      "hopital calmette",
+      "phnom penh hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5698,104.9275",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11311,
+    "market": "Khmer-Soviet Friendship Hospital",
+    "market_kh": "មន្ទីរពេទ្យមិត្តភាពខ្មែរ-សូវៀត",
+    "object_type": "hospital",
+    "aliases": [
+      "Russian Hospital",
+      "Khmer Soviet Friendship Hospital",
+      "Soviet Hospital",
+      "មន្ទីរពេទ្យមិត្តភាពខ្មែរ-សូវៀត"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Tuol Kork",
+    "district_kh": "ទួលគោក",
+    "commune": "Tuol Kork",
+    "commune_kh": "ទួលគោក",
+    "latitude": 11.5781,
+    "longitude": 104.9209,
+    "search_keywords": [
+      "russian hospital",
+      "soviet hospital",
+      "khmer soviet",
+      "friendship hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5781,104.9209",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11312,
+    "market": "National Pediatric Hospital",
+    "market_kh": "មន្ទីរពេទ្យជាតិកុមារ",
+    "object_type": "hospital",
+    "aliases": [
+      "National Children Hospital",
+      "Children Hospital Phnom Penh",
+      "មន្ទីរពេទ្យជាតិកុមារ"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Chey Chumnas",
+    "commune_kh": "ជ័យជំនះ",
+    "latitude": 11.572,
+    "longitude": 104.9227,
+    "search_keywords": [
+      "children hospital",
+      "pediatric hospital",
+      "national hospital phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.572,104.9227",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11313,
+    "market": "Preah Kossamak Hospital",
+    "market_kh": "មន្ទីរពេទ្យព្រះកុសមៈ",
+    "object_type": "hospital",
+    "aliases": [
+      "Kossamak Hospital",
+      "Preah Kossamak",
+      "Preah Kossomak Hospital"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5686,
+    "longitude": 104.9263,
+    "search_keywords": [
+      "kossamak hospital",
+      "preah kossamak",
+      "phnom penh hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5686,104.9263",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11314,
+    "market": "Phnom Penh Referral Hospital 117",
+    "market_kh": "មន្ទីរពេទ្យ 117",
+    "object_type": "hospital",
+    "aliases": [
+      "Hospital 117",
+      "Phnom Penh 117",
+      "BP 117"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Tuol Kork",
+    "district_kh": "ទួលគោក",
+    "commune": "Beung Kak 2",
+    "commune_kh": "បឹងកាក់ ២",
+    "latitude": 11.5823,
+    "longitude": 104.9227,
+    "search_keywords": [
+      "hospital 117",
+      "pp referral hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5823,104.9227",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11315,
+    "market": "Battambang Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តបាត់ដំបង",
+    "object_type": "hospital",
+    "aliases": [
+      "Battambang Hospital",
+      "BTB Hospital",
+      "មន្ទីរពេទ្យខេត្តបាត់ដំបង"
+    ],
+    "province": "Battambang",
+    "province_kh": "បាត់ដំបង",
+    "district": "Battambang",
+    "district_kh": "បាត់ដំបង",
+    "commune": "Svay Por",
+    "commune_kh": "ស្វាយប៉ោ",
+    "latitude": 13.0978,
+    "longitude": 103.2017,
+    "search_keywords": [
+      "battambang hospital",
+      "btb hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.0978,103.2017",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
+  },
+  {
+    "id": 11316,
+    "market": "Siem Reap Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តសៀមរាប",
+    "object_type": "hospital",
+    "aliases": [
+      "Siem Reap Hospital",
+      "Angkor Hospital",
+      "SR Hospital"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Siem Reap",
+    "district_kh": "សៀមរាប",
+    "commune": "Sala Kamreuk",
+    "commune_kh": "សាលាកំរើក",
+    "latitude": 13.3705,
+    "longitude": 103.8493,
+    "search_keywords": [
+      "siem reap hospital",
+      "angkor hospital",
+      "provincial hospital siem reap"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3705,103.8493",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11317,
+    "market": "Kampong Cham Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តកំពង់ចាម",
+    "object_type": "hospital",
+    "aliases": [
+      "Kampong Cham Hospital",
+      "KCH Hospital"
+    ],
+    "province": "Kampong Cham",
+    "province_kh": "កំពង់ចាម",
+    "district": "Kampong Cham",
+    "district_kh": "កំពង់ចាម",
+    "commune": "Kampong Cham",
+    "commune_kh": "កំពង់ចាម",
+    "latitude": 12.0017,
+    "longitude": 105.4688,
+    "search_keywords": [
+      "kampong cham hospital",
+      "kcham hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.0017,105.4688",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025111,
+    "province_code": "CHA",
+    "province_refs_POSTCODE": "03"
+  },
+  {
+    "id": 11318,
+    "market": "Preah Sihanouk Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តព្រះសីហនុ",
+    "object_type": "hospital",
+    "aliases": [
+      "Sihanoukville Hospital",
+      "Kampong Som Hospital"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Mittapheap",
+    "commune_kh": "មិត្តភាព",
+    "latitude": 10.6227,
+    "longitude": 103.519,
+    "search_keywords": [
+      "sihanoukville hospital",
+      "kampong som hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6227,103.519",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11319,
+    "market": "Kandal Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តកណ្ដាល",
+    "object_type": "hospital",
+    "aliases": [
+      "Kandal Hospital",
+      "Ta Khmau Hospital"
+    ],
+    "province": "Kandal",
+    "province_kh": "កណ្តាល",
+    "district": "Sa ang",
+    "district_kh": "ស្អាង",
+    "commune": "Sa ang",
+    "commune_kh": "ស្អាង",
+    "latitude": 11.4617,
+    "longitude": 104.99,
+    "search_keywords": [
+      "kandal hospital",
+      "ta khmau hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.4617,104.99",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025116,
+    "province_code": "KAN",
+    "province_refs_POSTCODE": "08"
+  },
+  {
+    "id": 11320,
+    "market": "Takeo Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តតាកែវ",
+    "object_type": "hospital",
+    "aliases": [
+      "Takeo Hospital"
+    ],
+    "province": "Takeo",
+    "province_kh": "តាកែវ",
+    "district": "Doun Kaev",
+    "district_kh": "ដូនកែវ",
+    "commune": "Roka Knong",
+    "commune_kh": "រកាខ្នង",
+    "latitude": 10.99,
+    "longitude": 104.792,
+    "search_keywords": [
+      "takeo hospital",
+      "provincial hospital takeo"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.99,104.792",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025129,
+    "province_code": "TAK",
+    "province_refs_POSTCODE": "21"
+  },
+  {
+    "id": 11321,
+    "market": "Prey Veng Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តព្រៃវែង",
+    "object_type": "hospital",
+    "aliases": [
+      "Prey Veng Hospital"
+    ],
+    "province": "Prey Veng",
+    "province_kh": "ព្រៃវែង",
+    "district": "Prey Veng",
+    "district_kh": "ព្រៃវែង",
+    "commune": "Prey Veng",
+    "commune_kh": "ព្រៃវែង",
+    "latitude": 11.4867,
+    "longitude": 105.3236,
+    "search_keywords": [
+      "prey veng hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.4867,105.3236",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025122,
+    "province_code": "PRE",
+    "province_refs_POSTCODE": "14"
+  },
+  {
+    "id": 11322,
+    "market": "Svay Rieng Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តស្វាយរៀង",
+    "object_type": "hospital",
+    "aliases": [
+      "Svay Rieng Hospital"
+    ],
+    "province": "Svay Rieng",
+    "province_kh": "ស្វាយរៀង",
+    "district": "Svay Rieng",
+    "district_kh": "ស្វាយរៀង",
+    "commune": "Svay Rieng",
+    "commune_kh": "ស្វាយរៀង",
+    "latitude": 11.0882,
+    "longitude": 105.7996,
+    "search_keywords": [
+      "svay rieng hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.0882,105.7996",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025128,
+    "province_code": "SVA",
+    "province_refs_POSTCODE": "20"
+  },
+  {
+    "id": 11323,
+    "market": "Kampot Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តកំពត",
+    "object_type": "hospital",
+    "aliases": [
+      "Kampot Hospital"
+    ],
+    "province": "Kampot",
+    "province_kh": "កំពត",
+    "district": "Kampot",
+    "district_kh": "កំពត",
+    "commune": "Kampot",
+    "commune_kh": "កំពត",
+    "latitude": 10.615,
+    "longitude": 104.1812,
+    "search_keywords": [
+      "kampot hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.615,104.1812",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025115,
+    "province_code": "KAM",
+    "province_refs_POSTCODE": "07"
+  },
+  {
+    "id": 11324,
+    "market": "Kratie Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តក្រចេះ",
+    "object_type": "hospital",
+    "aliases": [
+      "Kratie Hospital"
+    ],
+    "province": "Kratie",
+    "province_kh": "ក្រចេះ",
+    "district": "Kratie",
+    "district_kh": "ក្រចេះ",
+    "commune": "Kratie",
+    "commune_kh": "ក្រចេះ",
+    "latitude": 12.4876,
+    "longitude": 106.0185,
+    "search_keywords": [
+      "kratie hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.4876,106.0185",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025118,
+    "province_code": "KRA",
+    "province_refs_POSTCODE": "10"
+  },
+  {
+    "id": 11325,
+    "market": "Ratanakiri Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តរតនគិរី",
+    "object_type": "hospital",
+    "aliases": [
+      "Banlung Hospital",
+      "Ratanakiri Hospital"
+    ],
+    "province": "Ratanakiri",
+    "province_kh": "រតនគិរី",
+    "district": "Lumphat",
+    "district_kh": "លំផាត់",
+    "commune": "Ban Lung",
+    "commune_kh": "បន់លុង",
+    "latitude": 13.7286,
+    "longitude": 107.0011,
+    "search_keywords": [
+      "ratanakiri hospital",
+      "banlung hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.7286,107.0011",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025124,
+    "province_code": "ROT",
+    "province_refs_POSTCODE": "16"
+  },
+  {
+    "id": 11326,
+    "market": "Mondulkiri Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តមណ្ឌលគិរី",
+    "object_type": "hospital",
+    "aliases": [
+      "Sen Monorom Hospital",
+      "Mondulkiri Hospital"
+    ],
+    "province": "Mondulkiri",
+    "province_kh": "មណ្ឌលគិរី",
+    "district": "Sen Monorom",
+    "district_kh": "សែនមនោរម្យ",
+    "commune": "Sen Monorom",
+    "commune_kh": "សែនមនោរម្យ",
+    "latitude": 12.4628,
+    "longitude": 107.1878,
+    "search_keywords": [
+      "mondulkiri hospital",
+      "sen monorom hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.4628,107.1878",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025119,
+    "province_code": "MON",
+    "province_refs_POSTCODE": "11"
+  },
+  {
+    "id": 11327,
+    "market": "Stung Treng Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តស្ទឹងត្រែង",
+    "object_type": "hospital",
+    "aliases": [
+      "Stung Treng Hospital"
+    ],
+    "province": "Stung Treng",
+    "province_kh": "ស្ទឹងត្រែង",
+    "district": "Stung Treng",
+    "district_kh": "ស្ទឹងត្រែង",
+    "commune": "Stung Treng",
+    "commune_kh": "ស្ទឹងត្រែង",
+    "latitude": 13.523,
+    "longitude": 105.9703,
+    "search_keywords": [
+      "stung treng hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.523,105.9703",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025127,
+    "province_code": "STU",
+    "province_refs_POSTCODE": "19"
+  },
+  {
+    "id": 11328,
+    "market": "Pursat Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តពោធិ៍សាត់",
+    "object_type": "hospital",
+    "aliases": [
+      "Pursat Hospital"
+    ],
+    "province": "Pursat",
+    "province_kh": "ពោធិ៍សាត់",
+    "district": "Pursat",
+    "district_kh": "ពោធិ៍សាត់",
+    "commune": "Pursat",
+    "commune_kh": "ពោធិ៍សាត់",
+    "latitude": 12.5369,
+    "longitude": 103.919,
+    "search_keywords": [
+      "pursat hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.5369,103.919",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025123,
+    "province_code": "PUR",
+    "province_refs_POSTCODE": "15"
+  },
+  {
+    "id": 11329,
+    "market": "Kampong Speu Provincial Hospital",
+    "market_kh": "មន្ទីរពេទ្យខេត្តកំពង់ស្ពឺ",
+    "object_type": "hospital",
+    "aliases": [
+      "Kampong Speu Hospital",
+      "Chbar Mon Hospital"
+    ],
+    "province": "Kampong Speu",
+    "province_kh": "កំពង់ស្ពឺ",
+    "district": "Chbar Mon",
+    "district_kh": "ច្បារមន",
+    "commune": "Chbar Mon",
+    "commune_kh": "ច្បារមន",
+    "latitude": 11.4578,
+    "longitude": 104.5203,
+    "search_keywords": [
+      "kampong speu hospital",
+      "chbar mon hospital"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.4578,104.5203",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025113,
+    "province_code": "SPE",
+    "province_refs_POSTCODE": "05"
+  },
+  {
+    "id": 11340,
+    "market": "Royal University of Phnom Penh (RUPP)",
+    "market_kh": "សាកលវិទ្យាល័យភូមិន្ទភ្នំពេញ",
+    "object_type": "university",
+    "aliases": [
+      "RUPP",
+      "Royal University of Phnom Penh",
+      "Phnom Penh University"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Tuol Kork",
+    "district_kh": "ទួលគោក",
+    "commune": "Tuek L'ak 1",
+    "commune_kh": "ទឹកល្អក់ ១",
+    "latitude": 11.5816,
+    "longitude": 104.921,
+    "search_keywords": [
+      "rupp",
+      "royal university phnom penh",
+      "cambodia university"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5816,104.921",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11341,
+    "market": "Institute of Technology of Cambodia (ITC)",
+    "market_kh": "វិទ្យាស្ថានបច្ចេកវិទ្យាកម្ពុជា",
+    "object_type": "university",
+    "aliases": [
+      "ITC",
+      "Institute of Technology Cambodia",
+      "Cambodia Tech Institute"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Tuol Kork",
+    "district_kh": "ទួលគោក",
+    "commune": "Tuek L'ak 3",
+    "commune_kh": "ទឹកល្អក់ ៣",
+    "latitude": 11.5706,
+    "longitude": 104.921,
+    "search_keywords": [
+      "itc",
+      "institute technology cambodia",
+      "engineering university"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5706,104.921",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11342,
+    "market": "Royal University of Law and Economics (RULE)",
+    "market_kh": "សាកលវិទ្យាល័យភូមិន្ទនីតិសាស្ត្រ និងវិទ្យាសាស្ត្រសេដ្ឋកិច្ច",
+    "object_type": "university",
+    "aliases": [
+      "RULE",
+      "Law University Cambodia",
+      "Royal University Law"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5697,
+    "longitude": 104.9281,
+    "search_keywords": [
+      "rule",
+      "law university",
+      "economics university cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5697,104.9281",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11343,
+    "market": "National University of Management (NUM)",
+    "market_kh": "សាកលវិទ្យាល័យជាតិគ្រប់គ្រង",
+    "object_type": "university",
+    "aliases": [
+      "NUM",
+      "National Management University",
+      "Sralao University"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Prampir Meakkara",
+    "district_kh": "ប្រាំពីរមករា",
+    "commune": "Boeung Raing",
+    "commune_kh": "បឹងរាំង",
+    "latitude": 11.564,
+    "longitude": 104.9279,
+    "search_keywords": [
+      "num",
+      "national university management",
+      "management university cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.564,104.9279",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11344,
+    "market": "Pannasastra University of Cambodia (PUC)",
+    "market_kh": "សាកលវិទ្យាល័យបណ្ណាសាស្ត្រ",
+    "object_type": "university",
+    "aliases": [
+      "PUC",
+      "Pannasastra University",
+      "Pannasar University"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 1",
+    "commune_kh": "ទួលស្វាយព្រៃ ១",
+    "latitude": 11.5529,
+    "longitude": 104.9208,
+    "search_keywords": [
+      "puc",
+      "pannasastra university",
+      "private university phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5529,104.9208",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11345,
+    "market": "Paragon International University",
+    "market_kh": "សាកលវិទ្យាល័យ ប៉ារ៉ាហ្គ័ន អន្តរជាតិ",
+    "object_type": "university",
+    "aliases": [
+      "Paragon University",
+      "PIU Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Boeung Keng Kang 1",
+    "commune_kh": "បឹងកេងកង ១",
+    "latitude": 11.5536,
+    "longitude": 104.9175,
+    "search_keywords": [
+      "paragon university",
+      "paragon international",
+      "cambodia paragon"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5536,104.9175",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11346,
+    "market": "Norton University Cambodia",
+    "market_kh": "សាកលវិទ្យាល័យ ណតុន",
+    "object_type": "university",
+    "aliases": [
+      "Norton University",
+      "Norton Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 2",
+    "commune_kh": "ទួលស្វាយព្រៃ ២",
+    "latitude": 11.5472,
+    "longitude": 104.9181,
+    "search_keywords": [
+      "norton university",
+      "norton cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5472,104.9181",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11347,
+    "market": "Royal University of Fine Arts (RUFA)",
+    "market_kh": "សាកលវិទ្យាល័យភូមិន្ទវិចិត្រសិល្បៈ",
+    "object_type": "university",
+    "aliases": [
+      "RUFA",
+      "Fine Arts University",
+      "Cambodia Fine Arts"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Thmei 1",
+    "commune_kh": "ផ្សារថ្មី ១",
+    "latitude": 11.5698,
+    "longitude": 104.9211,
+    "search_keywords": [
+      "rufa",
+      "fine arts university cambodia",
+      "art university"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5698,104.9211",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11348,
+    "market": "National University of Battambang",
+    "market_kh": "សាកលវិទ្យាល័យជាតិបាត់ដំបង",
+    "object_type": "university",
+    "aliases": [
+      "Battambang University",
+      "NUBB"
+    ],
+    "province": "Battambang",
+    "province_kh": "បាត់ដំបង",
+    "district": "Battambang",
+    "district_kh": "បាត់ដំបង",
+    "commune": "Battambang",
+    "commune_kh": "បាត់ដំបង",
+    "latitude": 13.0949,
+    "longitude": 103.2012,
+    "search_keywords": [
+      "battambang university",
+      "national university battambang"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.0949,103.2012",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
+  },
+  {
+    "id": 11349,
+    "market": "University of Puthisastra",
+    "market_kh": "សាកលវិទ្យាល័យ ពុទ្ធិសាស្ត្រ",
+    "object_type": "university",
+    "aliases": [
+      "Puthisastra University",
+      "UP Cambodia",
+      "Health University Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 1",
+    "commune_kh": "ទួលស្វាយព្រៃ ១",
+    "latitude": 11.549,
+    "longitude": 104.9202,
+    "search_keywords": [
+      "puthisastra university",
+      "health university phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.549,104.9202",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11350,
+    "market": "Cambodian University for Specialties (CUS)",
+    "market_kh": "សាកលវិទ្យាល័យ ខ្មែរ-ចិន",
+    "object_type": "university",
+    "aliases": [
+      "Khmer China University",
+      "CUS University"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Boeung Keng Kang 1",
+    "commune_kh": "បឹងកេងកង ១",
+    "latitude": 11.5538,
+    "longitude": 104.915,
+    "search_keywords": [
+      "cambodian university specialties",
+      "khmer china university"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5538,104.915",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11351,
+    "market": "Preah Vihear University",
+    "market_kh": "សាកលវិទ្យាល័យ ព្រះវិហារ",
+    "object_type": "university",
+    "aliases": [
+      "Tbeng Meanchey University",
+      "Preah Vihear University"
+    ],
+    "province": "Preah Vihear",
+    "province_kh": "ព្រះវិហារ",
+    "district": "Tbeng Meanchey",
+    "district_kh": "ត្បែងមានជ័យ",
+    "commune": "Tbeng Meanchey",
+    "commune_kh": "ត្បែងមានជ័យ",
+    "latitude": 13.8063,
+    "longitude": 104.9772,
+    "search_keywords": [
+      "preah vihear university",
+      "tbeng meanchey university"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.8063,104.9772",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025121,
+    "province_code": "PRH",
+    "province_refs_POSTCODE": "13"
+  },
+  {
+    "id": 11352,
+    "market": "Siem Reap University",
+    "market_kh": "មហាវិទ្យាល័យសៀមរាប",
+    "object_type": "school",
+    "aliases": [
+      "Siem Reap University",
+      "Angkor University"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Siem Reap",
+    "district_kh": "សៀមរាប",
+    "commune": "Svay Dankum",
+    "commune_kh": "ស្វាយដង្គំ",
+    "latitude": 13.3623,
+    "longitude": 103.8601,
+    "search_keywords": [
+      "siem reap university",
+      "angkor university"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3623,103.8601",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11360,
+    "market": "Phnom Penh International Airport",
+    "market_kh": "អាកាសយានដ្ឋានអន្តរជាតិភ្នំពេញ",
+    "object_type": "airport",
+    "aliases": [
+      "Pochentong Airport",
+      "Phnom Penh Airport",
+      "PNH Airport",
+      "VDPP"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Por Sen Chey",
+    "district_kh": "ពោធិ៍សែនជ័យ",
+    "commune": "Kakab 1",
+    "commune_kh": "កាកប ១",
+    "latitude": 11.5465,
+    "longitude": 104.844,
+    "search_keywords": [
+      "phnom penh airport",
+      "pochentong airport",
+      "pnh airport",
+      "cambodia international airport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5465,104.844",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11361,
+    "market": "Siem Reap Angkor International Airport",
+    "market_kh": "អាកាសយានដ្ឋានអន្តរជាតិអង្គររ សៀមរាប",
+    "object_type": "airport",
+    "aliases": [
+      "New Siem Reap Airport",
+      "SAI Airport",
+      "VDSR",
+      "Angkor Airport 2023"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Chi Kraeng",
+    "district_kh": "ជីក្រែង",
+    "commune": "Kampong Kdei",
+    "commune_kh": "កំពង់ក្ដី",
+    "latitude": 13.1877,
+    "longitude": 103.3601,
+    "search_keywords": [
+      "siem reap angkor airport",
+      "new siem reap airport",
+      "sai airport",
+      "angkor international airport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.1877,103.3601",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11362,
+    "market": "Siem Reap International Airport (Old)",
+    "market_kh": "អាកាសយានដ្ឋានអន្តរជាតិ សៀមរាប (ចាស់)",
+    "object_type": "airport",
+    "aliases": [
+      "REP Airport",
+      "Old Siem Reap Airport",
+      "VDSR Old"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Siem Reap",
+    "district_kh": "សៀមរាប",
+    "commune": "Sala Kamreuk",
+    "commune_kh": "សាលាកំរើក",
+    "latitude": 13.4107,
+    "longitude": 103.8129,
+    "search_keywords": [
+      "old siem reap airport",
+      "rep airport",
+      "siem reap airport old"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.4107,103.8129",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11363,
+    "market": "Preah Sihanouk Airport",
+    "market_kh": "អាកាសយានដ្ឋានក្រុងព្រះសីហនុ",
+    "object_type": "airport",
+    "aliases": [
+      "Sihanoukville Airport",
+      "KOS Airport",
+      "VDSV"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Buon",
+    "commune_kh": "ប៊ន",
+    "latitude": 10.5797,
+    "longitude": 103.6369,
+    "search_keywords": [
+      "sihanoukville airport",
+      "kampong som airport",
+      "kos airport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.5797,103.6369",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11364,
+    "market": "Battambang Airport",
+    "market_kh": "អាកាសយានដ្ឋានបាត់ដំបង",
+    "object_type": "airport",
+    "aliases": [
+      "BBM Airport",
+      "Battambang Airfield"
+    ],
+    "province": "Battambang",
+    "province_kh": "បាត់ដំបង",
+    "district": "Battambang",
+    "district_kh": "បាត់ដំបង",
+    "commune": "Svay Por",
+    "commune_kh": "ស្វាយប៉ោ",
+    "latitude": 13.0994,
+    "longitude": 103.2233,
+    "search_keywords": [
+      "battambang airport",
+      "bbm airport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.0994,103.2233",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
+  },
+  {
+    "id": 11365,
+    "market": "Stung Treng Airport",
+    "market_kh": "អាកាសយានដ្ឋានស្ទឹងត្រែង",
+    "object_type": "airport",
+    "aliases": [
+      "TNX Airport",
+      "Stung Treng Airfield"
+    ],
+    "province": "Stung Treng",
+    "province_kh": "ស្ទឹងត្រែង",
+    "district": "Stung Treng",
+    "district_kh": "ស្ទឹងត្រែង",
+    "commune": "Stung Treng",
+    "commune_kh": "ស្ទឹងត្រែង",
+    "latitude": 13.5231,
+    "longitude": 105.9649,
+    "search_keywords": [
+      "stung treng airport",
+      "tnx airport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.5231,105.9649",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025127,
+    "province_code": "STU",
+    "province_refs_POSTCODE": "19"
+  },
+  {
+    "id": 11370,
+    "market": "Angkor Wat",
+    "market_kh": "អង្គរវត្ត",
+    "object_type": "landmark",
+    "aliases": [
+      "Angkor Wat",
+      "Angkor Temple",
+      "UNESCO Angkor",
+      "World Heritage Angkor"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Angkor Chum",
+    "commune_kh": "អង្គរជុំ",
+    "latitude": 13.4125,
+    "longitude": 103.867,
+    "search_keywords": [
+      "angkor wat",
+      "angkor temple",
+      "cambodia temple",
+      "unesco world heritage",
+      "siem reap temple"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.4125,103.867",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11371,
+    "market": "Angkor Thom - Bayon Temple",
+    "market_kh": "ប្រាសាទបាយ័ន",
+    "object_type": "landmark",
+    "aliases": [
+      "Bayon Temple",
+      "Angkor Thom",
+      "Bayon Angkor",
+      "ប្រាសាទបាយ័ន"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Angkor Chum",
+    "commune_kh": "អង្គរជុំ",
+    "latitude": 13.4414,
+    "longitude": 103.8593,
+    "search_keywords": [
+      "bayon temple",
+      "angkor thom",
+      "angkor bayon",
+      "cambodia temple"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.4414,103.8593",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11372,
+    "market": "Ta Prohm Temple",
+    "market_kh": "ប្រាសាទតាព្រហ្ម",
+    "object_type": "landmark",
+    "aliases": [
+      "Ta Prohm",
+      "Tomb Raider Temple",
+      "Angelina Jolie Temple"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Angkor Chum",
+    "commune_kh": "អង្គរជុំ",
+    "latitude": 13.4345,
+    "longitude": 103.8893,
+    "search_keywords": [
+      "ta prohm",
+      "tomb raider temple",
+      "siem reap temple"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.4345,103.8893",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11373,
+    "market": "Banteay Srei Temple",
+    "market_kh": "ប្រាសាទបន្ទាយស្រី",
+    "object_type": "landmark",
+    "aliases": [
+      "Banteay Srei",
+      "Citadel of Women",
+      "ប្រាសាទបន្ទាយស្រី"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Svay Leu",
+    "commune_kh": "ស្វាយឡើ",
+    "latitude": 13.599,
+    "longitude": 103.9678,
+    "search_keywords": [
+      "banteay srei",
+      "banteay srey",
+      "citadel women siem reap"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.599,103.9678",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11374,
+    "market": "Phnom Bakheng",
+    "market_kh": "ភ្នំបាខែង",
+    "object_type": "landmark",
+    "aliases": [
+      "Phnom Bakheng",
+      "Bakheng Hill",
+      "Sunset Temple Angkor"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Angkor Chum",
+    "commune_kh": "អង្គរជុំ",
+    "latitude": 13.4322,
+    "longitude": 103.8671,
+    "search_keywords": [
+      "phnom bakheng",
+      "bakheng hill",
+      "sunset angkor"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.4322,103.8671",
+    "source": "curated_landmark",
+    "confidence": 95,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11375,
+    "market": "Preah Khan Temple",
+    "market_kh": "ប្រាសាទព្រះខ័ន",
+    "object_type": "landmark",
+    "aliases": [
+      "Preah Khan",
+      "Sacred Sword Temple"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Angkor Chum",
+    "commune_kh": "អង្គរជុំ",
+    "latitude": 13.4601,
+    "longitude": 103.865,
+    "search_keywords": [
+      "preah khan temple",
+      "sacred sword angkor"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.4601,103.865",
+    "source": "curated_landmark",
+    "confidence": 95,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11376,
+    "market": "Preah Vihear Temple",
+    "market_kh": "ប្រាសាទព្រះវិហារ",
+    "object_type": "landmark",
+    "aliases": [
+      "Preah Vihear",
+      "UNESCO Preah Vihear",
+      "Cambodia Thailand Border Temple"
+    ],
+    "province": "Preah Vihear",
+    "province_kh": "ព្រះវិហារ",
+    "district": "Choam Ksan",
+    "district_kh": "ជាំក្សាន",
+    "commune": "Sra Em",
+    "commune_kh": "ស្រែអែម",
+    "latitude": 14.3928,
+    "longitude": 104.6826,
+    "search_keywords": [
+      "preah vihear temple",
+      "cambodia thailand temple",
+      "pv temple"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=14.3928,104.6826",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025121,
+    "province_code": "PRH",
+    "province_refs_POSTCODE": "13"
+  },
+  {
+    "id": 11377,
+    "market": "Tuol Sleng Genocide Museum (S-21)",
+    "market_kh": "សារមន្ទីរប្រល័យពូជសាសន៍ទួលស្លែង",
+    "object_type": "museum",
+    "aliases": [
+      "S-21",
+      "Tuol Sleng",
+      "Khmer Rouge Prison",
+      "Genocide Museum"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Boeung Keng Kang 1",
+    "commune_kh": "បឹងកេងកង ១",
+    "latitude": 11.5447,
+    "longitude": 104.9176,
+    "search_keywords": [
+      "tuol sleng",
+      "s21",
+      "s-21",
+      "genocide museum",
+      "khmer rouge",
+      "prison phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5447,104.9176",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11378,
+    "market": "Choeung Ek Killing Fields",
+    "market_kh": "វាលពិឃាតជើងឯក",
+    "object_type": "landmark",
+    "aliases": [
+      "Killing Fields",
+      "Choeung Ek",
+      "Cheung Ek Memorial"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Por Sen Chey",
+    "district_kh": "ពោធិ៍សែនជ័យ",
+    "commune": "Choeung Ek",
+    "commune_kh": "ជើងឯក",
+    "latitude": 11.4893,
+    "longitude": 104.9079,
+    "search_keywords": [
+      "choeung ek",
+      "killing fields",
+      "cheung ek",
+      "genocide memorial phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.4893,104.9079",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11379,
+    "market": "Royal Palace Phnom Penh",
+    "market_kh": "វាំងព្រះរាជ",
+    "object_type": "landmark",
+    "aliases": [
+      "Royal Palace",
+      "King Palace",
+      "Silver Pagoda",
+      "Preah Barum Reachea Veang Daun Penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5649,
+    "longitude": 104.9317,
+    "search_keywords": [
+      "royal palace phnom penh",
+      "silver pagoda",
+      "cambodia king palace"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5649,104.9317",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11380,
+    "market": "Independence Monument",
+    "market_kh": "វិមានឯករាជ្យ",
+    "object_type": "monument",
+    "aliases": [
+      "Independence Monument",
+      "Vimean Ekareach",
+      "Cambodia Monument"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5617,
+    "longitude": 104.9282,
+    "search_keywords": [
+      "independence monument",
+      "vimean ekareach",
+      "cambodia independence"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5617,104.9282",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11381,
+    "market": "National Museum of Cambodia",
+    "market_kh": "សារមន្ទីរជាតិ",
+    "object_type": "museum",
+    "aliases": [
+      "National Museum",
+      "Cambodia National Museum",
+      "Musee National"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5695,
+    "longitude": 104.9309,
+    "search_keywords": [
+      "national museum cambodia",
+      "museum phnom penh",
+      "history museum"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5695,104.9309",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11382,
+    "market": "Koh Rong Island",
+    "market_kh": "កោះរ៉ុង",
+    "object_type": "landmark",
+    "aliases": [
+      "Koh Rong",
+      "Ko Rong Island",
+      "Koh Rong Beach",
+      "Cambodia Island"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Koh Rong",
+    "district_kh": "កោះរ៉ុង",
+    "commune": "Koh Rong",
+    "commune_kh": "កោះរ៉ុង",
+    "latitude": 10.6762,
+    "longitude": 103.2439,
+    "search_keywords": [
+      "koh rong",
+      "ko rong island",
+      "koh rong beach",
+      "cambodia island beach"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6762,103.2439",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11383,
+    "market": "Koh Rong Samloem Island",
+    "market_kh": "កោះរ៉ុងសំឡែម",
+    "object_type": "landmark",
+    "aliases": [
+      "Koh Rong Samloem",
+      "Saracen Bay",
+      "Lazy Beach"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Koh Rong",
+    "district_kh": "កោះរ៉ុង",
+    "commune": "Koh Rong Samloem",
+    "commune_kh": "កោះរ៉ុងសំឡែម",
+    "latitude": 10.5918,
+    "longitude": 103.2706,
+    "search_keywords": [
+      "koh rong samloem",
+      "saracen bay",
+      "lazy beach koh rong"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.5918,103.2706",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11384,
+    "market": "Kep Beach & Crab Market",
+    "market_kh": "ក្លឹបបឹងកេប",
+    "object_type": "landmark",
+    "aliases": [
+      "Kep Crab Market",
+      "Kep Beach",
+      "Kampong Trach Crab"
+    ],
+    "province": "Kep",
+    "province_kh": "កែប",
+    "district": "Kep",
+    "district_kh": "កែប",
+    "commune": "Kep",
+    "commune_kh": "កែប",
+    "latitude": 10.4827,
+    "longitude": 104.2998,
+    "search_keywords": [
+      "kep beach",
+      "kep crab market",
+      "kep kampot",
+      "cambodia beach"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.4827,104.2998",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025131,
+    "province_code": "KEP",
+    "province_refs_POSTCODE": "23"
+  },
+  {
+    "id": 11385,
+    "market": "Bokor National Park",
+    "market_kh": "ឧទ្យានជាតិបូកគោ",
+    "object_type": "landmark",
+    "aliases": [
+      "Bokor Mountain",
+      "Bokor Hill Station",
+      "Preah Monivong National Park"
+    ],
+    "province": "Kampot",
+    "province_kh": "កំពត",
+    "district": "Tuek Chhou",
+    "district_kh": "ទឹកឈូ",
+    "commune": "Phsar Riang",
+    "commune_kh": "ផ្សាររាំង",
+    "latitude": 10.6439,
+    "longitude": 104.0214,
+    "search_keywords": [
+      "bokor national park",
+      "bokor mountain",
+      "bokor hill station",
+      "kampot mountain"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6439,104.0214",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025115,
+    "province_code": "KAM",
+    "province_refs_POSTCODE": "07"
+  },
+  {
+    "id": 11386,
+    "market": "Tonle Sap Lake",
+    "market_kh": "ទន្លេសាប",
+    "object_type": "landmark",
+    "aliases": [
+      "Tonle Sap",
+      "Great Lake Cambodia",
+      "Chong Kneas Floating Village",
+      "Tonle Sap Biosphere"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Chong Kneas",
+    "commune_kh": "ចុងក្នែស",
+    "latitude": 13.1006,
+    "longitude": 103.9389,
+    "search_keywords": [
+      "tonle sap lake",
+      "great lake cambodia",
+      "chong kneas",
+      "floating village siem reap"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.1006,103.9389",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11387,
+    "market": "Irrawaddy Dolphin Watching - Kampi",
+    "market_kh": "ការស្ដាប់ត្រីស្វាឥណ្ឌា",
+    "object_type": "landmark",
+    "aliases": [
+      "Kampi Dolphin",
+      "Irrawaddy Dolphin",
+      "Kratie Dolphin Pool"
+    ],
+    "province": "Kratie",
+    "province_kh": "ក្រចេះ",
+    "district": "Kratie",
+    "district_kh": "ក្រចេះ",
+    "commune": "Sambo",
+    "commune_kh": "សំបូរ",
+    "latitude": 12.52,
+    "longitude": 106.04,
+    "search_keywords": [
+      "irrawaddy dolphin",
+      "kampi dolphin pool",
+      "kratie dolphin",
+      "cambodia dolphin"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.52,106.04",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025118,
+    "province_code": "KRA",
+    "province_refs_POSTCODE": "10"
+  },
+  {
+    "id": 11388,
+    "market": "Yeak Laom Volcanic Lake",
+    "market_kh": "ទំនប់ ចំការ",
+    "object_type": "landmark",
+    "aliases": [
+      "Yeak Laom",
+      "Yak Laom Lake",
+      "Ratanakiri Lake",
+      "Volcanic Crater Lake"
+    ],
+    "province": "Ratanakiri",
+    "province_kh": "រតនគិរី",
+    "district": "Lumphat",
+    "district_kh": "លំផាត់",
+    "commune": "Ban Lung",
+    "commune_kh": "បន់លុង",
+    "latitude": 13.7466,
+    "longitude": 107.005,
+    "search_keywords": [
+      "yeak laom",
+      "yak laom lake",
+      "ratanakiri lake",
+      "volcanic lake cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.7466,107.005",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025124,
+    "province_code": "ROT",
+    "province_refs_POSTCODE": "16"
+  },
+  {
+    "id": 11389,
+    "market": "Cardamom Mountains",
+    "market_kh": "ភ្នំដំរី",
+    "object_type": "landmark",
+    "aliases": [
+      "Cardamom Range",
+      "Central Cardamom Protected Forest",
+      "Phnom Damrei"
+    ],
+    "province": "Koh Kong",
+    "province_kh": "កោះកុង",
+    "district": "Koh Kong",
+    "district_kh": "កោះកុង",
+    "commune": "Koh Kong",
+    "commune_kh": "កោះកុង",
+    "latitude": 11.65,
+    "longitude": 103.5,
+    "search_keywords": [
+      "cardamom mountains",
+      "cardamom forest",
+      "phnom damrei",
+      "koh kong nature"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.65,103.5",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025117,
+    "province_code": "KOH",
+    "province_refs_POSTCODE": "09"
+  },
+  {
+    "id": 11390,
+    "market": "Ream National Park",
+    "market_kh": "ឧទ្យានជាតិរាំ",
+    "object_type": "landmark",
+    "aliases": [
+      "Ream National Park",
+      "Ream Beach",
+      "Sihanoukville National Park"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Preah Sihanouk",
+    "district_kh": "ព្រះសីហនុ",
+    "commune": "Preaek Tnaot",
+    "commune_kh": "ព្រែកត្នោត",
+    "latitude": 10.4934,
+    "longitude": 103.8215,
+    "search_keywords": [
+      "ream national park",
+      "ream beach",
+      "sihanoukville national park"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.4934,103.8215",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11391,
+    "market": "Phnom Kulen National Park",
+    "market_kh": "ឧទ្យានជាតិភ្នំគូលែន",
+    "object_type": "landmark",
+    "aliases": [
+      "Phnom Kulen",
+      "Kulen Mountain",
+      "Kbal Spean River of 1000 Lingas"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Phnom Kulen",
+    "commune_kh": "ភ្នំគូលែន",
+    "latitude": 13.5832,
+    "longitude": 103.9843,
+    "search_keywords": [
+      "phnom kulen",
+      "kulen mountain",
+      "kbal spean",
+      "siem reap mountain"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.5832,103.9843",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11392,
+    "market": "Kirirom National Park",
+    "market_kh": "ឧទ្យានជាតិគិរីរម្យ",
+    "object_type": "landmark",
+    "aliases": [
+      "Kirirom National Park",
+      "Kirirom Mountain",
+      "Kiriroth"
+    ],
+    "province": "Kampong Speu",
+    "province_kh": "កំពង់ស្ពឺ",
+    "district": "Thpong",
+    "district_kh": "ថ្ពង",
+    "commune": "Kirirom",
+    "commune_kh": "គិរីរម្យ",
+    "latitude": 11.3439,
+    "longitude": 104.08,
+    "search_keywords": [
+      "kirirom national park",
+      "kirirom mountain",
+      "kampong speu mountain"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.3439,104.08",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025113,
+    "province_code": "SPE",
+    "province_refs_POSTCODE": "05"
+  },
+  {
+    "id": 11393,
+    "market": "Phnom Penh Riverside Promenade",
+    "market_kh": "មហាវិថីព្រះស៊ុបហានុ",
+    "object_type": "landmark",
+    "aliases": [
+      "Riverside Promenade",
+      "Phnom Penh Riverfront",
+      "Sisowath Quay",
+      "Riverside Phnom Penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Srah Chak",
+    "commune_kh": "ស្រះចាក",
+    "latitude": 11.5657,
+    "longitude": 104.9313,
+    "search_keywords": [
+      "riverside promenade",
+      "sisowath quay",
+      "riverfront phnom penh",
+      "mekong river front"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5657,104.9313",
+    "source": "curated_landmark",
+    "confidence": 90,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11394,
+    "market": "Bamboo Bridge - Kampong Cham",
+    "market_kh": "ស្ពានឫស្សី",
+    "object_type": "landmark",
+    "aliases": [
+      "Bamboo Bridge Kampong Cham",
+      "Koh Pen Bamboo Bridge"
+    ],
+    "province": "Kampong Cham",
+    "province_kh": "កំពង់ចាម",
+    "district": "Kampong Cham",
+    "district_kh": "កំពង់ចាម",
+    "commune": "Kampong Cham",
+    "commune_kh": "កំពង់ចាម",
+    "latitude": 12.0017,
+    "longitude": 105.468,
+    "search_keywords": [
+      "bamboo bridge",
+      "kampong cham bridge",
+      "koh pen bridge"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.0017,105.468",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025111,
+    "province_code": "CHA",
+    "province_refs_POSTCODE": "03"
+  },
+  {
+    "id": 11395,
+    "market": "Virachey National Park",
+    "market_kh": "ឧទ្យានជាតិវីរជ័យ",
+    "object_type": "landmark",
+    "aliases": [
+      "Virachey Park",
+      "Ratanakiri National Park"
+    ],
+    "province": "Ratanakiri",
+    "province_kh": "រតនគិរី",
+    "district": "Voen Sai",
+    "district_kh": "វើនស្អៃ",
+    "commune": "Ta Veng",
+    "commune_kh": "តាវែង",
+    "latitude": 14.0833,
+    "longitude": 107.0833,
+    "search_keywords": [
+      "virachey national park",
+      "ratanakiri park",
+      "northeast cambodia park"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=14.0833,107.0833",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025124,
+    "province_code": "ROT",
+    "province_refs_POSTCODE": "16"
+  },
+  {
+    "id": 11396,
+    "market": "Preah Monivong (Bokor) Hill Station",
+    "market_kh": "ស្ថានីយ៍ភ្នំបូកគោ",
+    "object_type": "landmark",
+    "aliases": [
+      "Bokor Hill Station",
+      "Bokor Old French Casino",
+      "Wat Sampov Pram"
+    ],
+    "province": "Kampot",
+    "province_kh": "កំពត",
+    "district": "Tuek Chhou",
+    "district_kh": "ទឹកឈូ",
+    "commune": "Phsar Riang",
+    "commune_kh": "ផ្សាររាំង",
+    "latitude": 10.635,
+    "longitude": 104.0275,
+    "search_keywords": [
+      "bokor hill station",
+      "old casino bokor",
+      "french colonial bokor"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.635,104.0275",
+    "source": "curated_landmark",
+    "confidence": 85,
+    "is_verified": true,
+    "province_id": 4025115,
+    "province_code": "KAM",
+    "province_refs_POSTCODE": "07"
+  },
+  {
+    "id": 11400,
+    "market": "AEON Mall 1 Sen Sok",
+    "market_kh": "ห้างAEON Mall ១ (សែនសុខ)",
+    "object_type": "mall",
+    "aliases": [
+      "AEON Mall Sen Sok",
+      "AEON 1",
+      "Aeon Mall Phnom Penh 1"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Sen Sok",
+    "district_kh": "សែនសុខ",
+    "commune": "Phnom Penh Thmei",
+    "commune_kh": "ភ្នំពេញថ្មី",
+    "latitude": 11.5883,
+    "longitude": 104.9061,
+    "search_keywords": [
+      "aeon mall 1",
+      "aeon mall sen sok",
+      "aeon phnom penh shopping"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5883,104.9061",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11401,
+    "market": "AEON Mall 2 (Mean Chey)",
+    "market_kh": "ห้างAEON Mall ២ (មានជ័យ)",
+    "object_type": "mall",
+    "aliases": [
+      "AEON Mall 2",
+      "AEON 2 Mean Chey",
+      "Aeon Southbridge"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Mean Chey",
+    "district_kh": "មានជ័យ",
+    "commune": "Steung Meanchey 1",
+    "commune_kh": "ស្ទឹងមានជ័យ ១",
+    "latitude": 11.5178,
+    "longitude": 104.91,
+    "search_keywords": [
+      "aeon mall 2",
+      "aeon mean chey",
+      "aeon southbridge phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5178,104.91",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11402,
+    "market": "Chip Mong 271 Mega Mall",
+    "market_kh": "ห้างChip Mong 271",
+    "object_type": "mall",
+    "aliases": [
+      "Chip Mong 271",
+      "CM 271 Mall",
+      "271 Mega Mall"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Tuol Kork",
+    "district_kh": "ទួលគោក",
+    "commune": "Tuek L'ak 1",
+    "commune_kh": "ទឹកល្អក់ ១",
+    "latitude": 11.5588,
+    "longitude": 104.8622,
+    "search_keywords": [
+      "chip mong 271",
+      "cm 271",
+      "chip mong mall phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5588,104.8622",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11403,
+    "market": "Chip Mong Noro Mall",
+    "market_kh": "ห้างChip Mong Noro",
+    "object_type": "mall",
+    "aliases": [
+      "Chip Mong Noro",
+      "Noro Mall",
+      "CM Noro"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Sen Sok",
+    "district_kh": "សែនសុខ",
+    "commune": "Phnom Penh Thmei",
+    "commune_kh": "ភ្នំពេញថ្មី",
+    "latitude": 11.5897,
+    "longitude": 104.9218,
+    "search_keywords": [
+      "chip mong noro",
+      "noro mall",
+      "chip mong shopping"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5897,104.9218",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11404,
+    "market": "Olympia Mall Phnom Penh",
+    "market_kh": "ห้าง Olympia City",
+    "object_type": "mall",
+    "aliases": [
+      "Olympia Mall",
+      "Olympia City Mall",
+      "Olympia Shopping"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Prampir Meakkara",
+    "district_kh": "ប្រាំពីរមករា",
+    "commune": "Orussey 4",
+    "commune_kh": "អូរឫស្សី ៤",
+    "latitude": 11.5573,
+    "longitude": 104.9258,
+    "search_keywords": [
+      "olympia mall",
+      "olympia city",
+      "phnom penh mall"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5573,104.9258",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11405,
+    "market": "Sorya Shopping Center",
+    "market_kh": "ห้างSorya",
+    "object_type": "mall",
+    "aliases": [
+      "Sorya Shopping",
+      "Sorya Mall",
+      "Sorya Center"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Thmei 3",
+    "commune_kh": "ផ្សារថ្មី ៣",
+    "latitude": 11.5666,
+    "longitude": 104.9173,
+    "search_keywords": [
+      "sorya shopping center",
+      "sorya mall",
+      "sorya phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5666,104.9173",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11406,
+    "market": "Parkson Phnom Penh City Center",
+    "market_kh": "ห้างParkson",
+    "object_type": "mall",
+    "aliases": [
+      "Parkson",
+      "Parkson Mall",
+      "Paragon Mall Phnom Penh",
+      "Phnom Penh City Center Mall"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Thmei 2",
+    "commune_kh": "ផ្សារថ្មី ២",
+    "latitude": 11.569,
+    "longitude": 104.9257,
+    "search_keywords": [
+      "parkson mall",
+      "paragon mall",
+      "phnom penh city center mall"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.569,104.9257",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11407,
+    "market": "TK Avenue Mall",
+    "market_kh": "ห้าง TK Avenue",
+    "object_type": "mall",
+    "aliases": [
+      "TK Avenue",
+      "TK Mall",
+      "TK Shopping Center"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5694,
+    "longitude": 104.9448,
+    "search_keywords": [
+      "tk avenue",
+      "tk mall",
+      "chamkar mon mall"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5694,104.9448",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11408,
+    "market": "ISETAN The Gardens Mall (Koh Pich)",
+    "market_kh": "ห้าง ISETAN",
+    "object_type": "mall",
+    "aliases": [
+      "Koh Pich Mall",
+      "Diamond Island Mall",
+      "ISETAN Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5467,
+    "longitude": 104.9333,
+    "search_keywords": [
+      "koh pich mall",
+      "diamond island mall",
+      "isetan cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5467,104.9333",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11409,
+    "market": "Siem Reap Crown Plaza Mall",
+    "market_kh": "ห้าง Siem Reap Mall",
+    "object_type": "mall",
+    "aliases": [
+      "Siem Reap Mall",
+      "Crown Plaza Siem Reap",
+      "Angkor Night Market"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Svay Dankum",
+    "commune_kh": "ស្វាយដង្គំ",
+    "latitude": 13.3671,
+    "longitude": 103.8608,
+    "search_keywords": [
+      "siem reap mall",
+      "angkor night market",
+      "siem reap shopping"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3671,103.8608",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11420,
+    "market": "Phnom Penh Sorya Bus Station",
+    "market_kh": "ស្ថានីយ៍ Sorya",
+    "object_type": "bus_station",
+    "aliases": [
+      "Sorya Bus Station",
+      "Sorya Transport",
+      "PP Sorya Bus"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.566,
+    "longitude": 104.9193,
+    "search_keywords": [
+      "sorya bus station",
+      "phnom penh bus",
+      "sorya transport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.566,104.9193",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11421,
+    "market": "Capitol Bus Terminal Phnom Penh",
+    "market_kh": "ស្ថានីយ៍ Capitol",
+    "object_type": "bus_station",
+    "aliases": [
+      "Capitol Bus",
+      "Capitol Transport",
+      "Capitol Bus Terminal"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Kandal 1",
+    "commune_kh": "ផ្សារកណ្ដាល ១",
+    "latitude": 11.5659,
+    "longitude": 104.9213,
+    "search_keywords": [
+      "capitol bus",
+      "capitol transport phnom penh",
+      "cambodia bus terminal"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5659,104.9213",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11422,
+    "market": "Giant Ibis Bus Phnom Penh",
+    "market_kh": "ស្ថានីយ៍ Giant Ibis",
+    "object_type": "bus_station",
+    "aliases": [
+      "Giant Ibis",
+      "Giant Ibis Transport",
+      "Giant Ibis Bus Terminal"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 1",
+    "commune_kh": "ទួលស្វាយព្រៃ ១",
+    "latitude": 11.5539,
+    "longitude": 104.9229,
+    "search_keywords": [
+      "giant ibis bus",
+      "giant ibis phnom penh",
+      "giant ibis transport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5539,104.9229",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11423,
+    "market": "Mekong Express Bus Terminal",
+    "market_kh": "ស្ថានីយ៍ Mekong Express",
+    "object_type": "bus_station",
+    "aliases": [
+      "Mekong Express",
+      "Mekong Express Bus",
+      "Mekong Bus Terminal"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5571,
+    "longitude": 104.9289,
+    "search_keywords": [
+      "mekong express bus",
+      "mekong express phnom penh",
+      "vietnam bus cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5571,104.9289",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11424,
+    "market": "Virak Buntham Bus Station",
+    "market_kh": "ស្ថានីយ៍ Virak Buntham",
+    "object_type": "bus_station",
+    "aliases": [
+      "Virak Buntham",
+      "Virak Bus",
+      "Virak Buntham Transport"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 1",
+    "commune_kh": "ទួលស្វាយព្រៃ ១",
+    "latitude": 11.5553,
+    "longitude": 104.9208,
+    "search_keywords": [
+      "virak buntham bus",
+      "virak bus phnom penh",
+      "virak transport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5553,104.9208",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11425,
+    "market": "Phnom Penh Train Station",
+    "market_kh": "ស្ថានីយ៍រថភ្លើង",
+    "object_type": "bus_station",
+    "aliases": [
+      "Phnom Penh Railway Station",
+      "Train Station PP",
+      "Royal Railway Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Kandal 1",
+    "commune_kh": "ផ្សារកណ្ដាល ១",
+    "latitude": 11.5637,
+    "longitude": 104.9261,
+    "search_keywords": [
+      "phnom penh train station",
+      "cambodia railway",
+      "royal railway"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5637,104.9261",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11426,
+    "market": "Siem Reap Bus Station",
+    "market_kh": "ស្ថានីយ៍ Siem Reap",
+    "object_type": "bus_station",
+    "aliases": [
+      "Siem Reap Bus Terminal",
+      "SR Bus Station"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Svay Dankum",
+    "commune_kh": "ស្វាយដង្គំ",
+    "latitude": 13.3601,
+    "longitude": 103.8578,
+    "search_keywords": [
+      "siem reap bus station",
+      "siem reap transport",
+      "angkor bus station"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3601,103.8578",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11427,
+    "market": "Battambang Bus Station",
+    "market_kh": "ស្ថានីយ៍ Battambang",
+    "object_type": "bus_station",
+    "aliases": [
+      "Battambang Bus Terminal",
+      "BTB Bus Station"
+    ],
+    "province": "Battambang",
+    "province_kh": "បាត់ដំបង",
+    "district": "Battambang",
+    "district_kh": "បាត់ដំបង",
+    "commune": "Battambang",
+    "commune_kh": "បាត់ដំបង",
+    "latitude": 13.0942,
+    "longitude": 103.1995,
+    "search_keywords": [
+      "battambang bus station",
+      "battambang transport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.0942,103.1995",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
+  },
+  {
+    "id": 11428,
+    "market": "Sihanoukville Bus Station",
+    "market_kh": "ស្ថានីយ៍ Sihanoukville",
+    "object_type": "bus_station",
+    "aliases": [
+      "Sihanoukville Bus Terminal",
+      "Kampong Som Bus Station"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Mittapheap",
+    "commune_kh": "មិត្តភាព",
+    "latitude": 10.6216,
+    "longitude": 103.5107,
+    "search_keywords": [
+      "sihanoukville bus station",
+      "kampong som bus",
+      "kompong som transport"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6216,103.5107",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11440,
+    "market": "Poipet International Border Checkpoint",
+    "market_kh": "ច្រកព្រំដែនអន្តរជាតិប៉ោយប៉ែត",
+    "object_type": "border",
+    "aliases": [
+      "Poipet Border",
+      "Poipet Thailand Border",
+      "Aranya Prathet Border",
+      "คอมเพล็กซ์ปอยเปต"
+    ],
+    "province": "Banteay Meanchey",
+    "province_kh": "បន្ទាយមានជ័យ",
+    "district": "Paoy Paet",
+    "district_kh": "ប៉ោយប៉ែត",
+    "commune": "Poipet",
+    "commune_kh": "ប៉ោយប៉ែត",
+    "latitude": 13.6546,
+    "longitude": 102.5589,
+    "search_keywords": [
+      "poipet border",
+      "poipet thailand border",
+      "aranya prathet border",
+      "cambodia thailand crossing"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.6546,102.5589",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025109,
+    "province_code": "BAN",
+    "province_refs_POSTCODE": "01"
+  },
+  {
+    "id": 11441,
+    "market": "Bavet International Border Checkpoint",
+    "market_kh": "ច្រកព្រំដែនអន្តរជាតិបាវែត",
+    "object_type": "border",
+    "aliases": [
+      "Bavet Border",
+      "Bavet Vietnam Border",
+      "Moc Bai Border",
+      "Bavet Moc Bai"
+    ],
+    "province": "Svay Rieng",
+    "province_kh": "ស្វាយរៀង",
+    "district": "Bavet",
+    "district_kh": "បាវែត",
+    "commune": "Bavet",
+    "commune_kh": "បាវែត",
+    "latitude": 11.1054,
+    "longitude": 106.0077,
+    "search_keywords": [
+      "bavet border",
+      "bavet vietnam border",
+      "moc bai border",
+      "cambodia vietnam crossing"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.1054,106.0077",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025128,
+    "province_code": "SVA",
+    "province_refs_POSTCODE": "20"
+  },
+  {
+    "id": 11442,
+    "market": "Koh Kong Border Checkpoint (Cham Yeam)",
+    "market_kh": "ច្រកព្រំដែន ចាំយ៉ាម",
+    "object_type": "border",
+    "aliases": [
+      "Koh Kong Border",
+      "Cham Yeam",
+      "Hat Lek Border",
+      "Thailand Koh Kong Border"
+    ],
+    "province": "Koh Kong",
+    "province_kh": "កោះកុង",
+    "district": "Koh Kong",
+    "district_kh": "កោះកុង",
+    "commune": "Cham Yeam",
+    "commune_kh": "ចាំយ៉ាម",
+    "latitude": 11.6197,
+    "longitude": 102.974,
+    "search_keywords": [
+      "koh kong border",
+      "cham yeam border",
+      "hat lek border",
+      "thailand cambodia koh kong"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.6197,102.974",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025117,
+    "province_code": "KOH",
+    "province_refs_POSTCODE": "09"
+  },
+  {
+    "id": 11443,
+    "market": "Psar Pruhm Border Checkpoint",
+    "market_kh": "ច្រកព្រំដែន ផ្សារព្រហ្ម",
+    "object_type": "border",
+    "aliases": [
+      "Psar Pruhm",
+      "Ban Laem Border",
+      "Battambang Thailand Border"
+    ],
+    "province": "Battambang",
+    "province_kh": "បាត់ដំបង",
+    "district": "Sampov Meas",
+    "district_kh": "សំពៅមាស",
+    "commune": "Psar Pruhm",
+    "commune_kh": "ផ្សារព្រហ្ម",
+    "latitude": 12.7168,
+    "longitude": 102.7,
+    "search_keywords": [
+      "psar pruhm border",
+      "ban laem border",
+      "battambang thailand border"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.7168,102.7",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025110,
+    "province_code": "BAT",
+    "province_refs_POSTCODE": "02"
+  },
+  {
+    "id": 11444,
+    "market": "Phnom Den Border Checkpoint (Vietnam)",
+    "market_kh": "ច្រកព្រំដែន ភ្នំដែន",
+    "object_type": "border",
+    "aliases": [
+      "Phnom Den Border",
+      "Vietnam Takeo Border",
+      "Tinh Bien Border"
+    ],
+    "province": "Takeo",
+    "province_kh": "តាកែវ",
+    "district": "Kirivong",
+    "district_kh": "គិរីវង្ស",
+    "commune": "Phnom Den",
+    "commune_kh": "ភ្នំដែន",
+    "latitude": 10.4856,
+    "longitude": 104.8197,
+    "search_keywords": [
+      "phnom den border",
+      "takeo vietnam border",
+      "tinh bien border"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.4856,104.8197",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025129,
+    "province_code": "TAK",
+    "province_refs_POSTCODE": "21"
+  },
+  {
+    "id": 11445,
+    "market": "O'Smach Border Checkpoint (Thailand)",
+    "market_kh": "ច្រកព្រំដែន អូស្ម៉ាច",
+    "object_type": "border",
+    "aliases": [
+      "O'Smach Border",
+      "Osmach Thailand Border"
+    ],
+    "province": "Oddar Meanchey",
+    "province_kh": "ឧត្តរមានជ័យ",
+    "district": "Samraong",
+    "district_kh": "សំរោង",
+    "commune": "O'Smach",
+    "commune_kh": "អូស្ម៉ាច",
+    "latitude": 14.1525,
+    "longitude": 103.5189,
+    "search_keywords": [
+      "o smach border",
+      "osmach thailand border",
+      "oddar meanchey border"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=14.1525,103.5189",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025130,
+    "province_code": "ODD",
+    "province_refs_POSTCODE": "22"
+  },
+  {
+    "id": 11446,
+    "market": "Tropaeng Phlong Border (Vietnam)",
+    "market_kh": "ច្រកព្រំដែន ត្រពាំងភ្លង",
+    "object_type": "border",
+    "aliases": [
+      "Tropaeng Phlong Border",
+      "Tboung Khmum Vietnam Border"
+    ],
+    "province": "Tboung Khmum",
+    "province_kh": "ត្បូងឃ្មុំ",
+    "district": "Memot",
+    "district_kh": "មមោត",
+    "commune": "Tropaeng Phlong",
+    "commune_kh": "ត្រពាំងភ្លង",
+    "latitude": 12.0167,
+    "longitude": 106.0167,
+    "search_keywords": [
+      "tropaeng phlong border",
+      "tboung khmum vietnam border"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.0167,106.0167",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025133,
+    "province_code": "TBK",
+    "province_refs_POSTCODE": "25"
+  },
+  {
+    "id": 11460,
+    "market": "National Assembly of Cambodia",
+    "market_kh": "រដ្ឋសភា",
+    "object_type": "government",
+    "aliases": [
+      "National Assembly",
+      "Cambodia Parliament",
+      "Radhsabha"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5631,
+    "longitude": 104.9282,
+    "search_keywords": [
+      "national assembly cambodia",
+      "cambodia parliament",
+      "radhsabha"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5631,104.9282",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11461,
+    "market": "Senate of Cambodia",
+    "market_kh": "ព្រឹទ្ធសភា",
+    "object_type": "government",
+    "aliases": [
+      "Senate Cambodia",
+      "Pruethsabha",
+      "Upper House Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Wat Phnom",
+    "commune_kh": "វត្តភ្នំ",
+    "latitude": 11.5658,
+    "longitude": 104.9192,
+    "search_keywords": [
+      "senate cambodia",
+      "pruethsabha",
+      "upper house cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5658,104.9192",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11462,
+    "market": "Council of Ministers",
+    "market_kh": "ក្រុមមន្ត្រីស្ដីពីការប្រជុំ",
+    "object_type": "government",
+    "aliases": [
+      "Council of Ministers",
+      "Prime Minister Office Cambodia",
+      "Government Palace"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5697,
+    "longitude": 104.9319,
+    "search_keywords": [
+      "council ministers cambodia",
+      "prime minister office",
+      "government palace phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5697,104.9319",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11463,
+    "market": "Ministry of Interior Cambodia",
+    "market_kh": "ក្រសួងមហាផ្ទៃ",
+    "object_type": "government",
+    "aliases": [
+      "Ministry of Interior",
+      "MOI Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5704,
+    "longitude": 104.9241,
+    "search_keywords": [
+      "ministry interior cambodia",
+      "moi cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5704,104.9241",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11464,
+    "market": "Ministry of Health Cambodia",
+    "market_kh": "ក្រសួងសុខាភិបាល",
+    "object_type": "government",
+    "aliases": [
+      "Ministry of Health",
+      "MOH Cambodia",
+      "Cambodia Health Ministry"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Tuol Kork",
+    "district_kh": "ទួលគោក",
+    "commune": "Tuek L'ak 1",
+    "commune_kh": "ទឹកល្អក់ ១",
+    "latitude": 11.578,
+    "longitude": 104.9222,
+    "search_keywords": [
+      "ministry health cambodia",
+      "moh cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.578,104.9222",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11465,
+    "market": "Ministry of Foreign Affairs Cambodia",
+    "market_kh": "ក្រសួងការបរទេស",
+    "object_type": "government",
+    "aliases": [
+      "Ministry of Foreign Affairs",
+      "MOFA Cambodia",
+      "Foreign Ministry Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Wat Phnom",
+    "commune_kh": "វត្តភ្នំ",
+    "latitude": 11.5731,
+    "longitude": 104.9266,
+    "search_keywords": [
+      "ministry foreign affairs cambodia",
+      "mofa cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5731,104.9266",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11466,
+    "market": "Ministry of Commerce Cambodia",
+    "market_kh": "ក្រសួងពាណិជ្ជកម្ម",
+    "object_type": "government",
+    "aliases": [
+      "Ministry of Commerce",
+      "MOC Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5643,
+    "longitude": 104.9233,
+    "search_keywords": [
+      "ministry commerce cambodia",
+      "moc cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5643,104.9233",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11470,
+    "market": "Phnom Penh Special Economic Zone (PPSEZ)",
+    "market_kh": "តំបន់សេដ្ឋកិច្ចពិសេស ភ្នំពេញ",
+    "object_type": "commercial_building",
+    "aliases": [
+      "PPSEZ",
+      "Phnom Penh SEZ",
+      "Phnom Penh Industrial Zone"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Por Sen Chey",
+    "district_kh": "ពោធិ៍សែនជ័យ",
+    "commune": "Kamboul",
+    "commune_kh": "កំបោល",
+    "latitude": 11.5294,
+    "longitude": 104.8322,
+    "search_keywords": [
+      "ppsez",
+      "phnom penh special economic zone",
+      "industrial zone phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5294,104.8322",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11471,
+    "market": "Sihanoukville Special Economic Zone (SSEZ)",
+    "market_kh": "តំបន់សេដ្ឋកិច្ចពិសេស ព្រះសីហនុ",
+    "object_type": "commercial_building",
+    "aliases": [
+      "SSEZ",
+      "Sihanoukville SEZ",
+      "Kampong Som SEZ"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Prey Nob",
+    "district_kh": "ព្រៃនប់",
+    "commune": "Prey Nob",
+    "commune_kh": "ព្រៃនប់",
+    "latitude": 10.6517,
+    "longitude": 103.7181,
+    "search_keywords": [
+      "ssez",
+      "sihanoukville special economic zone",
+      "kampong som industrial zone"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6517,103.7181",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11472,
+    "market": "Bavet Special Economic Zone",
+    "market_kh": "តំបន់សេដ្ឋកិច្ចពិសេស បាវែត",
+    "object_type": "commercial_building",
+    "aliases": [
+      "Bavet SEZ",
+      "Svay Rieng SEZ",
+      "Vietnam Border SEZ"
+    ],
+    "province": "Svay Rieng",
+    "province_kh": "ស្វាយរៀង",
+    "district": "Bavet",
+    "district_kh": "បាវែត",
+    "commune": "Bavet",
+    "commune_kh": "បាវែត",
+    "latitude": 11.1067,
+    "longitude": 106.0107,
+    "search_keywords": [
+      "bavet special economic zone",
+      "bavet sez",
+      "svay rieng industrial zone"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.1067,106.0107",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025128,
+    "province_code": "SVA",
+    "province_refs_POSTCODE": "20"
+  },
+  {
+    "id": 11473,
+    "market": "Canadia Industrial Park",
+    "market_kh": "ឧស្សាហូបនីយដ្ឋានខាណាឌា",
+    "object_type": "commercial_building",
+    "aliases": [
+      "Canadia Industrial Park",
+      "Canadia Park",
+      "Cambodia Industrial Park Canadia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Por Sen Chey",
+    "district_kh": "ពោធិ៍សែនជ័យ",
+    "commune": "Kakab 1",
+    "commune_kh": "កាកប ១",
+    "latitude": 11.5287,
+    "longitude": 104.8414,
+    "search_keywords": [
+      "canadia industrial park",
+      "canadia park",
+      "phnom penh industrial"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5287,104.8414",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11480,
+    "market": "Olympic National Stadium",
+    "market_kh": "ប្រជុំកីឡាដ្ឋានជាតិ",
+    "object_type": "stadium",
+    "aliases": [
+      "National Stadium Cambodia",
+      "Olympic Stadium",
+      "Phnom Penh Stadium"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.558,
+    "longitude": 104.9222,
+    "search_keywords": [
+      "national stadium cambodia",
+      "olympic stadium phnom penh",
+      "cambodia stadium"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.558,104.9222",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11481,
+    "market": "Morodok Techo National Stadium",
+    "market_kh": "ស្ទ័រ ម",
+    "object_type": "stadium",
+    "aliases": [
+      "Morodok Techo Stadium",
+      "National Stadium New",
+      "SEAGAMES Stadium Cambodia 2023"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Por Sen Chey",
+    "district_kh": "ពោធិ៍សែនជ័យ",
+    "commune": "Kakab 1",
+    "commune_kh": "កាកប ១",
+    "latitude": 11.5099,
+    "longitude": 104.8528,
+    "search_keywords": [
+      "morodok techo stadium",
+      "new national stadium cambodia",
+      "seagames 2023 stadium"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5099,104.8528",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11490,
+    "market": "ABA Bank Head Office",
+    "market_kh": "ធនាគារABA",
+    "object_type": "bank",
+    "aliases": [
+      "ABA Bank",
+      "Advanced Bank of Asia",
+      "ABA Head Office"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Boeung Keng Kang 1",
+    "commune_kh": "បឹងកេងកង ១",
+    "latitude": 11.5532,
+    "longitude": 104.922,
+    "search_keywords": [
+      "aba bank phnom penh",
+      "aba head office",
+      "advanced bank asia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5532,104.922",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11491,
+    "market": "ACLEDA Bank Head Office",
+    "market_kh": "ធនាគារACLEDA",
+    "object_type": "bank",
+    "aliases": [
+      "ACLEDA Bank",
+      "ACLEDA Head Office",
+      "Cambodia ACLEDA"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5628,
+    "longitude": 104.9232,
+    "search_keywords": [
+      "acleda bank phnom penh",
+      "acleda head office",
+      "cambodia acleda bank"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5628,104.9232",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11492,
+    "market": "Canadia Bank Head Office",
+    "market_kh": "ធនាគារ ខាណាឌ",
+    "object_type": "bank",
+    "aliases": [
+      "Canadia Bank",
+      "Canadia Head Office"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Thmei 2",
+    "commune_kh": "ផ្សារថ្មី ២",
+    "latitude": 11.5697,
+    "longitude": 104.9269,
+    "search_keywords": [
+      "canadia bank phnom penh",
+      "canadia bank head office"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5697,104.9269",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11493,
+    "market": "Wing Money Head Office",
+    "market_kh": "Wing Money",
+    "object_type": "bank",
+    "aliases": [
+      "Wing Money",
+      "Wing Bank Cambodia",
+      "Wing Cash Express"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 1",
+    "commune_kh": "ទួលស្វាយព្រៃ ១",
+    "latitude": 11.5538,
+    "longitude": 104.9222,
+    "search_keywords": [
+      "wing money cambodia",
+      "wing bank",
+      "wing cash"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5538,104.9222",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11500,
+    "market": "Raffles Hotel Le Royal",
+    "market_kh": "Raffles Hotel Le Royal",
+    "object_type": "landmark",
+    "aliases": [
+      "Raffles Hotel",
+      "Le Royal Hotel",
+      "Raffles Le Royal",
+      "5 star hotel phnom penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5698,
+    "longitude": 104.9249,
+    "search_keywords": [
+      "raffles hotel phnom penh",
+      "le royal hotel",
+      "luxury hotel phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5698,104.9249",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11501,
+    "market": "Sofitel Phnom Penh Phokeethra",
+    "market_kh": "Sofitel Phnom Penh",
+    "object_type": "landmark",
+    "aliases": [
+      "Sofitel Phnom Penh",
+      "Sofitel Hotel Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5477,
+    "longitude": 104.9314,
+    "search_keywords": [
+      "sofitel phnom penh",
+      "sofitel hotel cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5477,104.9314",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11502,
+    "market": "Hyatt Regency Siem Reap",
+    "market_kh": "Hyatt Regency Siem Reap",
+    "object_type": "landmark",
+    "aliases": [
+      "Hyatt Siem Reap",
+      "Hyatt Regency Angkor"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Svay Dankum",
+    "commune_kh": "ស្វាយដង្គំ",
+    "latitude": 13.3622,
+    "longitude": 103.8591,
+    "search_keywords": [
+      "hyatt siem reap",
+      "hyatt regency angkor",
+      "luxury hotel siem reap"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3622,103.8591",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11503,
+    "market": "Sokha Beach Resort Sihanoukville",
+    "market_kh": "Sokha Beach Resort",
+    "object_type": "landmark",
+    "aliases": [
+      "Sokha Resort",
+      "Sokha Beach",
+      "Sokha Hotel Sihanoukville"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Buon",
+    "commune_kh": "ប៊ន",
+    "latitude": 10.6217,
+    "longitude": 103.5073,
+    "search_keywords": [
+      "sokha beach resort",
+      "sokha hotel sihanoukville",
+      "sokha resort cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6217,103.5073",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11504,
+    "market": "Phokeethra Country Club Siem Reap",
+    "market_kh": "Phokeethra Country Club",
+    "object_type": "landmark",
+    "aliases": [
+      "Phokeethra Country Club",
+      "Golf Club Siem Reap"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Angkor Chum",
+    "commune_kh": "អង្គរជុំ",
+    "latitude": 13.3949,
+    "longitude": 103.8232,
+    "search_keywords": [
+      "phokeethra country club",
+      "siem reap golf",
+      "country club angkor"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3949,103.8232",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11510,
+    "market": "Embassy of the United States",
+    "market_kh": "សណ្ឋាគារ",
+    "object_type": "government",
+    "aliases": [
+      "US Embassy Cambodia",
+      "American Embassy Phnom Penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5501,
+    "longitude": 104.931,
+    "search_keywords": [
+      "us embassy cambodia",
+      "american embassy phnom penh",
+      "united states embassy"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5501,104.931",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11511,
+    "market": "Embassy of China",
+    "market_kh": "ស្ថានទូតចិន",
+    "object_type": "government",
+    "aliases": [
+      "China Embassy Cambodia",
+      "Chinese Embassy Phnom Penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5499,
+    "longitude": 104.9295,
+    "search_keywords": [
+      "china embassy cambodia",
+      "chinese embassy phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5499,104.9295",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11512,
+    "market": "Embassy of France",
+    "market_kh": "ស្ថានទូតបារាំង",
+    "object_type": "government",
+    "aliases": [
+      "French Embassy Cambodia",
+      "Embassy France Phnom Penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Wat Phnom",
+    "commune_kh": "វត្តភ្នំ",
+    "latitude": 11.5706,
+    "longitude": 104.9232,
+    "search_keywords": [
+      "french embassy cambodia",
+      "france embassy phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5706,104.9232",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11513,
+    "market": "Embassy of Japan",
+    "market_kh": "ស្ថានទូតជប៉ុន",
+    "object_type": "government",
+    "aliases": [
+      "Japanese Embassy Cambodia",
+      "Japan Embassy Phnom Penh"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Toul Svay Prey 1",
+    "commune_kh": "ទួលស្វាយព្រៃ ១",
+    "latitude": 11.5537,
+    "longitude": 104.9165,
+    "search_keywords": [
+      "japanese embassy cambodia",
+      "japan embassy phnom penh"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5537,104.9165",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11520,
+    "market": "Silver Pagoda (Wat Preah Keo)",
+    "market_kh": "វត្តព្រះកែវ",
+    "object_type": "pagoda",
+    "aliases": [
+      "Silver Pagoda",
+      "Wat Preah Keo",
+      "Emerald Buddha Temple",
+      "Temple of the Emerald Buddha Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5645,
+    "longitude": 104.9317,
+    "search_keywords": [
+      "silver pagoda",
+      "wat preah keo",
+      "royal palace pagoda",
+      "emerald buddha cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5645,104.9317",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11521,
+    "market": "Wat Ounalom",
+    "market_kh": "វត្តឧណ្ណាលោម",
+    "object_type": "pagoda",
+    "aliases": [
+      "Wat Ounalom",
+      "Ounalom Pagoda",
+      "Buddhism Headquarters Cambodia"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Daun Penh",
+    "district_kh": "ដូនពេញ",
+    "commune": "Phsar Chas",
+    "commune_kh": "ផ្សារចាស់",
+    "latitude": 11.5669,
+    "longitude": 104.9319,
+    "search_keywords": [
+      "wat ounalom",
+      "ounalom pagoda",
+      "cambodia buddhism headquarters"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5669,104.9319",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11522,
+    "market": "Wat Langka",
+    "market_kh": "វត្តឡង្កា",
+    "object_type": "pagoda",
+    "aliases": [
+      "Wat Lanka",
+      "Wat Langka",
+      "Langka Pagoda"
+    ],
+    "province": "Phnom Penh",
+    "province_kh": "ភ្នំពេញ",
+    "district": "Chamkar Mon",
+    "district_kh": "ចំការមន",
+    "commune": "Tonle Basak",
+    "commune_kh": "ទន្លេបាសាក់",
+    "latitude": 11.5568,
+    "longitude": 104.9289,
+    "search_keywords": [
+      "wat langka",
+      "langka pagoda",
+      "phnom penh pagoda"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=11.5568,104.9289",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025120,
+    "province_code": "PNP",
+    "province_refs_POSTCODE": "12"
+  },
+  {
+    "id": 11523,
+    "market": "Wat Bo Siem Reap",
+    "market_kh": "វត្តបូ",
+    "object_type": "pagoda",
+    "aliases": [
+      "Wat Bo",
+      "Siem Reap Pagoda"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Svay Dankum",
+    "commune_kh": "ស្វាយដង្គំ",
+    "latitude": 13.361,
+    "longitude": 103.864,
+    "search_keywords": [
+      "wat bo siem reap",
+      "siem reap pagoda"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.361,103.864",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11524,
+    "market": "Wat Damnak Siem Reap",
+    "market_kh": "វត្តដំណាក់",
+    "object_type": "pagoda",
+    "aliases": [
+      "Wat Damnak",
+      "Siem Reap Damnak Pagoda"
+    ],
+    "province": "Siem Reap",
+    "province_kh": "សៀមរាប",
+    "district": "Krong Siem Reap",
+    "district_kh": "ក្រុងសៀមរាប",
+    "commune": "Svay Dankum",
+    "commune_kh": "ស្វាយដង្គំ",
+    "latitude": 13.3642,
+    "longitude": 103.8595,
+    "search_keywords": [
+      "wat damnak siem reap",
+      "siem reap pagoda damnak"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=13.3642,103.8595",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025125,
+    "province_code": "SIE",
+    "province_refs_POSTCODE": "17"
+  },
+  {
+    "id": 11525,
+    "market": "Kampong Cham Wat Nokor",
+    "market_kh": "វត្តណ្ហូករ",
+    "object_type": "pagoda",
+    "aliases": [
+      "Wat Nokor",
+      "Nokor Bachey Temple",
+      "Kampong Cham Temple"
+    ],
+    "province": "Kampong Cham",
+    "province_kh": "កំពង់ចាម",
+    "district": "Kampong Cham",
+    "district_kh": "កំពង់ចាម",
+    "commune": "Kampong Cham",
+    "commune_kh": "កំពង់ចាម",
+    "latitude": 12.002,
+    "longitude": 105.4673,
+    "search_keywords": [
+      "wat nokor",
+      "nokor temple",
+      "kampong cham temple pagoda"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=12.002,105.4673",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025111,
+    "province_code": "CHA",
+    "province_refs_POSTCODE": "03"
+  },
+  {
+    "id": 11530,
+    "market": "Ochheuteal Beach",
+    "market_kh": "ពព",
+    "object_type": "landmark",
+    "aliases": [
+      "Ochheuteal Beach",
+      "Ocheuteal Beach",
+      "Serendipity Beach",
+      "Sihanoukville Beach"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Buon",
+    "commune_kh": "ប៊ន",
+    "latitude": 10.5886,
+    "longitude": 103.5238,
+    "search_keywords": [
+      "ochheuteal beach",
+      "serendipity beach",
+      "sihanoukville beach"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.5886,103.5238",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11531,
+    "market": "Sokha Beach",
+    "market_kh": "ស",
+    "object_type": "landmark",
+    "aliases": [
+      "Sokha Beach",
+      "Sihanoukville Sokha Beach"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Buon",
+    "commune_kh": "ប៊ន",
+    "latitude": 10.6217,
+    "longitude": 103.5073,
+    "search_keywords": [
+      "sokha beach",
+      "sihanoukville sokha beach"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6217,103.5073",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11532,
+    "market": "Victory Beach Sihanoukville",
+    "market_kh": "ជ័​",
+    "object_type": "landmark",
+    "aliases": [
+      "Victory Beach",
+      "Independence Beach Sihanoukville"
+    ],
+    "province": "Preah Sihanouk",
+    "province_kh": "ព្រះសីហនុ",
+    "district": "Mittapheap",
+    "district_kh": "មិត្តភាព",
+    "commune": "Buon",
+    "commune_kh": "ប៊ន",
+    "latitude": 10.6261,
+    "longitude": 103.5091,
+    "search_keywords": [
+      "victory beach",
+      "independence beach sihanoukville"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.6261,103.5091",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025126,
+    "province_code": "SIH",
+    "province_refs_POSTCODE": "18"
+  },
+  {
+    "id": 11533,
+    "market": "Koh Tonsay (Rabbit Island) - Kep",
+    "market_kh": "កោះទន្សាយ",
+    "object_type": "landmark",
+    "aliases": [
+      "Rabbit Island",
+      "Koh Tonsay",
+      "Kep Island"
+    ],
+    "province": "Kep",
+    "province_kh": "កែប",
+    "district": "Kep",
+    "district_kh": "កែប",
+    "commune": "Koh Tonsay",
+    "commune_kh": "កោះទន្សាយ",
+    "latitude": 10.4699,
+    "longitude": 104.2948,
+    "search_keywords": [
+      "rabbit island kep",
+      "koh tonsay",
+      "kep island cambodia"
+    ],
+    "google_maps_url": "https://www.google.com/maps?q=10.4699,104.2948",
+    "source": "curated_landmark",
+    "confidence": 100,
+    "is_verified": true,
+    "province_id": 4025131,
+    "province_code": "KEP",
+    "province_refs_POSTCODE": "23"
   }
 ]
