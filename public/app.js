@@ -825,13 +825,57 @@ function clientTranslateKhmerToEnglish(query) {
   return '';
 }
 
-// Helper to check if string contains lat/lng coordinates (e.g. "11.556, 104.928")
+// Helper to check if string contains lat/lng coordinates, DMS format, or embedded Google Maps URL
 function parseCoordinates(q) {
-  const match = q.match(/^[-+]?([1-9]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/);
-  if (match) {
-    const parts = q.split(',').map(num => parseFloat(num.trim()));
-    return { lat: parts[0], lng: parts[1] };
+  if (!q) return null;
+  const str = String(q).trim();
+
+  // 1. DMS (Degrees Minutes Seconds) format e.g. 11°33'26.7"N 104°55'18.8"E
+  const dmsPattern = /(\d+)[°\s]+(\d+)['′\s]+([\d.]+)(?:["″])?\s*([NSEW])\s*[,]?\s*(\d+)[°\s]+(\d+)['′\s]+([\d.]+)(?:["″])?\s*([NSEW])/i;
+  const dmsMatch = str.match(dmsPattern);
+  if (dmsMatch) {
+    let latDeg = parseFloat(dmsMatch[1]), latMin = parseFloat(dmsMatch[2]), latSec = parseFloat(dmsMatch[3]), latDir = dmsMatch[4].toUpperCase();
+    let lngDeg = parseFloat(dmsMatch[5]), lngMin = parseFloat(dmsMatch[6]), lngSec = parseFloat(dmsMatch[7]), lngDir = dmsMatch[8].toUpperCase();
+    let lat = latDeg + latMin / 60 + latSec / 3600;
+    if (latDir === 'S') lat = -lat;
+    let lng = lngDeg + lngMin / 60 + lngSec / 3600;
+    if (lngDir === 'W') lng = -lng;
+    return { lat, lng };
   }
+
+  // 2. Direct decimal coordinates match e.g. "11.556, 104.928" or "11.556 104.928"
+  const directMatch = str.match(/([-+]?\d+\.\d+)\s*[\s,]\s*([-+]?\d+\.\d+)/);
+  if (directMatch && !str.includes('http')) {
+    const lat = parseFloat(directMatch[1]);
+    const lng = parseFloat(directMatch[2]);
+    if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+      return { lat, lng };
+    }
+  }
+
+  // 3. Extract coordinates embedded in Google Maps URLs (0ms instant client parsing)
+  const urlExtractMatch = str.match(/https?:\/\/[^\s"'<>\\]+/i);
+  const targetUrl = urlExtractMatch ? urlExtractMatch[0] : str;
+
+  // !3d...!4d...
+  const matches3d4d = [...targetUrl.matchAll(/!3d([-+]?\d+\.\d+)!4d([-+]?\d+\.\d+)/g)];
+  if (matches3d4d.length > 0) {
+    const last = matches3d4d[matches3d4d.length - 1];
+    return { lat: parseFloat(last[1]), lng: parseFloat(last[2]) };
+  }
+
+  // @lat,lng
+  const atCoords = targetUrl.match(/@([-+]?\d+\.\d+),([-+]?\d+\.\d+)/);
+  if (atCoords) {
+    return { lat: parseFloat(atCoords[1]), lng: parseFloat(atCoords[2]) };
+  }
+
+  // q=lat,lng or query=lat,lng or ll=lat,lng or center=lat,lng
+  const qCoords = targetUrl.match(/[?&](?:q|query|ll|center)=([-+]?\d+\.\d+),([-+]?\d+\.\d+)/i);
+  if (qCoords) {
+    return { lat: parseFloat(qCoords[1]), lng: parseFloat(qCoords[2]) };
+  }
+
   return null;
 }
 

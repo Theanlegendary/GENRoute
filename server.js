@@ -1618,39 +1618,58 @@ app.get('/api/google-geocode', async (req, res) => {
       }
     }
   }
-  
-  res.status(404).json({ error: 'Coordinates not found' });
+  return res.status(404).json({ error: 'Coordinates not found' });
 });
 
 // Extracts the human-readable place name embedded in a Google Maps URL, if present.
-// Handles patterns like:
-//   /maps/place/Phsar+Chas/@11.56,104.92,17z/...
-//   /maps/place/ផ្សារចាស់/@...
 function extractPlaceNameFromUrl(urlStr) {
+  if (!urlStr) return null;
   try {
     const placeMatch = urlStr.match(/\/maps\/place\/([^\/@]+)/i);
     if (placeMatch && placeMatch[1]) {
       let name = decodeURIComponent(placeMatch[1].replace(/\+/g, ' ')).trim();
-      // Strip trailing coordinate-looking fragments or Place ID hashes just in case
       name = name.replace(/^data=.*/i, '').trim();
       if (name && !/^[-+]?\d+\.\d+,[-+]?\d+\.\d+$/.test(name)) {
         return name;
       }
     }
-  } catch (e) {
-    // ignore malformed URL fragments
-  }
+  } catch (e) {}
   return null;
 }
 
 async function parseGoogleMapsLink(urlStr) {
-  let targetUrl = urlStr.trim();
+  let targetInput = urlStr.trim();
   try {
-    targetUrl = decodeURIComponent(targetUrl);
+    targetInput = decodeURIComponent(targetInput);
   } catch (e) {
-    // ignore decoding errors if URL is already partially decoded/invalid
+    // ignore decoding errors
   }
-  
+
+  // 0. Parse DMS (Degrees Minutes Seconds) format e.g. 11°33'26.7"N 104°55'18.8"E
+  const dmsPattern = /(\d+)[\s°deg%C2%B0]+(\d+)[\s'′%27]+([\d.]+)(?:["″%22])?\s*([NSEW])\s*[,]?\s*(\d+)[\s°deg%C2%B0]+(\d+)[\s'′%27]+([\d.]+)(?:["″%22])?\s*([NSEW])/i;
+  const dmsMatch = targetInput.match(dmsPattern);
+  if (dmsMatch) {
+    let latDeg = parseFloat(dmsMatch[1]), latMin = parseFloat(dmsMatch[2]), latSec = parseFloat(dmsMatch[3]), latDir = dmsMatch[4].toUpperCase();
+    let lngDeg = parseFloat(dmsMatch[5]), lngMin = parseFloat(dmsMatch[6]), lngSec = parseFloat(dmsMatch[7]), lngDir = dmsMatch[8].toUpperCase();
+
+    let lat = latDeg + latMin / 60 + latSec / 3600;
+    if (latDir === 'S') lat = -lat;
+
+    let lng = lngDeg + lngMin / 60 + lngSec / 3600;
+    if (lngDir === 'W') lng = -lng;
+
+    return {
+      lat,
+      lng,
+      name: `DMS Coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`
+    };
+  }
+
+  // Extract URL from input text if text surrounds the link (e.g. "Location: https://maps.app.goo.gl/...")
+  const urlExtractMatch = targetInput.match(/https?:\/\/[^\s"'<>\\]+/i);
+  let targetUrl = urlExtractMatch ? urlExtractMatch[0] : targetInput;
+
+  let htmlBody = '';
   if (/maps\.app\.goo\.gl|goo\.gl\/maps/i.test(targetUrl)) {
     try {
       const response = await fetch(targetUrl, {
@@ -1662,16 +1681,27 @@ async function parseGoogleMapsLink(urlStr) {
         redirect: 'follow'
       });
       targetUrl = response.url;
+      htmlBody = await response.text();
+
+      // Check for meta refresh or og:url redirect inside HTML body if URL did not redirect directly
+      const metaRefresh = htmlBody.match(/content=["'][^"']*url=([^"']+)["']/i);
+      const metaOgUrl = htmlBody.match(/meta\s+property=["']og:url["']\s+content=["']([^"']+)["']/i);
+      const canonicalUrl = htmlBody.match(/link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+
+      const htmlDestUrl = metaRefresh ? metaRefresh[1] : (metaOgUrl ? metaOgUrl[1] : (canonicalUrl ? canonicalUrl[1] : null));
+      if (htmlDestUrl && htmlDestUrl.startsWith('http')) {
+        targetUrl = htmlDestUrl;
+      }
     } catch (err) {
       console.error('Error resolving short Google Maps URL:', err.message);
     }
   }
 
-  // Try to extract the real place name embedded in the URL path (works for both short and long links once resolved)
+  const combinedSearchStr = targetUrl + ' ' + htmlBody;
   const extractedName = extractPlaceNameFromUrl(targetUrl);
 
-  // 1. Try to find !3d...!4d... parameters (more precise place pin location, choosing the last occurrence if multiple exist)
-  const matches3d4d = [...targetUrl.matchAll(/!3d([-+]?\d+\.\d+)!4d([-+]?\d+\.\d+)/g)];
+  // 1. Try to find !3d...!4d... parameters
+  const matches3d4d = [...combinedSearchStr.matchAll(/!3d([-+]?\d+\.\d+)!4d([-+]?\d+\.\d+)/g)];
   if (matches3d4d.length > 0) {
     const lastMatch = matches3d4d[matches3d4d.length - 1];
     return {
@@ -1682,7 +1712,7 @@ async function parseGoogleMapsLink(urlStr) {
   }
 
   // 2. Try to find @lat,lng
-  const atCoords = targetUrl.match(/@([-+]?\d+\.\d+),([-+]?\d+\.\d+)/);
+  const atCoords = combinedSearchStr.match(/@([-+]?\d+\.\d+),([-+]?\d+\.\d+)/);
   if (atCoords) {
     return {
       lat: parseFloat(atCoords[1]),
@@ -1691,63 +1721,24 @@ async function parseGoogleMapsLink(urlStr) {
     };
   }
 
-  // 3. Try to find q=lat,lng or query=lat,lng or ll=lat,lng
-  const qCoords = targetUrl.match(/[?&](q|query|ll)=([-+]?\d+\.\d+),([-+]?\d+\.\d+)/i);
+  // 3. Try to find q=lat,lng or query=lat,lng or ll=lat,lng or center=lat,lng
+  const qCoords = combinedSearchStr.match(/[?&](?:q|query|ll|center)=([-+]?\d+\.\d+),([-+]?\d+\.\d+)/i);
   if (qCoords) {
     return {
-      lat: parseFloat(qCoords[2]),
-      lng: parseFloat(qCoords[3]),
+      lat: parseFloat(qCoords[1]),
+      lng: parseFloat(qCoords[2]),
       name: extractedName || 'Google Maps Query Location'
     };
   }
 
-  // 4. Look for general latitude, longitude pattern in URL path/query
-  const generalCoords = targetUrl.match(/([-+]?\d+\.\d+)\s*,\s*([-+]?\d+\.\d+)/);
+  // 4. Look for general latitude, longitude pattern in URL or body
+  const generalCoords = combinedSearchStr.match(/([-+]?\d+\.\d+)\s*,\s*([-+]?\d+\.\d+)/);
   if (generalCoords) {
     return {
       lat: parseFloat(generalCoords[1]),
       lng: parseFloat(generalCoords[2]),
       name: extractedName || 'Google Maps URL Coordinates'
     };
-  }
-
-  // 5. Fallback: try crawling page content for static map or location center if url has coordinates embedded but we couldn't parse it
-  try {
-    const res = await fetch(targetUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
-    });
-    if (res.ok) {
-      const html = await res.text();
-
-      // Try to pull the place name out of the page <title> as a last-resort name source
-      let titleName = null;
-      const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
-      if (titleMatch && titleMatch[1]) {
-        titleName = titleMatch[1].replace(/\s*-\s*Google Maps\s*$/i, '').trim();
-        if (!titleName || /^google maps$/i.test(titleName)) titleName = null;
-      }
-
-      const staticMapMatch = html.match(/center=([-+]?\d+\.\d+)(?:%2C|,)([-+]?\d+\.\d+)/i);
-      if (staticMapMatch) {
-        return {
-          lat: parseFloat(staticMapMatch[1]),
-          lng: parseFloat(staticMapMatch[2]),
-          name: extractedName || titleName || 'Google Maps Embedded Coordinates'
-        };
-      }
-      const initMatch = html.match(/\[\[\s*([-+]?\d+\.\d+)\s*,\s*([-+]?\d+\.\d+)\s*\]/);
-      if (initMatch) {
-        return {
-          lat: parseFloat(initMatch[1]),
-          lng: parseFloat(initMatch[2]),
-          name: extractedName || titleName || 'Google Maps Page Coordinates'
-        };
-      }
-    }
-  } catch (err) {
-    console.error('Failed to parse Google Maps page HTML:', err.message);
   }
 
   return null;
@@ -2407,13 +2398,13 @@ async function resolveCoordsWithSpellingCorrection(query, province = '') {
     return exactLockResult;
   }
 
-  // 0. Support Google Maps Link parsing (e.g. https://maps.app.goo.gl/xxx or https://www.google.com/maps/...)
-  if (/maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps/i.test(query)) {
+  // 0. Support Google Maps Link parsing, DMS coordinates, and embedded URLs
+  if (/maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps|°|http/i.test(query)) {
     const parsedCoords = await parseGoogleMapsLink(query);
     if (parsedCoords && isWithinCambodia(parsedCoords.lat, parsedCoords.lng)) {
       return parsedCoords;
     }
-    return null; // Do not fall back to text matching for a URL query
+    return null; // Do not fall back to text matching for a URL/DMS query
   }
 
   // 0.5 Support direct GPS coordinates parsing (e.g. "11.556, 104.928")
