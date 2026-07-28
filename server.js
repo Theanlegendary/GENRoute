@@ -1697,6 +1697,21 @@ async function parseGoogleMapsLink(urlStr) {
     }
   }
 
+  // Support Apple Maps URLs (maps.apple.com)
+  if (/maps\.apple\.com/i.test(targetUrl)) {
+    const appleMatch = targetUrl.match(/[?&](?:ll|sll|q|center)=([-+]?\d+\.\d+),([-+]?\d+\.\d+)/i)
+                    || targetUrl.match(/([-+]?\d+\.\d+)\s*,\s*([-+]?\d+\.\d+)/);
+    if (appleMatch) {
+      const lat = parseFloat(appleMatch[1]);
+      const lng = parseFloat(appleMatch[2]);
+      return {
+        lat,
+        lng,
+        name: 'Apple Maps Shared Location'
+      };
+    }
+  }
+
   const combinedSearchStr = targetUrl + ' ' + htmlBody;
   const extractedName = extractPlaceNameFromUrl(targetUrl);
 

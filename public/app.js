@@ -870,10 +870,18 @@ function parseCoordinates(q) {
     return { lat: parseFloat(atCoords[1]), lng: parseFloat(atCoords[2]) };
   }
 
-  // q=lat,lng or query=lat,lng or ll=lat,lng or center=lat,lng
-  const qCoords = targetUrl.match(/[?&](?:q|query|ll|center)=([-+]?\d+\.\d+),([-+]?\d+\.\d+)/i);
+  // q=lat,lng or query=lat,lng or ll=lat,lng or sll=lat,lng or center=lat,lng
+  const qCoords = targetUrl.match(/[?&](?:q|query|ll|sll|center)=([-+]?\d+\.\d+),([-+]?\d+\.\d+)/i);
   if (qCoords) {
     return { lat: parseFloat(qCoords[1]), lng: parseFloat(qCoords[2]) };
+  }
+
+  // General coordinates match inside URL path/query (e.g. Apple Maps /place?auid=...&ll=11.55,104.92)
+  if (targetUrl.includes('maps.apple.com') || targetUrl.includes('google.com/maps')) {
+    const genMatch = targetUrl.match(/([-+]?\d+\.\d+)\s*,\s*([-+]?\d+\.\d+)/);
+    if (genMatch) {
+      return { lat: parseFloat(genMatch[1]), lng: parseFloat(genMatch[2]) };
+    }
   }
 
   return null;
@@ -1893,8 +1901,8 @@ async function runSmartFind() {
         return;
       }
     }
-    // 0.5 Check if user pasted a Google Maps URL directly
-    if (/maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps/i.test(q)) {
+    // 0.5 Check if user pasted a Google Maps or Apple Maps URL directly
+    if (/maps\.app\.goo\.gl|goo\.gl\/maps|google\.com\/maps|maps\.apple\.com/i.test(q)) {
       try {
         if (provinceSelect) {
           provinceSelect.value = ''; // Reset province filter because URL coordinates are absolute
