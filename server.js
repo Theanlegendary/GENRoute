@@ -105,6 +105,78 @@ const KHMER_TO_ENGLISH_MANUAL = {
   'ភ្នំពេញថ្មី': 'phnom penh thmei'
 };
 
+// ── District / Commune Name Normalization ──
+// Maps alternative spellings to a canonical form so "Daun Penh" == "Doun Penh"
+const DISTRICT_NAME_ALIASES = {
+  // Phnom Penh districts
+  'doun penh': 'daun penh',
+  'don penh': 'daun penh',
+  'tuol kork': 'tuol kouk',
+  'toul kork': 'tuol kouk',
+  'toul kouk': 'tuol kouk',
+  'por senchey': 'pur senchey',
+  'pursenchey': 'pur senchey',
+  'por sen chey': 'pur senchey',
+  'pousen chey': 'pur senchey',
+  'poursenchey': 'pur senchey',
+  'mean chey': 'meanchey',
+  'meanchay': 'meanchey',
+  'steung mean chey': 'meanchey',
+  'stung meanchey': 'meanchey',
+  'chom chao': 'chaom chau',
+  'chomchao': 'chaom chau',
+  'chom chau': 'chaom chau',
+  'prek pnov': 'praek pnov',
+  'preak pnov': 'praek pnov',
+  'russei keo': 'ruessei kaev',
+  'russey keo': 'ruessei kaev',
+  'ruessei keo': 'ruessei kaev',
+  'kamboul': 'kambul',
+  'kampoul': 'kambul',
+  // Municipalities
+  'battambang municipality': 'battambang',
+  'siem reap municipality': 'siem reap',
+  'kampong cham municipality': 'kampong cham',
+  'kampong chhnang municipality': 'kampong chhnang',
+  'kampot municipality': 'kampot',
+  'kratie municipality': 'kratie',
+  'pursat municipality': 'pursat',
+  'prey veng municipality': 'prey veng',
+  'svay rieng municipality': 'svay rieng',
+  'stung treng municipality': 'stung treng',
+  'stueng saen municipality': 'stueng saen',
+  'stung saen municipality': 'stueng saen',
+  'pailin municipality': 'pailin',
+  'kep municipality': 'kep',
+  'preah sihanouk municipality': 'preah sihanouk',
+  'sihanoukville municipality': 'preah sihanouk',
+  'khemarak phoumin municipality': 'preah sihanouk',
+  'banlung municipality': 'banlung',
+  'sen monorom municipality': 'sen monorom',
+  'samraong municipality': 'samraong',
+  'tbeng meanchey municipality': 'tbeng meanchey',
+  'serei saophoan municipality': 'serei saophoan',
+  'takhmao municipality': 'takhmao',
+  'suong municipality': 'suong',
+  'bavet municipality': 'bavet',
+  'chbar mon municipality': 'chbar mon',
+  'doun kaev municipality': 'doun kaev',
+  'poipet municipality': 'paoy paet',
+  // Other variations
+  'sotr nikum': 'soutr nikom',
+  'oudong': 'udong',
+  'choam khsant': 'choam ksant',
+  'anlong veng': 'anlong veaeng',
+  'memot': 'mimot',
+  'kiri vong': 'kirivong'
+};
+
+function normalizeDistrictName(name) {
+  if (!name) return '';
+  const lower = name.toLowerCase().trim();
+  return DISTRICT_NAME_ALIASES[lower] || lower;
+}
+
 
 try {
   routes = JSON.parse(fs.readFileSync(DATA_PATH, 'utf-8'));
@@ -909,10 +981,10 @@ app.get('/api/search', (req, res) => {
     }
     // Apply district filter!
     if (district) {
-      const normDist = normalizeKhmer(district);
+      const normDist = normalizeDistrictName(normalizeKhmer(district));
       dataset = dataset.filter(r =>
-        normalizeKhmer(r.district).includes(normDist) ||
-        normalizeKhmer(r.district_kh).includes(normDist)
+        normalizeDistrictName(normalizeKhmer(r.district)).includes(normDist) ||
+        normalizeKhmer(r.district_kh).includes(normalizeKhmer(district))
       );
     }
     // Apply branch_id filter!
