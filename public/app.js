@@ -241,6 +241,26 @@ const redIcon = L.divIcon({
   popupAnchor: [0, -36]
 });
 
+// Custom BIG GLOWING Pin for #1 Nearest Post Office Branch ("nearest must be bigger than normal")
+const nearestBranchIcon = L.divIcon({
+  html: `
+    <div style="position:relative; width:48px; height:58px; display:flex; align-items:center; justify-content:center;">
+      <svg viewBox="0 0 24 36" width="46" height="56" style="filter: drop-shadow(0 6px 14px rgba(220,38,38,0.65)); position:relative; z-index:2;">
+        <path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z" fill="#dc2626" stroke="#ffffff" stroke-width="1.8"/>
+        <circle cx="12" cy="12" r="6.5" fill="#fbbf24"/>
+        <text x="12" y="15.5" font-size="9" font-weight="900" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif">#1</text>
+      </svg>
+      <div style="position:absolute; top:-8px; background:linear-gradient(135deg, #fbbf24, #f59e0b); color:#7f1d1d; font-size:9.5px; font-weight:900; padding:2px 7px; border-radius:10px; border:1.8px solid #ffffff; box-shadow:0 3px 8px rgba(0,0,0,0.3); white-space:nowrap; z-index:3; font-family:sans-serif; letter-spacing:0.02em;">
+        🏆 NEAREST #1
+      </div>
+    </div>
+  `,
+  className: 'custom-eco-pin nearest-pin-animated',
+  iconSize: [48, 58],
+  iconAnchor: [24, 58],
+  popupAnchor: [0, -52]
+});
+
 // Custom Yellow Target Pin (Search target / Market - the ONE result for nearby search)
 const marketIcon = L.divIcon({
   html: `
@@ -738,7 +758,7 @@ function clientSearch(q, type, province = '') {
   return results;
 }
 
-function clientGetNearbyPOs(lat, lng, radiusKm = 15, limitCount = 10) {
+function clientGetNearbyPOs(lat, lng, radiusKm = 10, limitCount = 10) {
   const POs = clientBranches.map(po => {
     const dist = haversine(lat, lng, po.latitude, po.longitude);
     return {
@@ -1564,16 +1584,21 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
   learnLocationIfNew(selectedLoc);
 
   try {
-    const radius = 15; // Max 15km (Under 15km spatial logic)
+    const radius = 10; // Max 10km radius (User constraint: 10km max)
     const province = provinceSelect ? provinceSelect.value : '';
 
-    // Calculate nearest POs client-side using our local branch cache (radius 15km)
+    // Calculate nearest POs client-side using our local branch cache (radius 10km)
     let nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, radius, 10);
 
-    // If no branches within 15km, expand radius up to 50km to find the closest real local branch
+    // If no branches within 10km, expand radius up to 25km to find the closest real local branch
     if (nearbyPOs.length === 0) {
-      nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, 50, 5);
+      nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, 25, 5);
     }
+
+    // Identify the #1 geographically closest branch
+    const sortedByDist = [...nearbyPOs].sort((a, b) => a.distance_km - b.distance_km);
+    const trueNearestPO = sortedByDist[0] || null;
+    const trueNearestId = trueNearestPO ? (trueNearestPO.branch_id || trueNearestPO.store_code || String(trueNearestPO.id)) : null;
 
     // Fetch default PO for this location locally if it has branch_id or matching commune name
     let defaultPO = null;
@@ -1589,22 +1614,22 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
         const pName = normalizeKhmer(po.province_en || po.province_kh || po.province || '');
         const sameProvince = !selProv || !pName || selProv.includes(pName) || pName.includes(selProv);
         const dist = haversine(selectedLoc.latitude, selectedLoc.longitude, po.latitude, po.longitude);
-        return dist <= 30 && sameProvince && (
+        return dist <= 10 && sameProvince && (
           (sName && (sName === comm || comm.includes(sName))) ||
           (cName && (cName === comm || comm.includes(cName)))
         );
       }) || null;
     }
 
-    // If defaultPO exists AND is within 30km, float it to top of nearbyPOs
+    // If defaultPO exists AND is within 10km, float it to top of nearbyPOs
     if (defaultPO) {
       const defDist = haversine(selectedLoc.latitude, selectedLoc.longitude, defaultPO.latitude, defaultPO.longitude);
-      if (defDist <= 30) {
+      if (defDist <= 10) {
         const defObj = { ...defaultPO, distance_km: defDist };
         nearbyPOs = nearbyPOs.filter(po => (po.branch_id || po.store_code) !== (defaultPO.branch_id || defaultPO.store_code));
         nearbyPOs.unshift(defObj);
       } else {
-        defaultPO = null; // Ignore distant defaultPO that belongs to another province
+        defaultPO = null; // Ignore distant defaultPO that belongs to another province/region
       }
     }
 
@@ -1632,10 +1657,14 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
 
     nearbyPOs.forEach((nearPo, idx) => {
       const isDefault = defaultPO && (defaultPO.branch_id === nearPo.branch_id || defaultPO.branch_id === nearPo.store_code);
+      const isNearest = trueNearestId && (nearPo.branch_id === trueNearestId || nearPo.store_code === trueNearestId || String(nearPo.id) === trueNearestId);
+      
       poListHtml += `
-        <div class="popup-po-item" style="margin-top: 4px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #f2f2f7; padding-bottom: 4px; font-family: sans-serif; ${isDefault ? 'background-color: var(--metfone-red-light); padding: 2px 4px; border-radius: 4px;' : ''}">
-          <span style="color:#1f2937;"><b>${idx + 1}.</b> ${escHtml(getBilingualTitle(nearPo))} (${nearPo.branch_id || nearPo.store_code || ''})</span>
-          <span style="color:var(--metfone-red); font-weight: 800; margin-left: 8px;">${formatDistance(nearPo.distance_km)}</span>
+        <div class="popup-po-item" style="margin-top: 4px; font-size: ${isNearest ? '12px' : '11px'}; display: flex; justify-content: space-between; align-items: center; border-bottom: ${isNearest ? '2px solid #f59e0b' : '1px dashed #f2f2f7'}; padding: ${isNearest ? '6px 8px' : '4px 2px'}; font-family: sans-serif; ${isNearest ? 'background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 6px; margin-bottom: 4px; box-shadow: 0 2px 6px rgba(245,158,11,0.2);' : (isDefault ? 'background-color: var(--metfone-red-light); padding: 2px 4px; border-radius: 4px;' : '')}">
+          <span style="color:${isNearest ? '#7f1d1d' : '#1f2937'}; font-weight:${isNearest ? '900' : '500'};">
+            ${isNearest ? '🏆 <b>#1 NEAREST:</b> ' : `<b>${idx + 1}.</b> `}${escHtml(getBilingualTitle(nearPo))} (${nearPo.branch_id || nearPo.store_code || ''})
+          </span>
+          <span style="color:${isNearest ? '#b45309' : 'var(--metfone-red)'}; font-weight: 900; margin-left: 8px; font-size: ${isNearest ? '12px' : '11px'};">${formatDistance(nearPo.distance_km)}</span>
         </div>
       `;
     });
@@ -1643,7 +1672,7 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     // Plot target location with Mushroom popup list
     const targetMarker = L.marker([selectedLoc.latitude, selectedLoc.longitude], { icon: selectedMarketIcon }).addTo(markerClusterGroup);
     targetMarker.bindPopup(`
-      <div class="map-popup-content" style="width: 270px; padding: 4px 0;">
+      <div class="map-popup-content" style="width: 275px; padding: 4px 0;">
         <div class="popup-header" style="background-color: var(--metfone-red); margin-bottom: 8px; border-radius: 6px 6px 0 0;">
           <span class="popup-badge" style="background-color: var(--metfone-red); color: #fff; font-weight: 800;">TARGET LOCATION</span>
           <span class="popup-coord" style="color: rgba(255,255,255,0.85);">${selectedLoc.latitude.toFixed(4)}°, ${selectedLoc.longitude.toFixed(4)}°</span>
@@ -1652,9 +1681,9 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
         <p class="popup-addr" style="margin: 2px 0 8px 0; font-size: 11.5px; color: #6b7280; padding: 0 8px;">${getPopupAddressHtml(selectedLoc)}</p>
         
         <div class="popup-po-list" style="margin-top: 8px; border-top: 1px solid #f2f2f7; padding: 8px 8px 0 8px;">
-          <h5 style="margin: 0 0 6px 0; font-size: 11px; color: var(--metfone-red); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">📮 Nearest Post Offices</h5>
-          <div style="max-height: 140px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 2px;">
-            ${poListHtml || '<p style="margin: 0; font-size: 11px; color: #9ca3af;">No post offices found within 50km.</p>'}
+          <h5 style="margin: 0 0 6px 0; font-size: 11px; color: var(--metfone-red); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">📮 Nearest Post Offices (10km Max)</h5>
+          <div style="max-height: 150px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 2px;">
+            ${poListHtml || '<p style="margin: 0; font-size: 11px; color: #9ca3af;">No post offices found within 10km.</p>'}
           </div>
         </div>
         <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 10px; display: block; font-size: 11.5px; text-align: right; color: var(--metfone-red); font-weight: 700; text-decoration: none; padding: 0 8px;">Open in Google Maps ↗</a>
@@ -1663,10 +1692,10 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     activeMarkers.push({ id: selectedLoc.id, marker: targetMarker });
     activeStickerMarkers.push({ marker: targetMarker, r: selectedLoc });
 
-    // Plot default PO on map if not in nearby list AND within 30km
+    // Plot default PO on map if not in nearby list AND within 10km
     if (defaultPO && defaultPO.latitude && defaultPO.longitude) {
       const defDist = haversine(selectedLoc.latitude, selectedLoc.longitude, defaultPO.latitude, defaultPO.longitude);
-      if (defDist <= 30) {
+      if (defDist <= 10) {
         const isAlreadyPlotted = nearbyPOs.some(po => po.branch_id === defaultPO.branch_id);
         if (!isAlreadyPlotted) {
           const marker = L.marker([defaultPO.latitude, defaultPO.longitude], { icon: redIcon }).addTo(markerClusterGroup);
@@ -1685,26 +1714,21 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
       }
     }
 
-    // Draw connection line ONLY to TRULY NEAREST PO (geographically closest, <= 30km)
-    // NEVER draw a 350km diagonal red line across all of Cambodia!
-    if (nearbyPOs.length > 0) {
-      const sortedByDist = [...nearbyPOs].sort((a, b) => a.distance_km - b.distance_km);
-      const trueNearestPO = sortedByDist[0];
-      if (trueNearestPO && trueNearestPO.distance_km <= 30 && trueNearestPO.latitude != null && trueNearestPO.longitude != null) {
-        const nearestLine = L.polyline([
-          [selectedLoc.latitude, selectedLoc.longitude],
-          [parseFloat(trueNearestPO.latitude), parseFloat(trueNearestPO.longitude)]
-        ], {
-          color: 'var(--metfone-red, #d32f2f)',
-          weight: 3.5,
-          dashArray: '5, 8',
-          opacity: 0.8
-        }).addTo(vectorLayerGroup);
-        nearestLine.bindPopup(`Nearest PO: ${trueNearestPO.market || trueNearestPO.store_name} (${formatDistance(trueNearestPO.distance_km)})`);
-      }
+    // Draw connection line ONLY to TRULY NEAREST PO (geographically closest, <= 10km)
+    if (trueNearestPO && trueNearestPO.distance_km <= 10 && trueNearestPO.latitude != null && trueNearestPO.longitude != null) {
+      const nearestLine = L.polyline([
+        [selectedLoc.latitude, selectedLoc.longitude],
+        [parseFloat(trueNearestPO.latitude), parseFloat(trueNearestPO.longitude)]
+      ], {
+        color: 'var(--metfone-red, #d32f2f)',
+        weight: 4,
+        dashArray: '6, 8',
+        opacity: 0.9
+      }).addTo(vectorLayerGroup);
+      nearestLine.bindPopup(`Nearest PO: ${trueNearestPO.market || trueNearestPO.store_name} (${formatDistance(trueNearestPO.distance_km)})`);
     }
 
-    // Draw connection line to default PO
+    // Draw connection line to default PO if within 10km
     if (defaultPO && defaultPO.latitude != null && defaultPO.longitude != null && !isNaN(parseFloat(defaultPO.latitude)) && !isNaN(parseFloat(defaultPO.longitude))) {
       const nearestPO = nearbyPOs[0];
       const isSame = (nearestPO && nearestPO.branch_id === defaultPO.branch_id);
@@ -1723,21 +1747,28 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     }
 
     // Plot all nearby post offices
+    // CRITICAL: The #1 NEAREST PO gets nearestBranchIcon (BIGGER GLOWING PIN) so it stands out above all other markers!
     nearbyPOs.forEach(po => {
       if (!po || po.latitude == null || po.longitude == null || isNaN(parseFloat(po.latitude)) || isNaN(parseFloat(po.longitude))) return;
       const poLat = parseFloat(po.latitude);
       const poLng = parseFloat(po.longitude);
-      const marker = L.marker([poLat, poLng], { icon: redIcon }).addTo(markerClusterGroup);
+      
+      const isNearestBranch = trueNearestId && (po.branch_id === trueNearestId || po.store_code === trueNearestId || String(po.id) === trueNearestId);
+      const markerIconToUse = isNearestBranch ? nearestBranchIcon : redIcon;
+
+      const marker = L.marker([poLat, poLng], { icon: markerIconToUse, zIndexOffset: isNearestBranch ? 1000 : 0 }).addTo(markerClusterGroup);
       const popupContent = `
         <div class="map-popup-content">
-          <div class="popup-header">
-            <span class="popup-badge">PO: ${po.branch_id}</span>
+          <div class="popup-header" style="${isNearestBranch ? 'background: linear-gradient(135deg, #dc2626, #b91c1c); font-weight: 800;' : ''}">
+            <span class="popup-badge">${isNearestBranch ? '🏆 NEAREST #1 BRANCH' : `PO: ${po.branch_id || ''}`}</span>
             <span class="popup-coord">${po.latitude.toFixed(4)}°, ${po.longitude.toFixed(4)}°</span>
           </div>
           <h4>📮 ${escHtml(getBilingualTitle(po))}</h4>
           <div class="popup-divider"></div>
           <p class="popup-addr">${getPopupAddressHtml(po)}</p>
-          <p style="color: var(--metfone-red); font-weight: 700; margin-top: 4px;">📡 ចំងាយ Distance: ${formatDistance(po.distance_km)}</p>
+          <p style="color: var(--metfone-red); font-weight: 800; font-size: 13px; margin-top: 6px; background: #fef2f2; padding: 4px 8px; border-radius: 6px; border: 1px solid #fecaca; display: inline-block;">
+            📡 Distance: ${formatDistance(po.distance_km)} ${isNearestBranch ? ' (TRULY NEAREST)' : ''}
+          </p>
           <a class="popup-gmaps-link" href="${po.google_maps_url || `https://www.google.com/maps?q=${po.latitude},${po.longitude}`}" target="_blank" rel="noopener">Open in Google Maps ↗</a>
         </div>
       `;
@@ -1763,15 +1794,17 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
 
     // Update results metadata
     if (resultsCount) {
-      resultsCount.innerHTML = `Near <b>${escHtml(targetTitle)}</b> — ${nearbyPOs.length} branches found`;
+      resultsCount.innerHTML = `Near <b>${escHtml(targetTitle)}</b> — ${nearbyPOs.length} branches within 10km`;
     }
 
-    // Draw 30km circle around selected location (subtle opacity so it doesn't distract)
+    // Draw 10km circle around selected location (User constraint: 10km max)
     L.circle([selectedLoc.latitude, selectedLoc.longitude], {
-      color: '#4A805B',
-      fillColor: '#4A805B',
-      fillOpacity: 0.03,
-      radius: 30000
+      color: '#dc2626',
+      fillColor: '#dc2626',
+      fillOpacity: 0.04,
+      weight: 1.5,
+      dashArray: '4, 6',
+      radius: 10000
     }).addTo(vectorLayerGroup);
 
     // Zoom in close directly to the target location at zoom level 17!
