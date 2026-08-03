@@ -1567,6 +1567,14 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     const radius = 15; // Max 15km (Under 15km spatial logic)
     const province = provinceSelect ? provinceSelect.value : '';
 
+    // Calculate nearest POs client-side using our local branch cache (radius 15km)
+    let nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, radius, 10);
+
+    // If no branches within 15km, expand radius up to 50km to find the closest real local branch
+    if (nearbyPOs.length === 0) {
+      nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, 50, 5);
+    }
+
     // Fetch default PO for this location locally if it has branch_id or matching commune name
     let defaultPO = null;
     if (selectedLoc.branch_id) {
@@ -1574,23 +1582,30 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     }
     if (!defaultPO && (selectedLoc.commune || selectedLoc.market || selectedLoc.store_name)) {
       const comm = normalizeKhmer(selectedLoc.commune || selectedLoc.market || selectedLoc.store_name);
+      const selProv = normalizeKhmer(selectedLoc.province || selectedLoc.province_kh || '');
       defaultPO = clientBranches.find(po => {
         const sName = normalizeKhmer(po.store_name);
         const cName = normalizeKhmer(po.commune_en || po.commune_kh || '');
-        return (sName && (sName === comm || comm.includes(sName))) ||
-               (cName && (cName === comm || comm.includes(cName)));
+        const pName = normalizeKhmer(po.province_en || po.province_kh || po.province || '');
+        const sameProvince = !selProv || !pName || selProv.includes(pName) || pName.includes(selProv);
+        const dist = haversine(selectedLoc.latitude, selectedLoc.longitude, po.latitude, po.longitude);
+        return dist <= 30 && sameProvince && (
+          (sName && (sName === comm || comm.includes(sName))) ||
+          (cName && (cName === comm || comm.includes(cName)))
+        );
       }) || null;
     }
 
-    // Calculate nearest POs client-side using our local branch cache
-    let nearbyPOs = clientGetNearbyPOs(selectedLoc.latitude, selectedLoc.longitude, radius, 10);
-
-    // If defaultPO exists, make sure it is floated to the top of nearbyPOs!
+    // If defaultPO exists AND is within 30km, float it to top of nearbyPOs
     if (defaultPO) {
       const defDist = haversine(selectedLoc.latitude, selectedLoc.longitude, defaultPO.latitude, defaultPO.longitude);
-      const defObj = { ...defaultPO, distance_km: defDist };
-      nearbyPOs = nearbyPOs.filter(po => (po.branch_id || po.store_code) !== (defaultPO.branch_id || defaultPO.store_code));
-      nearbyPOs.unshift(defObj);
+      if (defDist <= 30) {
+        const defObj = { ...defaultPO, distance_km: defDist };
+        nearbyPOs = nearbyPOs.filter(po => (po.branch_id || po.store_code) !== (defaultPO.branch_id || defaultPO.store_code));
+        nearbyPOs.unshift(defObj);
+      } else {
+        defaultPO = null; // Ignore distant defaultPO that belongs to another province
+      }
     }
 
     showState('none');
@@ -1639,7 +1654,7 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
         <div class="popup-po-list" style="margin-top: 8px; border-top: 1px solid #f2f2f7; padding: 8px 8px 0 8px;">
           <h5 style="margin: 0 0 6px 0; font-size: 11px; color: var(--metfone-red); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">📮 Nearest Post Offices</h5>
           <div style="max-height: 140px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 2px;">
-            ${poListHtml || '<p style="margin: 0; font-size: 11px; color: #9ca3af;">No post offices found within 30km.</p>'}
+            ${poListHtml || '<p style="margin: 0; font-size: 11px; color: #9ca3af;">No post offices found within 50km.</p>'}
           </div>
         </div>
         <a class="popup-gmaps-link" href="${selectedLoc.google_maps_url || `https://www.google.com/maps?q=${selectedLoc.latitude},${selectedLoc.longitude}`}" target="_blank" rel="noopener" style="margin-top: 10px; display: block; font-size: 11.5px; text-align: right; color: var(--metfone-red); font-weight: 700; text-decoration: none; padding: 0 8px;">Open in Google Maps ↗</a>
@@ -1648,39 +1663,44 @@ async function selectLocationAndFindNearbyPOs(selectedLoc, allMatchedLocs, fly =
     activeMarkers.push({ id: selectedLoc.id, marker: targetMarker });
     activeStickerMarkers.push({ marker: targetMarker, r: selectedLoc });
 
-    // Plot default PO on map if not in nearby list
+    // Plot default PO on map if not in nearby list AND within 30km
     if (defaultPO && defaultPO.latitude && defaultPO.longitude) {
-      const isAlreadyPlotted = nearbyPOs.some(po => po.branch_id === defaultPO.branch_id);
-      if (!isAlreadyPlotted) {
-        const marker = L.marker([defaultPO.latitude, defaultPO.longitude], { icon: redIcon }).addTo(markerClusterGroup);
-        marker.bindPopup(`
-          <div class="map-popup-content">
-            <div class="popup-header" style="background-color:#1e3a8a; margin-bottom: 6px;">
-              <span class="popup-badge" style="background-color:#1e3a8a; color:#fff;">DEFAULT REGISTERED PO</span>
-              <span class="popup-coord">${defaultPO.latitude.toFixed(4)}°, ${defaultPO.longitude.toFixed(4)}°</span>
+      const defDist = haversine(selectedLoc.latitude, selectedLoc.longitude, defaultPO.latitude, defaultPO.longitude);
+      if (defDist <= 30) {
+        const isAlreadyPlotted = nearbyPOs.some(po => po.branch_id === defaultPO.branch_id);
+        if (!isAlreadyPlotted) {
+          const marker = L.marker([defaultPO.latitude, defaultPO.longitude], { icon: redIcon }).addTo(markerClusterGroup);
+          marker.bindPopup(`
+            <div class="map-popup-content">
+              <div class="popup-header" style="background-color:#1e3a8a; margin-bottom: 6px;">
+                <span class="popup-badge" style="background-color:#1e3a8a; color:#fff;">DEFAULT REGISTERED PO</span>
+                <span class="popup-coord">${defaultPO.latitude.toFixed(4)}°, ${defaultPO.longitude.toFixed(4)}°</span>
+              </div>
+              <h4>📮 ${escHtml(defaultPO.market || defaultPO.store_name)}</h4>
+              <p class="popup-addr">${getPopupAddressHtml(defaultPO)}</p>
             </div>
-            <h4>📮 ${escHtml(defaultPO.market || defaultPO.store_name)}</h4>
-            <p class="popup-addr">${getPopupAddressHtml(defaultPO)}</p>
-          </div>
-        `);
-        activeMarkers.push({ id: defaultPO.id, marker: marker });
+          `);
+          activeMarkers.push({ id: defaultPO.id, marker: marker });
+        }
       }
     }
 
-    // Draw connection line to nearest PO
+    // Draw connection line ONLY to TRULY NEAREST PO (geographically closest, <= 30km)
+    // NEVER draw a 350km diagonal red line across all of Cambodia!
     if (nearbyPOs.length > 0) {
-      const nearestPO = nearbyPOs[0];
-      if (nearestPO && nearestPO.latitude != null && nearestPO.longitude != null && !isNaN(parseFloat(nearestPO.latitude)) && !isNaN(parseFloat(nearestPO.longitude))) {
+      const sortedByDist = [...nearbyPOs].sort((a, b) => a.distance_km - b.distance_km);
+      const trueNearestPO = sortedByDist[0];
+      if (trueNearestPO && trueNearestPO.distance_km <= 30 && trueNearestPO.latitude != null && trueNearestPO.longitude != null) {
         const nearestLine = L.polyline([
           [selectedLoc.latitude, selectedLoc.longitude],
-          [parseFloat(nearestPO.latitude), parseFloat(nearestPO.longitude)]
+          [parseFloat(trueNearestPO.latitude), parseFloat(trueNearestPO.longitude)]
         ], {
           color: 'var(--metfone-red, #d32f2f)',
           weight: 3.5,
           dashArray: '5, 8',
           opacity: 0.8
         }).addTo(vectorLayerGroup);
-        nearestLine.bindPopup(`Nearest PO: ${nearestPO.market} (${formatDistance(nearestPO.distance_km)})`);
+        nearestLine.bindPopup(`Nearest PO: ${trueNearestPO.market || trueNearestPO.store_name} (${formatDistance(trueNearestPO.distance_km)})`);
       }
     }
 
