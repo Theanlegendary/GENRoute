@@ -1,495 +1,919 @@
 <!DOCTYPE html>
-<html lang="km">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Metfone Express — Map Search Training</title>
-<style>
-  :root{
-    --red:#D71920;
-    --red-2:#B91319;
-    --ink:#171717;
-    --muted:#6A6A6A;
-    --paper:#F5F3EF;
-    --white:#FFFFFF;
-    --line:#DAD7D2;
-    --line-strong:#B9B5AF;
-    --green:#167A45;
-    --amber:#A35A00;
-    --blue:#2B5F8B;
-    --shadow:0 18px 50px rgba(22,22,22,.10);
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metfone Express — 5-Slide Landscape Training Deck</title>
+    <!-- Import Telegram WebApp JS -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Google Fonts: Angkor (Khmer Display Serif) + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Angkor&family=Inter:wght@600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-white: #ffffff;
+            --brand-red: #e11b22;
+            --text-black: #090d16;
+            --text-dark: #1e293b;
+            --text-muted: #334155;
+            --border-dark: #0f172a;
+            --border-light: #94a3b8;
+            --sticky-yellow: #fef08a;
+            --sticky-text: #713f12;
+            --node-blue: #1d4ed8;
+            --node-green: #047857;
+        }
 
-  *{box-sizing:border-box}
-  html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#111;color:var(--ink);font-family:"Segoe UI","Noto Sans Khmer","Khmer OS Battambang",Arial,sans-serif}
-  button{font:inherit}
-  svg{display:block}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
 
-  .deck{position:relative;width:100vw;height:100vh;background:#111}
-  .slide{
-    position:absolute;inset:0;
-    display:grid;grid-template-columns:74px 1fr;
-    background:var(--paper);
-    opacity:0;pointer-events:none;transform:translateX(24px);
-    transition:opacity .28s ease,transform .36s cubic-bezier(.2,.8,.2,1)
-  }
-  .slide.active{opacity:1;pointer-events:auto;transform:none}
-  .slide.leaving{transform:translateX(-24px)}
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-white);
+            color: var(--text-black);
+            -webkit-font-smoothing: antialiased;
+        }
 
-  .rail{
-    border-right:1px solid var(--line);
-    display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-    padding:22px 0 20px;background:#EFECE7
-  }
-  .rail.red{background:var(--red);border-right:0;color:#fff}
-  .brand-mark{width:34px;height:34px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;letter-spacing:-.04em}
-  .rail.red .brand-mark{background:#fff;color:var(--red)}
-  .rail-num{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#777}
-  .rail.red .rail-num{color:rgba(255,255,255,.7)}
-  .rail-line{width:1px;height:120px;background:var(--line-strong)}
-  .rail.red .rail-line{background:rgba(255,255,255,.35)}
-  .rail-page{font-size:11px;font-weight:800;color:#777}
-  .rail.red .rail-page{color:#fff}
+        /* 16:9 Landscape Canvas */
+        .landscape-canvas {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            background: #ffffff;
+            overflow: hidden;
+            perspective: 1200px;
+        }
 
-  .page{min-width:0;min-height:0;display:grid;grid-template-rows:auto 1fr auto;padding:30px 46px 26px 48px;position:relative;overflow:hidden}
-  .page.red-page{background:var(--red);color:#fff}
-  .page.white-page{background:#fff}
+        /* Far Left Vertical Stamp Margin */
+        .side-stamp {
+            position: absolute;
+            left: 20px;
+            bottom: 120px;
+            transform: rotate(-90deg);
+            transform-origin: left bottom;
+            font-size: 0.95rem;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
 
-  .top{display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative;z-index:2}
-  .label{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red)}
-  .red-page .label{color:rgba(255,255,255,.8)}
-  .meta{font-size:11px;color:#777}
-  .red-page .meta{color:rgba(255,255,255,.62)}
+        /* Top Bar Layout with Official Metfone Express Brand Logo */
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
 
-  .stage{min-height:0;display:grid;align-items:center;position:relative;z-index:1}
-  .stage.two{grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr);gap:46px}
-  .stage.two.wide-left{grid-template-columns:minmax(500px,1.12fr) minmax(360px,.88fr)}
-  .stage.split{grid-template-columns:1fr 1px 1fr;gap:40px}
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-  h1,h2,h3,p{margin:0}
-  h1{font-size:clamp(3.3rem,7vw,7rem);line-height:.88;letter-spacing:-.065em;font-weight:860;max-width:880px}
-  h2{font-size:clamp(2.5rem,5.2vw,5.1rem);line-height:.96;letter-spacing:-.055em;font-weight:840;max-width:900px}
-  h3{font-size:clamp(1.12rem,1.7vw,1.45rem);line-height:1.25;letter-spacing:-.02em}
-  .lede{margin-top:22px;max-width:680px;font-size:clamp(1rem,1.55vw,1.24rem);line-height:1.65;color:var(--muted)}
-  .red-page .lede{color:rgba(255,255,255,.82)}
-  .kh{font-family:"Noto Sans Khmer","Khmer OS Battambang","Segoe UI",sans-serif}
-  .kh-block{display:block;margin-top:12px;font-size:.88em;line-height:1.7;letter-spacing:0}
-  .red-text{color:var(--red)}
-  .small-note{font-size:12px;line-height:1.55;color:#777}
-  .red-page .small-note{color:rgba(255,255,255,.64)}
+        .brand-logo-img {
+            height: 52px;
+            object-fit: contain;
+            display: block;
+        }
 
-  .footer{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;position:relative;z-index:2}
-  .footer-rule{height:1px;background:var(--line);flex:1;margin-bottom:6px}
-  .red-page .footer-rule{background:rgba(255,255,255,.26)}
-  .footer-text{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888}
-  .red-page .footer-text{color:rgba(255,255,255,.58)}
+        .nav-header-text {
+            font-family: 'Angkor', serif;
+            font-size: 1.15rem;
+            color: var(--text-black);
+            letter-spacing: 0.05em;
+        }
 
-  /* cover */
-  .cover-copy{align-self:center;position:relative;z-index:2}
-  .cover-copy .overline{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:22px}
-  .cover-copy .overline::before{content:"";width:38px;height:3px;background:#fff}
-  .cover-sub{margin-top:28px;max-width:620px;font-size:18px;line-height:1.6;color:rgba(255,255,255,.82)}
-  .cover-art{position:relative;width:100%;height:min(66vh,650px);min-height:440px;align-self:center}
-  .map-sheet{position:absolute;inset:6% 1% 2% 10%;background:#F1EEE8;border:1px solid rgba(255,255,255,.35);box-shadow:0 26px 70px rgba(79,0,4,.28);transform:rotate(1.2deg);overflow:hidden}
-  .map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(30,30,30,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(30,30,30,.06) 1px,transparent 1px);background-size:34px 34px}
-  .road{position:absolute;height:12px;background:#D9D5CE;border:1px solid #C9C4BC;transform-origin:left center}
-  .road.r1{width:82%;left:7%;top:25%;transform:rotate(18deg)}
-  .road.r2{width:70%;left:16%;top:71%;transform:rotate(-27deg)}
-  .road.r3{width:58%;left:38%;top:7%;transform:rotate(77deg)}
-  .river{position:absolute;left:52%;top:-12%;width:82px;height:130%;background:#C9D9E6;transform:rotate(11deg);border-left:1px solid #B8CAD8;border-right:1px solid #B8CAD8}
-  .pin-large{position:absolute;left:59%;top:46%;width:54px;height:54px;border-radius:50% 50% 50% 8px;background:var(--red);transform:rotate(-45deg);box-shadow:0 18px 28px rgba(215,25,32,.24)}
-  .pin-large::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;left:18px;top:18px}
-  .map-label{position:absolute;left:52%;top:65%;background:#fff;padding:12px 14px;border:1px solid #CFCBC4;font-size:12px;font-weight:800;box-shadow:0 10px 24px rgba(20,20,20,.10)}
-  .paper-note{position:absolute;right:1%;top:8%;background:#FFF7C6;color:#2A2618;padding:14px 16px;width:190px;box-shadow:0 10px 24px rgba(50,22,0,.16);transform:rotate(4deg);font-size:12px;line-height:1.45}
-  .paper-note b{display:block;margin-bottom:4px}
-  .search-strip{position:absolute;left:0;bottom:6%;width:76%;background:#fff;border:1px solid #D6D1C9;padding:16px 18px;display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:12px;box-shadow:0 18px 40px rgba(36,12,12,.18);transform:rotate(-1deg)}
-  .search-strip b{font-size:14px}.search-strip span{font-size:11px;color:#777}.search-action{background:var(--red);color:#fff;padding:10px 14px;font-size:11px;font-weight:800}
+        .nav-right-tag {
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
 
-  /* chat / inputs */
-  .chat-board{background:#EFEDE9;border:1px solid var(--line-strong);padding:24px 22px;min-height:470px;box-shadow:var(--shadow);position:relative}
-  .chat-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #D5D1CB;padding-bottom:14px;margin-bottom:20px}
-  .chat-person{display:flex;align-items:center;gap:11px}
-  .avatar{width:38px;height:38px;border-radius:50%;background:#D7D2CB;display:grid;place-items:center;font-size:12px;font-weight:900;color:#555}
-  .chat-person b{display:block;font-size:13px}.chat-person span{font-size:11px;color:#777}
-  .bubble{max-width:74%;padding:11px 14px;margin:10px 0;font-size:13px;line-height:1.45}
-  .bubble.in{background:#fff;border:1px solid #D5D1CB}
-  .bubble.out{background:#242424;color:#fff;margin-left:auto}
-  .bubble small{display:block;margin-top:4px;color:#8A8A8A;font-size:10px}
-  .bubble.out small{color:#BDBDBD}
-  .chat-footer{position:absolute;left:22px;right:22px;bottom:20px;height:46px;border:1px solid #D5D1CB;background:#fff;display:flex;align-items:center;padding:0 14px;color:#999;font-size:12px}
-  .input-list{display:grid;gap:0;border-top:1px solid var(--line-strong)}
-  .input-row{display:grid;grid-template-columns:48px 160px 1fr 90px;align-items:center;gap:16px;padding:17px 0;border-bottom:1px solid var(--line)}
-  .input-no{font-size:12px;font-weight:900;color:var(--red)}
-  .input-name{font-size:14px;font-weight:800}
-  .input-example{font-size:13px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .reliability{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;text-align:right}
-  .high{color:var(--green)}.mid{color:var(--amber)}
+        /* Slide Views Switcher with 3D Book Page Flip Animation */
+        .slide-view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+        }
 
-  /* walkthrough */
-  .process{display:grid;grid-template-columns:1fr 38px 1fr 38px 1fr;align-items:stretch;gap:12px}
-  .process-step{background:#fff;border:1px solid var(--line-strong);padding:22px 20px;min-height:350px;display:flex;flex-direction:column}
-  .process-step .num{font-size:11px;font-weight:900;color:var(--red);letter-spacing:.12em;text-transform:uppercase}
-  .process-step h3{margin-top:12px}.process-step p{margin-top:10px;font-size:12px;line-height:1.55;color:#6B6B6B}
-  .arrow{display:grid;place-items:center;color:#8A8680}
-  .mini-phone{margin-top:18px;border:1px solid #CFCBC4;background:#F5F4F1;padding:10px;flex:1}
-  .mini-phone .bar{height:14px;width:44%;background:#D7D3CD;margin-bottom:12px}
-  .mini-phone .line{height:9px;background:#E1DED8;margin:8px 0}.mini-phone .line.short{width:62%}
-  .mini-link{margin-top:18px;background:#F1EEE8;border:1px solid #D4D0C9;padding:12px;font-size:11px;line-height:1.5;word-break:break-all;color:#454545}
-  .mini-search{margin-top:18px;border:2px solid var(--red);background:#fff;padding:13px;font-size:12px}
-  .mini-result{margin-top:12px;border:1px solid #D4D0C9;background:#fff;padding:12px}.mini-result b{display:block;font-size:12px}.mini-result span{display:block;margin-top:5px;font-size:10px;color:#777}
+        .slide-view.active {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            padding: 85px 30px 85px 75px;
+            gap: 30px;
+            align-items: center;
+            animation: bookPageFlip 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
-  /* verify result */
-  .result-panel{background:#fff;border:1px solid var(--line-strong);box-shadow:var(--shadow);padding:0;overflow:hidden}
-  .result-toolbar{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);font-size:11px;color:#777}
-  .result-map{height:210px;background:#EEECE7;position:relative;overflow:hidden}
-  .result-map::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(30,30,30,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,30,30,.05) 1px,transparent 1px);background-size:28px 28px}
-  .result-map .mroad{position:absolute;height:10px;background:#D0CCC5;transform-origin:left center}.result-map .mroad.a{width:85%;left:4%;top:38%;transform:rotate(12deg)}.result-map .mroad.b{width:70%;left:20%;top:76%;transform:rotate(-24deg)}
-  .result-pin{position:absolute;left:57%;top:42%;width:28px;height:28px;border-radius:50% 50% 50% 4px;background:var(--red);transform:rotate(-45deg)}
-  .result-body{padding:18px 20px}
-  .result-title{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.result-title h3{font-size:19px}.distance{font-size:11px;font-weight:800;color:var(--green)}
-  .detail-table{margin-top:16px;border-top:1px solid var(--line)}
-  .detail-row{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
-  .detail-row span:first-child{color:#777}.detail-row strong{font-weight:800}
-  .detail-row.province-row{margin:0 -20px;padding-left:20px;padding-right:20px;background:#FFF0F0;border-bottom:1px solid #F1C5C7}
-  .verify-list{margin-top:28px;display:grid;gap:16px}
-  .verify-item{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start}
-  .check{width:26px;height:26px;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:12px;font-weight:900}
-  .verify-item b{display:block;font-size:13px}.verify-item span{display:block;margin-top:4px;font-size:12px;line-height:1.5;color:#707070}
+        @keyframes bookPageFlip {
+            from {
+                opacity: 0;
+                transform: rotateY(-20deg) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: rotateY(0deg) scale(1);
+            }
+        }
 
-  /* ambiguity */
-  .split-line{width:1px;height:75%;background:var(--line-strong);align-self:center}
-  .place-case{padding:8px 12px 8px 0}
-  .place-case.right{padding:8px 0 8px 12px}
-  .case-tag{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
-  .place-case h3{font-size:28px;margin-top:12px}.place-case .khname{font-size:17px;margin-top:6px;color:#555}
-  .case-map{margin-top:22px;height:180px;background:#EEECE7;border:1px solid var(--line-strong);position:relative;overflow:hidden}
-  .case-map::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(30,30,30,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,30,30,.05) 1px,transparent 1px);background-size:26px 26px}
-  .case-map .dotpin{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--red);left:58%;top:45%;box-shadow:0 0 0 7px rgba(215,25,32,.16)}
-  .case-data{margin-top:18px;display:grid;grid-template-columns:110px 1fr;gap:8px 14px;font-size:12px}.case-data dt{color:#777}.case-data dd{margin:0;font-weight:700}
-  .decision{margin-top:18px;border-left:3px solid var(--red);padding-left:14px;font-size:12px;line-height:1.55;color:#555}
+        /* LEFT CONTENT COLUMN */
+        .left-content {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            max-width: 720px;
+        }
 
-  /* recovery */
-  .recovery-grid{display:grid;grid-template-columns:260px 1fr;gap:34px}
-  .query-card{background:#1E1E1E;color:#fff;padding:20px;min-height:350px;display:flex;flex-direction:column;justify-content:space-between}
-  .query-card .query{font-size:28px;font-weight:850;letter-spacing:-.03em;word-break:break-word}.query-card .sub{margin-top:10px;font-size:12px;color:#BDBDBD;line-height:1.6}
-  .no-result{border-top:1px solid #454545;padding-top:16px;font-size:11px;color:#D7D7D7}
-  .cascade{border-top:1px solid var(--line-strong)}
-  .cascade-row{display:grid;grid-template-columns:54px 150px 1fr auto;gap:16px;align-items:center;padding:17px 0;border-bottom:1px solid var(--line)}
-  .cascade-row .stepn{font-size:11px;font-weight:900;color:#8A8580}.cascade-row.active .stepn{color:var(--red)}
-  .cascade-row b{font-size:13px}.cascade-row span{font-size:12px;color:#707070}.cascade-row .state{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.state.failed{color:#9B3A3A}.state.found{color:var(--green)}
-  .cascade-row.active{background:#FFF7F7;margin:0 -18px;padding-left:18px;padding-right:18px}
+        .eyebrow-line {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            color: var(--brand-red);
+            text-transform: uppercase;
+        }
 
-  /* final */
-  .cheat{display:grid;grid-template-columns:1.08fr .92fr;gap:44px;align-items:center}
-  .checks{border-top:1px solid rgba(255,255,255,.4);margin-top:32px}
-  .check-row{display:grid;grid-template-columns:50px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.25)}
-  .check-row .n{font-size:11px;font-weight:900;color:rgba(255,255,255,.7)}.check-row b{display:block;font-size:16px}.check-row span{display:block;margin-top:5px;font-size:12px;color:rgba(255,255,255,.68);line-height:1.55}
-  .desk-card{background:#fff;color:var(--ink);padding:26px;box-shadow:0 22px 60px rgba(88,0,4,.28);transform:rotate(1deg)}
-  .desk-card .head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:14px}.desk-card .head b{font-size:12px}.desk-card .head span{font-size:10px;color:#777}
-  .final-search{margin-top:20px;border:1.5px solid #B9B5AF;padding:14px 15px;display:flex;justify-content:space-between;gap:10px;font-size:12px}.final-search button{border:0;background:var(--red);color:#fff;padding:8px 12px;font-size:10px;font-weight:900}
-  .final-result{margin-top:14px;border:1px solid var(--line);padding:14px}.final-result b{display:block;font-size:14px}.final-result span{display:block;margin-top:5px;font-size:11px;color:#777}
-  .approved{margin-top:18px;border:2px solid var(--green);color:var(--green);padding:11px;text-align:center;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;transform:rotate(-1deg)}
+        .eyebrow-line::before {
+            content: '';
+            width: 48px;
+            height: 6px;
+            background: var(--brand-red);
+            border-radius: 4px;
+        }
 
-  /* navigation */
-  .nav{position:fixed;right:24px;bottom:20px;z-index:100;display:flex;align-items:center;gap:7px;background:#171717;padding:7px}
-  .nav button{width:34px;height:34px;border:1px solid #3B3B3B;background:#222;color:#fff;cursor:pointer;display:grid;place-items:center;font-size:18px}
-  .nav button:hover{background:var(--red);border-color:var(--red)}
-  .progress{display:flex;gap:5px;padding:0 6px}.progress i{width:16px;height:2px;background:#555;display:block;cursor:pointer}.progress i.active{background:#fff}
+        /* HERO TITLE WITH ANGKOR FONT */
+        .hero-title-bold {
+            font-family: 'Angkor', serif;
+            font-size: 5.2rem;
+            line-height: 1.1;
+            color: var(--text-black);
+            letter-spacing: -0.01em;
+        }
 
-  .red-stroke{position:absolute;width:110px;height:12px;background:var(--red);opacity:.95;transform:rotate(-2deg)}
-  .hand-note{position:absolute;font-family:"Segoe Print","Comic Sans MS",cursive;font-size:13px;color:var(--red);transform:rotate(-4deg)}
+        .hero-title-bold span {
+            color: var(--brand-red);
+        }
 
-  @media (max-width:980px){
-    .slide{grid-template-columns:54px 1fr}.page{padding:24px 26px 22px 28px}.stage.two,.stage.two.wide-left,.cheat{grid-template-columns:1fr;gap:24px}.stage{overflow:auto;padding:20px 0}.cover-art{height:410px}.process{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.stage.split{grid-template-columns:1fr}.split-line{width:100%;height:1px}.recovery-grid{grid-template-columns:1fr}.query-card{min-height:230px}.chat-board{min-height:430px}.input-row{grid-template-columns:36px 120px 1fr}.reliability{display:none}.nav{right:12px;bottom:12px}
-  }
-  @media (max-width:640px){
-    .slide{grid-template-columns:1fr}.rail{display:none}.page{padding:20px 18px 72px}.top{align-items:flex-start}.meta{display:none}h1{font-size:3.5rem}h2{font-size:2.7rem}.cover-art{height:360px;min-height:360px}.paper-note{display:none}.search-strip{width:92%}.process-step{min-height:280px}.input-row{grid-template-columns:28px 100px 1fr;gap:8px}.case-data{grid-template-columns:90px 1fr}.result-map{height:160px}.nav{left:50%;right:auto;transform:translateX(-50%)}
-  }
-</style>
+        /* ENLARGED BILINGUAL DESCRIPTION & KHMER TEXT */
+        .sub-english {
+            font-size: 1.75rem;
+            color: var(--text-black);
+            line-height: 1.45;
+            font-weight: 800;
+        }
+
+        .sub-khmer {
+            font-family: 'Angkor', serif;
+            font-size: 1.6rem;
+            color: var(--brand-red);
+            line-height: 1.65;
+            background: #fff1f2;
+            padding: 16px 20px;
+            border-radius: 10px;
+            border-left: 6px solid var(--brand-red);
+            box-shadow: 0 4px 12px rgba(225, 27, 34, 0.08);
+        }
+
+        /* Status & Rule Cards */
+        .status-flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status-step-card {
+            background: #f8fafc;
+            border: 2px solid var(--text-black);
+            border-left: 6px solid var(--brand-red);
+            padding: 14px 18px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-code-badge {
+            background: var(--text-black);
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 1.25rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .status-desc-text {
+            font-size: 1.35rem;
+            color: var(--text-black);
+            line-height: 1.4;
+            font-weight: 800;
+        }
+
+        /* KPI Explanation Grid */
+        .kpi-explain-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .kpi-card {
+            background: #f8fafc;
+            border: 2px solid var(--text-black);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .kpi-badge-tag {
+            font-size: 1.1rem;
+            font-weight: 900;
+            padding: 6px 14px;
+            border-radius: 6px;
+            display: inline-block;
+            width: max-content;
+        }
+
+        .kpi-badge-tag.green { background: #d1fae5; color: #047857; }
+        .kpi-badge-tag.red { background: #ffe4e6; color: #b91c1c; }
+
+        .kpi-card-text {
+            font-size: 1.3rem;
+            color: var(--text-black);
+            line-height: 1.4;
+            font-weight: 800;
+        }
+
+        /* Right Visual Slide Paper Frame */
+        .right-exhibit {
+            width: 100%;
+            height: 100%;
+            max-height: 560px;
+            background: #ffffff;
+            border: 3px solid var(--text-black);
+            border-radius: 14px;
+            box-shadow: 16px 16px 0px rgba(9, 13, 22, 0.1);
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* STYLISH SMALL CORNER STICKER BADGES */
+        .exhibit-sticker {
+            position: absolute;
+            bottom: -14px;
+            left: 20px;
+            background: var(--brand-red);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(225, 27, 34, 0.35);
+            border: 2px solid #ffffff;
+            transform: rotate(-4deg);
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .exhibit-sticker.blue {
+            background: #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            transform: rotate(3deg);
+        }
+
+        .exhibit-sticker.amber {
+            background: #d97706;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+            transform: rotate(-3deg);
+        }
+
+        .exhibit-sticker.green {
+            background: #059669;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
+            transform: rotate(4deg);
+        }
+
+        .exhibit-sticker.purple {
+            background: #7c3aed;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+            transform: rotate(-5deg);
+        }
+
+        /* Yellow Sticky Note Callout */
+        .sticky-note {
+            position: absolute;
+            top: -18px;
+            right: 20px;
+            background: var(--sticky-yellow);
+            color: var(--sticky-text);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 900;
+            border: 2px solid #eab308;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            transform: rotate(2deg);
+            z-index: 20;
+            max-width: 230px;
+            line-height: 1.4;
+        }
+
+        /* GRID TAB SWITCHERS */
+        .tab-switcher {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            border-bottom: 3px solid var(--border-light);
+            padding-bottom: 8px;
+            width: 100%;
+        }
+
+        .tab-switcher.two-cols {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .exhibit-tab {
+            background: #f1f5f9;
+            border: 2px solid var(--border-light);
+            font-size: 0.82rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            padding: 8px 6px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .exhibit-tab.active {
+            background: var(--text-black);
+            color: #ffffff;
+            border-color: var(--text-black);
+        }
+
+        /* Display Image Container */
+        .exhibit-display-frame {
+            flex: 1;
+            width: 100%;
+            background: #ffffff;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exhibit-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        /* FIXED PERMANENTLY VISIBLE BOOK FLIP NAVIGATION BAR */
+        .bottom-nav {
+            position: fixed;
+            bottom: 24px;
+            left: 75px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .page-mark {
+            font-size: 0.95rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            color: var(--text-black);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 2px solid var(--text-black);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            pointer-events: auto;
+        }
+
+        /* ELEGANT BOOK PAGE TURN CONTROLLER */
+        .nav-controls-box {
+            background: var(--text-black);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 8px 24px rgba(9, 13, 22, 0.25);
+            border: 2px solid #ffffff;
+            pointer-events: auto;
+        }
+
+        .book-turn-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .book-turn-btn:hover:not(:disabled) {
+            color: var(--brand-red);
+            transform: scale(1.05);
+        }
+
+        .book-turn-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .dot.active {
+            background: var(--brand-red);
+            width: 26px;
+            border-radius: 10px;
+        }
+
+        /* Fullscreen Sharp Lightbox Modal */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(9, 13, 22, 0.95);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+        }
+
+        .lightbox-box {
+            width: 95vw;
+            height: 90vh;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: var(--text-black);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 900;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .lightbox-img-full {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
+        }
+    </style>
 </head>
 <body>
-<div class="deck" id="deck">
 
-  <!-- 01 COVER -->
-  <section class="slide active" data-index="0">
-    <aside class="rail red">
-      <div class="brand-mark">M</div>
-      <div class="rail-num">Metfone Express · Internal Training</div>
-      <div class="rail-line"></div>
-      <div class="rail-page">01</div>
-    </aside>
-    <main class="page red-page">
-      <header class="top"><div class="label">Map Search Training</div><div class="meta">Operations guide · 2026</div></header>
-      <div class="stage two">
-        <div class="cover-copy">
-          <div class="overline">Find the right destination</div>
-          <h1>Right branch.<br>First time.</h1>
-          <p class="cover-sub">A practical guide for finding a customer’s location, checking the province, and avoiding a wrong route.</p>
-          <p class="cover-sub kh" style="font-size:16px;margin-top:14px">ស្វែងរកទីតាំងឱ្យត្រឹមត្រូវ ពិនិត្យខេត្ត ហើយជៀសវាងការបញ្ជូនខុសផ្លូវ។</p>
-        </div>
-        <div class="cover-art" aria-label="Map search illustration">
-          <div class="map-sheet">
-            <div class="map-grid"></div><div class="river"></div><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div>
-            <div class="pin-large"></div><div class="map-label">Chamkar Doung Branch<br><span style="font-weight:500;color:#777">Phnom Penh · 2.3 km</span></div>
-          </div>
-          <div class="paper-note"><b>Before confirming</b>Check province, district and branch code.</div>
-          <div class="search-strip">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D71920" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <div><b>ផ្សារទួលពង្រ</b><span>Search by Khmer, English or map link</span></div><div class="search-action">SEARCH</div>
-          </div>
-        </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Metfone Express</div><div class="footer-rule"></div><div class="footer-text">Location & route accuracy</div></footer>
-    </main>
-  </section>
+    <!-- 16:9 Landscape Presentation Canvas -->
+    <div class="landscape-canvas">
+        
+        <!-- Left Margin Vertical Stamp -->
+        <div class="side-stamp">METFONE EXPRESS · INTERNAL TRAINING</div>
 
-  <!-- 02 START WITH WHAT CUSTOMER GIVES -->
-  <section class="slide" data-index="1">
-    <aside class="rail"><div class="brand-mark">M</div><div class="rail-num">Start with the customer</div><div class="rail-line"></div><div class="rail-page">02</div></aside>
-    <main class="page white-page">
-      <header class="top"><div class="label">01 · Receive the location</div><div class="meta">Do not guess the place from memory</div></header>
-      <div class="stage two wide-left">
-        <div>
-          <h2>Start with what the customer actually sends.</h2>
-          <p class="lede">A customer may send a market name, a branch code, a map link, or only the province. Use the strongest information first.</p>
-          <p class="lede kh" style="font-size:15px;margin-top:12px">អតិថិជនអាចផ្ញើឈ្មោះផ្សារ លេខកូដសាខា Link ផែនទី ឬខេត្តតែប៉ុណ្ណោះ។ ប្រើព័ត៌មានដែលច្បាស់ជាងគេមុន។</p>
-          <div class="input-list" style="margin-top:28px">
-            <div class="input-row"><div class="input-no">01</div><div class="input-name">Google Maps link</div><div class="input-example">maps.app.goo.gl/…</div><div class="reliability high">Most reliable</div></div>
-            <div class="input-row"><div class="input-no">02</div><div class="input-name">Branch code</div><div class="input-example">PNPP014</div><div class="reliability high">Exact</div></div>
-            <div class="input-row"><div class="input-no">03</div><div class="input-name">Coordinates</div><div class="input-example">11.5566, 104.9282</div><div class="reliability high">Exact point</div></div>
-            <div class="input-row"><div class="input-no">04</div><div class="input-name">Place name</div><div class="input-example">ផ្សារចាស់ / Psar Chas</div><div class="reliability mid">Verify province</div></div>
-          </div>
-        </div>
-        <div class="chat-board">
-          <div class="chat-head"><div class="chat-person"><div class="avatar">SK</div><div><b>Sokha Customer</b><span>Online now</span></div></div><span style="font-size:11px;color:#777">10:24 AM</span></div>
-          <div class="bubble in kh">បង ផ្ញើទៅផ្សារចាស់បានទេ?<small>Customer message</small></div>
-          <div class="bubble out kh">ផ្សារចាស់នៅខេត្តណាបង?<small>Ask one clear question</small></div>
-          <div class="bubble in kh">សៀមរាប ជិត Pub Street<small>Province + landmark</small></div>
-          <div class="bubble in">https://maps.app.goo.gl/…<small>Best input</small></div>
-          <div class="chat-footer">Type a reply…</div>
-          <div class="hand-note" style="right:22px;top:212px">Ask for province</div>
-        </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Rule</div><div class="footer-rule"></div><div class="small-note">Never choose a branch from a generic name alone.</div></footer>
-    </main>
-  </section>
-
-  <!-- 03 PRIORITY -->
-  <section class="slide" data-index="2">
-    <aside class="rail"><div class="brand-mark">M</div><div class="rail-num">Choose the strongest input</div><div class="rail-line"></div><div class="rail-page">03</div></aside>
-    <main class="page">
-      <header class="top"><div class="label">02 · Choose the input</div><div class="meta">Fastest route to an accurate result</div></header>
-      <div class="stage two">
-        <div>
-          <h2>Use the fastest reliable input—not the most familiar one.</h2>
-          <p class="lede">Staff often type the market name because it feels easy. A map link or branch code is usually faster because it removes ambiguity.</p>
-          <div style="margin-top:30px;border-left:3px solid var(--red);padding-left:18px">
-            <h3>Recommended order</h3>
-            <p class="small-note" style="margin-top:8px">Map link → Branch code → Coordinates → Place name + province</p>
-          </div>
-        </div>
-        <div class="input-list">
-          <div class="input-row"><div class="input-no">A</div><div class="input-name">Map link</div><div class="input-example">Copy → paste → search</div><div class="reliability high">1 step</div></div>
-          <div class="input-row"><div class="input-no">B</div><div class="input-name">Branch code</div><div class="input-example">Search exact branch</div><div class="reliability high">1 step</div></div>
-          <div class="input-row"><div class="input-no">C</div><div class="input-name">Coordinates</div><div class="input-example">Use when link is unavailable</div><div class="reliability high">1 step</div></div>
-          <div class="input-row"><div class="input-no">D</div><div class="input-name">Khmer / English</div><div class="input-example">Add province or district</div><div class="reliability mid">2–3 steps</div></div>
-          <div class="input-row"><div class="input-no">E</div><div class="input-name">Province only</div><div class="input-example">Use as a filter, not final answer</div><div class="reliability mid">Needs review</div></div>
-        </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Training note</div><div class="footer-rule"></div><div class="small-note kh">បើមាន Link ផែនទី សូមប្រើ Link មុនឈ្មោះទីតាំង។</div></footer>
-    </main>
-  </section>
-
-  <!-- 04 LINK WALKTHROUGH -->
-  <section class="slide" data-index="3">
-    <aside class="rail"><div class="brand-mark">M</div><div class="rail-num">Google Maps link workflow</div><div class="rail-line"></div><div class="rail-page">04</div></aside>
-    <main class="page white-page">
-      <header class="top"><div class="label">03 · Search from a map link</div><div class="meta">The safest workflow</div></header>
-      <div class="stage">
-        <div>
-          <h2 style="max-width:760px">Copy once. Paste once. Verify once.</h2>
-          <p class="lede" style="margin-bottom:28px">This is the preferred workflow when the customer shares a Google Maps location.</p>
-          <div class="process">
-            <div class="process-step">
-              <div class="num">Step 01</div><h3>Open the shared location</h3><p>Tap the link and confirm it opens the expected place in Google Maps.</p>
-              <div class="mini-phone"><div class="bar"></div><div class="line"></div><div class="line short"></div><div class="line"></div><div class="mini-link">https://maps.app.goo.gl/7nA…</div></div>
+        <!-- Top Navigation with Official Metfone Express Brand Logo -->
+        <div class="top-nav">
+            <div class="logo-box">
+                <img src="/images/metfone_express_logo.png" alt="Metfone Express Logo" class="brand-logo-img">
+                <div class="nav-header-text">DAILY DISPATCH BOT TRAINING</div>
             </div>
-            <div class="arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-            <div class="process-step">
-              <div class="num">Step 02</div><h3>Paste it into Map Search</h3><p>Do not rewrite the address manually. Paste the full link directly.</p>
-              <div class="mini-phone"><div class="mini-search">maps.app.goo.gl/7nA…</div><div style="margin-top:12px;background:var(--red);color:#fff;padding:11px;text-align:center;font-size:11px;font-weight:900">SEARCH</div></div>
+            <div class="nav-right-tag" id="slideTag">Slide 1 of 5 · Ops tms guide</div>
+        </div>
+
+        <!-- SLIDE 1 VIEW: CORE BOT OPERATIONS -->
+        <div id="slide1" class="slide-view active">
+            <div class="left-content">
+                <div class="eyebrow-line">Chapter 01 · Bot Core Operations</div>
+                
+                <h1 class="hero-title-bold">
+                    Right report.<br><span>Every shift.</span>
+                </h1>
+
+                <p class="sub-english">
+                    A practical guide for automated daily pushes, 4-stage order tracking, 3-shift clearance comparison, and status logs.
+                </p>
+
+                <p class="sub-khmer">
+                    សៀវភៅណែនាំសម្រាប់ការប្រើប្រាស់ Bot ស្វ័យប្រវត្តិនៃការទាញរបាយការណ៍ប្រចាំថ្ងៃ និងតាមដានទិន្នន័យ។
+                </p>
             </div>
-            <div class="arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-            <div class="process-step">
-              <div class="num">Step 03</div><h3>Check the result before confirming</h3><p>Match the province, district, and branch code with the customer’s location.</p>
-              <div class="mini-phone"><div class="mini-result"><b>Chamkar Doung Branch</b><span>PNPP014 · Dangkao</span></div><div class="mini-result" style="border-left:3px solid var(--red)"><b>Phnom Penh</b><span>Province verified</span></div></div>
+
+            <div class="right-exhibit">
+                <div class="sticky-note">
+                    📌 <b>Crisp Table View:</b><br>Click table to inspect full 100% size!
+                </div>
+
+                <!-- STYLISH STICKER BADGE FOR SLIDE 1 -->
+                <div class="exhibit-sticker">
+                    <span>🏷️ VERIFIED DATA</span>
+                </div>
+
+                <div class="tab-switcher">
+                    <button class="exhibit-tab active" onclick="switchExhibit('table1', this)">1. THOP001</button>
+                    <button class="exhibit-tab" onclick="switchExhibit('table2', this)">2. Delivery</button>
+                    <button class="exhibit-tab" onclick="switchExhibit('table3', this)">3. Transit</button>
+                    <button class="exhibit-tab" onclick="switchExhibit('table4', this)">4. SVAP001</button>
+                </div>
+
+                <div class="exhibit-display-frame" onclick="openLightbox()">
+                    <img id="exhibitImg" src="/images/thop001_branch_sharp.png" alt="THOP001 Branch Sharp Table" class="exhibit-img">
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Preferred method</div><div class="footer-rule"></div><div class="small-note">Use the original link. Do not copy only the place title.</div></footer>
-    </main>
-  </section>
 
-  <!-- 05 VERIFY -->
-  <section class="slide" data-index="4">
-    <aside class="rail"><div class="brand-mark">M</div><div class="rail-num">Verify before confirming</div><div class="rail-line"></div><div class="rail-page">05</div></aside>
-    <main class="page">
-      <header class="top"><div class="label">04 · Verify the result</div><div class="meta">Accuracy check</div></header>
-      <div class="stage two">
-        <div class="result-panel">
-          <div class="result-toolbar"><span>Search result</span><span>2.3 km away</span></div>
-          <div class="result-map"><div class="mroad a"></div><div class="mroad b"></div><div class="result-pin"></div></div>
-          <div class="result-body">
-            <div class="result-title"><div><h3>Chamkar Doung Post Office</h3><div class="small-note" style="margin-top:5px">PNPP014</div></div><div class="distance">Nearest match</div></div>
-            <div class="detail-table">
-              <div class="detail-row"><span>District</span><strong>Dangkao · ដង្កោ</strong></div>
-              <div class="detail-row"><span>Commune</span><strong>Prey Sa · ព្រៃស</strong></div>
-              <div class="detail-row province-row"><span>Province</span><strong style="color:var(--red)">Phnom Penh · ភ្នំពេញ</strong></div>
-              <div class="detail-row"><span>Distance</span><strong>2.3 km</strong></div>
+        <!-- SLIDE 2 VIEW: DELIVERY & NOT ASSIGN CLEARANCE -->
+        <div id="slide2" class="slide-view">
+            <div class="left-content">
+                <div class="eyebrow-line">Chapter 02 · Delivery & Not Assign Logic</div>
+                
+                <h1 class="hero-title-bold" style="font-size: 4.6rem;">
+                    Clear pending.<br><span>Hit KPI 10h.</span>
+                </h1>
+
+                <div class="status-flow-container">
+                    <div class="status-step-card" style="border-left-color: #f59e0b;">
+                        <div class="status-code-badge" style="background: #f59e0b;">306</div>
+                        <div class="status-desc-text"><b>At Store / Pending:</b> Order pending at branch awaiting courier assignment.</div>
+                    </div>
+
+                    <div class="status-step-card" style="border-left-color: #2563eb;">
+                        <div class="status-code-badge" style="background: #2563eb;">402</div>
+                        <div class="status-desc-text"><b>Assign Courier (10h KPI):</b> Courier assigned — 10h SLA timer starts!</div>
+                    </div>
+
+                    <div class="status-step-card" style="border-left-color: #10b981;">
+                        <div class="status-code-badge" style="background: #10b981;">OUTCOMES</div>
+                        <div class="status-desc-text">
+                            <b>410</b> (Shipped) | <b>420</b> (Ship again) | <b>430</b> (Failed) | <b>460</b> (Return)
+                        </div>
+                    </div>
+                </div>
+
+                <p class="sub-khmer">
+                    <b>ច្បាប់ប្រតិបត្តិការ៖</b> ប្តូរទំនិញកកស្ទះ 306 ទៅ 402 (កំណត់ KPI 10h) ដើម្បីចាប់ផ្តើមរាប់ម៉ោង និងទទួលបានលទ្ធផល 410, 420, 430 ឬ 460។
+                </p>
             </div>
-          </div>
-        </div>
-        <div>
-          <h2>Pause for ten seconds before you confirm.</h2>
-          <p class="lede">A result can be close but still be in the wrong district or province. Check these three fields every time.</p>
-          <div class="verify-list">
-            <div class="verify-item"><div class="check">1</div><div><b>Province</b><span>Does it match what the customer said?</span></div></div>
-            <div class="verify-item"><div class="check">2</div><div><b>District or nearby landmark</b><span>Is the branch in the same service area?</span></div></div>
-            <div class="verify-item"><div class="check">3</div><div><b>Branch code</b><span>Use the code for routing and handover.</span></div></div>
-          </div>
-        </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Critical check</div><div class="footer-rule"></div><div class="small-note kh">កុំបញ្ជាក់លទ្ធផល មុនពេលពិនិត្យខេត្ត និងលេខកូដសាខា។</div></footer>
-    </main>
-  </section>
 
-  <!-- 06 SAME NAME -->
-  <section class="slide" data-index="5">
-    <aside class="rail"><div class="brand-mark">M</div><div class="rail-num">Same name, different place</div><div class="rail-line"></div><div class="rail-page">06</div></aside>
-    <main class="page white-page">
-      <header class="top"><div class="label">05 · Resolve duplicate names</div><div class="meta">Example: ផ្សារចាស់ / Psar Chas</div></header>
-      <div class="stage split">
-        <article class="place-case">
-          <div class="case-tag">Result A</div><h3>Old Market — Siem Reap</h3><div class="khname kh">ផ្សារចាស់ សៀមរាប</div>
-          <div class="case-map"><div class="dotpin"></div></div>
-          <dl class="case-data"><dt>Province</dt><dd>Siem Reap</dd><dt>Area</dt><dd>Near Pub Street</dd><dt>Use when</dt><dd>Customer says tourist area or Siem Reap</dd></dl>
-          <div class="decision">Choose this only when the province or nearby landmark matches.</div>
-        </article>
-        <div class="split-line"></div>
-        <article class="place-case right">
-          <div class="case-tag">Result B</div><h3>Old Market — Phnom Penh</h3><div class="khname kh">ផ្សារចាស់ ភ្នំពេញ</div>
-          <div class="case-map"><div class="dotpin" style="left:40%;top:58%"></div></div>
-          <dl class="case-data"><dt>Province</dt><dd>Phnom Penh</dd><dt>Area</dt><dd>Doun Penh / Riverfront</dd><dt>Use when</dt><dd>Customer says Phnom Penh or riverside</dd></dl>
-          <div class="decision">Do not select the first result just because the name matches.</div>
-        </article>
-      </div>
-      <footer class="footer"><div class="footer-text">Search tip</div><div class="footer-rule"></div><div class="small-note">Type the place name together with province: “psar chas siem reap”.</div></footer>
-    </main>
-  </section>
+            <div class="right-exhibit">
+                <div class="sticky-note" style="background: #dbeafe; color: #1e40af; border-color: #3b82f6;">
+                    ⚡ <b>Rule 306 → 402:</b><br>Assigning courier triggers 10h KPI timer immediately!
+                </div>
 
-  <!-- 07 RECOVERY -->
-  <section class="slide" data-index="6">
-    <aside class="rail"><div class="brand-mark">M</div><div class="rail-num">Recover from no result</div><div class="rail-line"></div><div class="rail-page">07</div></aside>
-    <main class="page">
-      <header class="top"><div class="label">06 · When nothing appears</div><div class="meta">Widen the search carefully</div></header>
-      <div class="stage two wide-left">
-        <div>
-          <h2>No result does not mean no service.</h2>
-          <p class="lede">The village name may be missing or spelled differently. Move outward one level at a time instead of guessing another branch.</p>
-          <div class="recovery-grid" style="margin-top:28px">
-            <div class="query-card"><div><div class="label" style="color:#FFB9BC">Original search</div><div class="query kh" style="margin-top:14px">ភូមិចំណោមកើត</div><div class="sub">No exact location found in the database.</div></div><div class="no-result">Search status · 0 exact matches</div></div>
-            <div class="cascade">
-              <div class="cascade-row"><div class="stepn">01</div><b>Village</b><span>Chamnaom Kaeut</span><div class="state failed">No match</div></div>
-              <div class="cascade-row"><div class="stepn">02</div><b>Commune</b><span>Tuol Pongro</span><div class="state failed">No branch</div></div>
-              <div class="cascade-row active"><div class="stepn">03</div><b>District</b><span>Malai</span><div class="state found">Branch found</div></div>
-              <div class="cascade-row"><div class="stepn">04</div><b>Province</b><span>Banteay Meanchey</span><div class="state">Fallback</div></div>
+                <!-- STYLISH STICKER BADGE FOR SLIDE 2 -->
+                <div class="exhibit-sticker blue">
+                    <span>⚡ 10H SLA ACTIVE</span>
+                </div>
+
+                <div class="tab-switcher two-cols">
+                    <button class="exhibit-tab active" onclick="switchExhibitSlide2('table2', this)">1. Delivery Table (SVAP001)</button>
+                    <button class="exhibit-tab" onclick="switchExhibitSlide2('table4', this)">2. Not Assign Table (SVAP001)</button>
+                </div>
+
+                <div class="exhibit-display-frame" onclick="openLightbox()">
+                    <img id="exhibitImgSlide2" src="/images/svap001_delivery_sharp.png" alt="SVAP001 Delivery Sharp Table" class="exhibit-img">
+                </div>
             </div>
-          </div>
         </div>
-        <div style="align-self:end;padding-bottom:30px">
-          <div style="border-top:3px solid var(--red);padding-top:18px">
-            <h3>Stop when the service area becomes clear.</h3>
-            <p class="small-note" style="margin-top:10px">Then show the nearest valid branch inside that district or province. Keep the original location visible for staff review.</p>
-          </div>
-        </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Recovery order</div><div class="footer-rule"></div><div class="small-note">Village → Commune → District → Province</div></footer>
-    </main>
-  </section>
 
-  <!-- 08 FINAL -->
-  <section class="slide" data-index="7">
-    <aside class="rail red"><div class="brand-mark">M</div><div class="rail-num">Final branch check</div><div class="rail-line"></div><div class="rail-page">08</div></aside>
-    <main class="page red-page">
-      <header class="top"><div class="label">Before you confirm</div><div class="meta">One-screen checklist</div></header>
-      <div class="stage">
-        <div class="cheat">
-          <div>
-            <h2>Four checks.<br>One correct route.</h2>
-            <div class="checks">
-              <div class="check-row"><div class="n">01</div><div><b>Use the strongest input</b><span>Map link or branch code before a generic place name.</span></div></div>
-              <div class="check-row"><div class="n">02</div><div><b>Confirm province</b><span>Never trust a duplicate place name without province.</span></div></div>
-              <div class="check-row"><div class="n">03</div><div><b>Check district and distance</b><span>The nearest result must still be in the correct service area.</span></div></div>
-              <div class="check-row"><div class="n">04</div><div><b>Use the branch code</b><span>Route and hand over using the verified code.</span></div></div>
+        <!-- SLIDE 3 VIEW: PICKUP & MEGA TRANSIT -->
+        <div id="slide3" class="slide-view">
+            <div class="left-content">
+                <div class="eyebrow-line">Chapter 03 · Pickup & Mega Transit Action</div>
+                
+                <h1 class="hero-title-bold" style="font-size: 4.6rem;">
+                    Verify pickup.<br><span>Transit fast.</span>
+                </h1>
+
+                <div class="status-flow-container">
+                    <div class="status-step-card" style="border-left-color: #e11b22;">
+                        <div class="status-code-badge" style="background: #e11b22;">PICKUP APP</div>
+                        <div class="status-desc-text">For pending pickup bills, staff <b>must check Pickup Page in TMS App</b> for customer assignments!</div>
+                    </div>
+
+                    <div class="status-step-card" style="border-left-color: #2563eb;">
+                        <div class="status-code-badge" style="background: #2563eb;">MEGA TRANSIT</div>
+                        <div class="status-desc-text">Verify <b>Send Mega Table (302/306/311)</b> to ensure packages are loaded on transit trucks.</div>
+                    </div>
+                </div>
+
+                <p class="sub-khmer">
+                    <b>ច្បាប់ប្រតិបត្តិការ៖</b> សម្រាប់អីវ៉ាន់ត្រូវយក (Pickup) ត្រូវពិនិត្យទំព័រ Pickup ក្នុង App ដើម្បីមើលការ assign ពីអតិថិជន និងរៀបចំផ្ញើបន្តតាម MEGA។
+                </p>
             </div>
-          </div>
-          <div class="desk-card">
-            <div class="head"><b>Map Search</b><span>Final review</span></div>
-            <div class="final-search"><span>maps.app.goo.gl/7nA…</span><button>SEARCH</button></div>
-            <div class="final-result"><b>Chamkar Doung Post Office</b><span>PNPP014 · Dangkao · Phnom Penh</span></div>
-            <div class="final-result"><b>Customer location</b><span>Prey Sa commune · 2.3 km from branch</span></div>
-            <div class="approved">Province verified · Ready to route</div>
-          </div>
+
+            <div class="right-exhibit">
+                <div class="sticky-note" style="background: #fef3c7; color: #92400e; border-color: #f59e0b;">
+                    📲 <b>Check App First:</b><br>Open TMS App Pickup Page to confirm customer requests!
+                </div>
+
+                <!-- STYLISH STICKER BADGE FOR SLIDE 3 -->
+                <div class="exhibit-sticker amber">
+                    <span>📲 APP CHECK REQUIRED</span>
+                </div>
+
+                <div class="tab-switcher two-cols">
+                    <button class="exhibit-tab active" onclick="switchExhibitSlide3('table1', this)">1. Pickup Table (THOP001)</button>
+                    <button class="exhibit-tab" onclick="switchExhibitSlide3('table3', this)">2. Send Mega Table (SVAP001)</button>
+                </div>
+
+                <div class="exhibit-display-frame" onclick="openLightbox()">
+                    <img id="exhibitImgSlide3" src="/images/thop001_branch_sharp.png" alt="Pickup & Send Mega Table" class="exhibit-img">
+                </div>
+            </div>
         </div>
-      </div>
-      <footer class="footer"><div class="footer-text">Metfone Express · Training 2026</div><div class="footer-rule"></div><div class="footer-text kh">ស្វែងរកត្រឹមត្រូវ · បញ្ជូនត្រឹមត្រូវ</div></footer>
-    </main>
-  </section>
-</div>
 
-<nav class="nav" aria-label="Slide navigation">
-  <button type="button" id="prev" aria-label="Previous slide">‹</button>
-  <div class="progress" id="progress"></div>
-  <button type="button" id="next" aria-label="Next slide">›</button>
-</nav>
+        <!-- SLIDE 4 VIEW: HOW OPERATIONAL KPI & AGE SLA WORK -->
+        <div id="slide4" class="slide-view">
+            <div class="left-content">
+                <div class="eyebrow-line">Chapter 04 · Operational KPI & Age SLA</div>
+                
+                <h1 class="hero-title-bold" style="font-size: 4.6rem;">
+                    Target 10h.<br><span>Zero overdue.</span>
+                </h1>
 
-<script>
-  const slides=[...document.querySelectorAll('.slide')];
-  const progress=document.getElementById('progress');
-  let current=0,locked=false,touchStart=0;
+                <div class="kpi-explain-box">
+                    <div class="kpi-card" style="border-left: 6px solid #10b981;">
+                        <div class="kpi-badge-tag green">🟢 GREEN (0h — 9h 59m)</div>
+                        <div class="kpi-card-text">
+                            <b>Safe SLA Zone:</b> Order age is within 10-hour target. Delivery on schedule.
+                        </div>
+                    </div>
 
-  slides.forEach((_,i)=>{
-    const bar=document.createElement('i');
-    bar.className=i===0?'active':'';
-    bar.addEventListener('click',()=>go(i));
-    progress.appendChild(bar);
-  });
+                    <div class="kpi-card" style="border-left: 6px solid #e11b22;">
+                        <div class="kpi-badge-tag red">🔴 RED (≥ 10h 00m)</div>
+                        <div class="kpi-card-text">
+                            <b>Overdue Alert:</b> Order age exceeded 10 hours! Requires immediate courier follow-up.
+                        </div>
+                    </div>
+                </div>
 
-  function go(index){
-    if(locked) return;
-    index=(index+slides.length)%slides.length;
-    if(index===current) return;
-    locked=true;
-    const old=slides[current];
-    old.classList.add('leaving');
-    old.classList.remove('active');
-    current=index;
-    slides[current].classList.add('active');
-    [...progress.children].forEach((b,i)=>b.classList.toggle('active',i===current));
-    setTimeout(()=>{old.classList.remove('leaving');locked=false},380);
-  }
+                <p class="sub-khmer">
+                    <b>ការរាប់ KPI៖</b> រយៈពេលអាយុ (Age) ពណ៌បៃតង 🟢 គឺទាន់ពេល (<10h) | ពណ៌ក្រហម 🔴 គឺហួសកាលកំណត់ (≥10h) ត្រូវតែប្រញាប់ដោះស្រាយ!
+                </p>
+            </div>
 
-  document.getElementById('prev').addEventListener('click',()=>go(current-1));
-  document.getElementById('next').addEventListener('click',()=>go(current+1));
-  document.addEventListener('keydown',e=>{
-    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(current+1)}
-    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}
-    if(e.key==='Home')go(0);
-    if(e.key==='End')go(slides.length-1);
-  });
-  document.addEventListener('touchstart',e=>touchStart=e.changedTouches[0].clientX,{passive:true});
-  document.addEventListener('touchend',e=>{const d=touchStart-e.changedTouches[0].clientX;if(Math.abs(d)>55)go(current+(d>0?1:-1))},{passive:true});
-</script>
+            <div class="right-exhibit">
+                <div class="sticky-note" style="background: #dcfce7; color: #166534; border-color: #22c55e;">
+                    🎯 <b>Target SLA 10H:</b><br>Keep all order ages green (<10h) across all 3 daily shifts!
+                </div>
+
+                <!-- STYLISH STICKER BADGE FOR SLIDE 4 -->
+                <div class="exhibit-sticker green">
+                    <span>🟢 0 OVERDUE TARGET</span>
+                </div>
+
+                <div class="tab-switcher two-cols">
+                    <button class="exhibit-tab active" onclick="switchExhibitSlide4('table2', this)">1. Delivery KPI Table (SVAP001)</button>
+                    <button class="exhibit-tab" onclick="switchExhibitSlide4('table1', this)">2. Not Assign Age Table (THOP001)</button>
+                </div>
+
+                <div class="exhibit-display-frame" onclick="openLightbox()">
+                    <img id="exhibitImgSlide4" src="/images/svap001_delivery_sharp.png" alt="Delivery KPI Table" class="exhibit-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 VIEW: END OF DAY CHECK & SCAN IN INVENTORY FEATURE -->
+        <div id="slide5" class="slide-view">
+            <div class="left-content">
+                <div class="eyebrow-line">Chapter 05 · End of Day Inventory Audit</div>
+                
+                <h1 class="hero-title-bold" style="font-size: 4.6rem;">
+                    Scan inventory.<br><span>Close shift clean.</span>
+                </h1>
+
+                <p class="sub-english">
+                    At the end of every operational shift, staff must perform a physical audit using the <b>Scan in Inventory feature</b> in the TMS app.
+                </p>
+
+                <div class="status-flow-container">
+                    <div class="status-step-card" style="border-left-color: #2563eb;">
+                        <div class="status-code-badge" style="background: #2563eb;">1. PHYSICAL AUDIT</div>
+                        <div class="status-desc-text">Scan all remaining store packages using <b>Scan in Inventory feature</b> to reconcile store stock.</div>
+                    </div>
+
+                    <div class="status-step-card" style="border-left-color: #10b981;">
+                        <div class="status-code-badge" style="background: #10b981;">2. MATCH BOT LOGS</div>
+                        <div class="status-desc-text">Ensure total scanned store count matches the <b>Not Assign & Branch Tables</b> in bot report.</div>
+                    </div>
+                </div>
+
+                <p class="sub-khmer">
+                    <b>គ្រប់គ្រងស្តុកចុងម៉ោង៖</b> នៅចុងបញ្ចប់នៃវេនការងារ ត្រូវតែប្រើមុខងារ Scan ចូលស្តុក ក្នុង App ដើម្បីស៊ើបអង្កេតទិន្នន័យ និងទិន្នន័យក្នុងប្រព័ន្ធ!
+                </p>
+            </div>
+
+            <div class="right-exhibit">
+                <div class="sticky-note" style="background: #f3e8ff; color: #6b21a8; border-color: #a855f7;">
+                    📦 <b>EOD Audit Rule:</b><br>Zero un-scanned packages left in store before closing shift!
+                </div>
+
+                <!-- STYLISH STICKER BADGE FOR SLIDE 5 -->
+                <div class="exhibit-sticker purple">
+                    <span>📦 EOD AUDIT PASSED</span>
+                </div>
+
+                <div class="tab-switcher two-cols">
+                    <button class="exhibit-tab active" onclick="switchExhibitSlide5('table4', this)">1. Branch Store Table (SVAP001)</button>
+                    <button class="exhibit-tab" onclick="switchExhibitSlide5('table1', this)">2. Not Assign Table (THOP001)</button>
+                </div>
+
+                <div class="exhibit-display-frame" onclick="openLightbox()">
+                    <img id="exhibitImgSlide5" src="/images/svap001_branch_sharp.png" alt="Branch Inventory Table" class="exhibit-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- FIXED PERMANENTLY VISIBLE BOOK FLIP NAVIGATION BAR -->
+        <div class="bottom-nav">
+            <div class="page-mark" id="pageMark">PAGE 01 / 05 &nbsp;·&nbsp; METFONE EXPRESS</div>
+            
+            <div class="nav-controls-box">
+                <button class="book-turn-btn" id="prevBtn" onclick="prevSlide()" disabled>
+                    📖 <span>PREV PAGE</span>
+                </button>
+                <div class="slide-dots">
+                    <div class="dot active" id="dot1" onclick="goToSlide(1)"></div>
+                    <div class="dot" id="dot2" onclick="goToSlide(2)"></div>
+                    <div class="dot" id="dot3" onclick="goToSlide(3)"></div>
+                    <div class="dot" id="dot4" onclick="goToSlide(4)"></div>
+                    <div class="dot" id="dot5" onclick="goToSlide(5)"></div>
+                </div>
+                <button class="book-turn-btn" id="nextBtn" onclick="nextSlide()">
+                    <span>NEXT PAGE</span> 📖
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fullscreen Sharp Lightbox Modal -->
+    <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+        <div class="lightbox-box" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">CLOSE ✕</button>
+            <div style="font-weight: 900; font-size: 1.2rem; color: #0f172a;" id="lightboxTitle">Field Report Table Preview</div>
+            <div style="flex: 1; overflow: hidden; background: #ffffff; border: 2px solid var(--border-light); border-radius: 8px; padding: 8px;">
+                <img id="lightboxFullImg" src="/images/thop001_branch_sharp.png" class="lightbox-img-full">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        let currentTabSlide1 = 'table1';
+        let currentTabSlide2 = 'table2';
+        let currentTabSlide3 = 'table1';
+        let currentTabSlide4 = 'table2';
+        let currentTabSlide5 = 'table4';
+
+        const sharpTables = {
+            'table1': { src: '/images/thop001_branch_sharp.png', title: '1. មិនទាន់ចាត់ចែង (Not Assign) — Report_THOP001_Branch' },
+            'table2': { src: '/images/svap001_delivery_sharp.png', title: '2. អីវ៉ាន់ត្រូវចែក (Delivery 10H KPI) — Report_SVAP001_Delivery' },
+            'table3': { src: '/images/svap001_transit_sharp.png', title: '3. ដាក់ទៅ MEGA (Send Mega / Transit) — Report_SVAP001_Transit' },
+            'table4': { src: '/images/svap001_branch_sharp.png', title: '4. មិនទាន់ចាត់ចែង (Branch Inventory Audit) — Report_SVAP001_Branch' }
+        };
+
+        function goToSlide(slideNum) {
+            currentSlide = slideNum;
+            document.querySelectorAll('.slide-view').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+            
+            document.getElementById('slide' + slideNum).classList.add('active');
+            document.getElementById('dot' + slideNum).classList.add('active');
+
+            document.getElementById('slideTag').innerText = `Slide ${slideNum} of 5 · Ops tms guide`;
+            document.getElementById('pageMark').innerHTML = `PAGE 0${slideNum} / 05 &nbsp;·&nbsp; METFONE EXPRESS`;
+
+            document.getElementById('prevBtn').disabled = (slideNum === 1);
+            document.getElementById('nextBtn').disabled = (slideNum === 5);
+        }
+
+        function nextSlide() {
+            if (currentSlide < 5) goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) goToSlide(currentSlide - 1);
+        }
+
+        function switchExhibit(tabKey, btnElement) {
+            currentTabSlide1 = tabKey;
+            document.querySelectorAll('#slide1 .exhibit-tab').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('exhibitImg').src = sharpTables[tabKey].src;
+        }
+
+        function switchExhibitSlide2(tabKey, btnElement) {
+            currentTabSlide2 = tabKey;
+            document.querySelectorAll('#slide2 .exhibit-tab').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('exhibitImgSlide2').src = sharpTables[tabKey].src;
+        }
+
+        function switchExhibitSlide3(tabKey, btnElement) {
+            currentTabSlide3 = tabKey;
+            document.querySelectorAll('#slide3 .exhibit-tab').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('exhibitImgSlide3').src = sharpTables[tabKey].src;
+        }
+
+        function switchExhibitSlide4(tabKey, btnElement) {
+            currentTabSlide4 = tabKey;
+            document.querySelectorAll('#slide4 .exhibit-tab').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('exhibitImgSlide4').src = sharpTables[tabKey].src;
+        }
+
+        function switchExhibitSlide5(tabKey, btnElement) {
+            currentTabSlide5 = tabKey;
+            document.querySelectorAll('#slide5 .exhibit-tab').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('exhibitImgSlide5').src = sharpTables[tabKey].src;
+        }
+
+        function openLightbox() {
+            let keyMap = { 1: currentTabSlide1, 2: currentTabSlide2, 3: currentTabSlide3, 4: currentTabSlide4, 5: currentTabSlide5 };
+            let key = keyMap[currentSlide] || 'table1';
+            let data = sharpTables[key];
+            document.getElementById('lightboxFullImg').src = data.src;
+            document.getElementById('lightboxTitle').innerText = data.title;
+            document.getElementById('lightboxModal').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
