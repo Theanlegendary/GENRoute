@@ -27,13 +27,78 @@ app.use(express.json());
 app.use('/data', express.static(path.join(__dirname, 'data')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve training slides directly from project root
+// Serve training slides directly from project root & public directory
+app.get(['/slides', '/slides.html', '/training-slides-v2.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'training-slides-v2.html'));
+});
+
 app.get('/train.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'train.html'));
 });
 
 app.get('/training-slides.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'train.html'));
+});
+
+// ── Slide Image Upload API Endpoints ──
+const UPLOADS_SLIDES_DIR = path.join(__dirname, 'public', 'uploads', 'slides');
+const UPLOADS_MANIFEST_PATH = path.join(__dirname, 'data', 'uploads_manifest.json');
+
+if (!fs.existsSync(UPLOADS_SLIDES_DIR)) {
+  fs.mkdirSync(UPLOADS_SLIDES_DIR, { recursive: true });
+}
+
+app.get('/api/slide-images', (req, res) => {
+  try {
+    if (fs.existsSync(UPLOADS_MANIFEST_PATH)) {
+      const data = JSON.parse(fs.readFileSync(UPLOADS_MANIFEST_PATH, 'utf-8'));
+      return res.json(data);
+    }
+  } catch (err) {
+    console.error('Error reading uploads manifest:', err.message);
+  }
+  return res.json({});
+});
+
+app.post('/api/upload-slide-image', (req, res) => {
+  try {
+    const { slotId, imageData } = req.body;
+    if (!slotId || !imageData) {
+      return res.status(400).json({ error: 'slotId and imageData are required' });
+    }
+
+    const matches = imageData.match(/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/);
+    if (!matches) {
+      return res.status(400).json({ error: 'Invalid base64 image data' });
+    }
+
+    const ext = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+    const base64Data = matches[2];
+    const filename = `${slotId}_${Date.now()}.${ext}`;
+    const filePath = path.join(UPLOADS_SLIDES_DIR, filename);
+
+    fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
+    const relativeUrl = `/uploads/slides/${filename}`;
+
+    let manifest = {};
+    if (fs.existsSync(UPLOADS_MANIFEST_PATH)) {
+      try {
+        manifest = JSON.parse(fs.readFileSync(UPLOADS_MANIFEST_PATH, 'utf-8'));
+      } catch (e) {}
+    }
+    manifest[slotId] = {
+      url: relativeUrl,
+      updatedAt: new Date().toISOString(),
+      filename
+    };
+    fs.writeFileSync(UPLOADS_MANIFEST_PATH, JSON.stringify(manifest, null, 2), 'utf-8');
+
+    console.log(`✅ Slide image uploaded for slot ${slotId}: ${relativeUrl}`);
+    return res.json({ success: true, slotId, url: relativeUrl });
+  } catch (err) {
+    console.error('Error uploading slide image:', err.message);
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 app.get(['/pastemaster', '/pastemaster.html'], (req, res) => {
