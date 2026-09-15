@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
-  <link rel="stylesheet" href="style.css?v=3.2.0" />
+  <link rel="stylesheet" href="style.css?v=3.2.1" />
   <style>
     @keyframes pulse-overlay {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); }
@@ -494,6 +494,44 @@
     </div>
   </div>
 
+  <!-- Android / Chrome Add to Home Screen Guide Sheet -->
+  <div id="pwaAndroidGuideSheet" class="pwa-ios-sheet" style="display: none;">
+    <div class="pwa-ios-backdrop" id="pwaAndroidBackdrop"></div>
+    <div class="pwa-ios-card">
+      <div class="pwa-ios-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">🤖</span>
+          <span style="font-weight: 800; font-size: 15px; color: #0f172a; font-family: var(--font-heading);">Install on Android / Chrome</span>
+        </div>
+        <button id="pwaAndroidCloseBtn" class="pwa-banner-close" title="Close" aria-label="Close">✕</button>
+      </div>
+      <p style="font-size: 12px; color: #64748b; margin: 6px 0 14px 0; line-height: 1.5;">3 ជំហានងាយៗដើម្បីដាក់លើអេក្រង់ទូរស័ព្ទ Android:</p>
+      
+      <div class="pwa-ios-steps">
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">1</div>
+          <div class="pwa-step-body">
+            <p style="margin:0; font-size: 12px; line-height: 1.5; color: #334155;">ចុចសញ្ញាចុចបី <strong>(⋮)</strong> នៅជ្រុងខាងលើស្ដាំនៃ Google Chrome</p>
+          </div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">2</div>
+          <div class="pwa-step-body">
+            <p style="margin:0; font-size: 12px; line-height: 1.5; color: #334155;">ជ្រើសរើស <strong>"Install app"</strong> ឬ <strong>"Add to Home screen"</strong> (បន្ថែមទៅអេក្រង់ដើម) 📲</p>
+          </div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">3</div>
+          <div class="pwa-step-body">
+            <p style="margin:0; font-size: 12px; line-height: 1.5; color: #334155;">ចុច <strong>"Install"</strong> — រួចរាល់! App icon នឹងបង្ហាញលើអេក្រង់ទូរស័ព្ទភ្លាម។</p>
+          </div>
+        </div>
+      </div>
+
+      <button id="pwaAndroidGotItBtn" class="smart-btn-primary" style="width: 100%; margin-top: 14px; padding: 11px; font-size: 13px;">ខ្ញុំយល់ហើយ (Got It!)</button>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
@@ -502,7 +540,7 @@
     // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
     window.CARTO_API_KEY = "";
   </script>
-  <script src="app.js?v=3.2.0"></script>
+  <script src="app.js?v=3.2.1"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>

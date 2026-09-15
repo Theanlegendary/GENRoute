@@ -314,21 +314,14 @@ const selectedMarketIcon = L.divIcon({
   // Clear/empty map state at startup
   showState('welcome');
 
-  // Smooth loading screen transition once data is ready
-  const elapsed = Date.now() - startTime;
-  const minWait = 400;
-  if (elapsed < minWait) {
-    await new Promise(resolve => setTimeout(resolve, minWait - elapsed));
-  }
-
-  // Fade out and hide the loading overlay
+  // Immediately hide the loading overlay as soon as app is ready
   const overlay = document.getElementById('loadingOverlay');
   if (overlay) {
     overlay.style.opacity = '0';
     overlay.style.pointerEvents = 'none';
     setTimeout(() => {
       overlay.style.display = 'none';
-    }, 500);
+    }, 180);
   }
 })();
 
@@ -353,8 +346,8 @@ function initMap() {
   const CARTO_API_KEY = window.CARTO_API_KEY || urlParams.get('carto_key') || localStorage.getItem('carto_api_key') || '';
   const cartoKeySuffix = CARTO_API_KEY ? `?key=${CARTO_API_KEY}` : '';
 
-  // 1. Google Streets Roadmap (Crisp, fast, 100% watermark-free without API key)
-  const googleStreets = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+  // 1. Google Streets Roadmap (Crisp, fast, 100% Khmer language, watermark-free)
+  const googleStreets = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&hl=km&gl=KH&x={x}&y={y}&z={z}', {
     attribution: 'Map data &copy; Google · Metfone Smart Grid',
     subdomains: '0123',
     maxZoom: 20
@@ -399,8 +392,8 @@ function initMap() {
     });
   }
 
-  // 5. Hybrid Satellite = Google Hybrid (Satellite + Roads/Labels)
-  tileLayers.satellite = L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+  // 5. Hybrid Satellite = Google Hybrid (Satellite + Roads/Khmer Labels)
+  tileLayers.satellite = L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&hl=km&gl=KH&x={x}&y={y}&z={z}', {
     attribution: 'Map data &copy; Google · Metfone Smart Grid',
     subdomains: '0123',
     maxZoom: 20
@@ -499,68 +492,59 @@ async function loadStats() {
 }
 
 async function loadClientData() {
-  // 1. Fetch pickup branches (authoritative post offices)
+  const DATA_VER = '3.2.1';
   try {
-    const resBranches = await fetch(`/data/pickup_branches.json?t=${Date.now()}`).then(r => {
-      if (!r.ok) throw new Error(`HTTP status ${r.status}`);
-      return r.json();
-    });
-    clientBranches = resBranches
-      .filter(b => b && b.latitude != null && b.longitude != null && !isNaN(parseFloat(b.latitude)) && !isNaN(parseFloat(b.longitude)))
-      .map(b => ({
-        ...b,
-        latitude: parseFloat(b.latitude),
-        longitude: parseFloat(b.longitude),
-        id: b.id || `po_${b.store_code}`,
-        branch_id: b.store_code,
-        market: b.store_name,
-        province: b.province_en || b.province || '',
-        district: b.district_en || b.district || '',
-        commune: b.commune_en || '',
-        commune_kh: b.commune_kh || '',
-        village: '',
-        village_kh: '',
-        google_maps_url: `https://www.google.com/maps?q=${b.latitude},${b.longitude}`
-      }));
-    console.log(`✅ Loaded ${clientBranches.length} client branches`);
-  } catch (err) {
-    console.error('❌ Failed to load client branches database:', err);
-  }
+    const [resBranches, resRoutes, resLearned, resMarkets] = await Promise.all([
+      fetch(`/data/pickup_branches.json?v=${DATA_VER}`).then(r => r.ok ? r.json() : []).catch(err => {
+        console.error('Failed to load pickup_branches.json:', err);
+        return [];
+      }),
+      fetch(`/data/routes.json?v=${DATA_VER}`).then(r => r.ok ? r.json() : []).catch(err => {
+        console.error('Failed to load routes.json:', err);
+        return [];
+      }),
+      fetch(`/data/learned_locations.json?v=${DATA_VER}`).then(r => r.ok ? r.json() : []).catch(() => []),
+      fetch(`/data/famous_markets.json?v=${DATA_VER}`).then(r => r.ok ? r.json() : []).catch(err => {
+        console.error('Failed to load famous_markets.json:', err);
+        return [];
+      })
+    ]);
 
-  // 2. Fetch routes
-  try {
-    clientRoutes = await fetch(`/data/routes.json?t=${Date.now()}`).then(r => {
-      if (!r.ok) throw new Error(`HTTP status ${r.status}`);
-      return r.json();
-    });
-    console.log(`✅ Loaded ${clientRoutes.length} client routes`);
-  } catch (err) {
-    console.error('❌ Failed to load client routes database:', err);
-  }
-
-  // 2.5 Fetch auto-learned locations (grown from user searches / pasted Google Maps links)
-  try {
-    const learned = await fetch(`/data/learned_locations.json?t=${Date.now()}`).then(r => {
-      if (!r.ok) return [];
-      return r.json();
-    });
-    if (Array.isArray(learned) && learned.length > 0) {
-      clientRoutes = [...clientRoutes, ...learned];
-      console.log(`✅ Merged ${learned.length} auto-learned locations into client routes`);
+    // 1. Process pickup branches
+    if (Array.isArray(resBranches)) {
+      clientBranches = resBranches
+        .filter(b => b && b.latitude != null && b.longitude != null && !isNaN(parseFloat(b.latitude)) && !isNaN(parseFloat(b.longitude)))
+        .map(b => ({
+          ...b,
+          latitude: parseFloat(b.latitude),
+          longitude: parseFloat(b.longitude),
+          id: b.id || `po_${b.store_code}`,
+          branch_id: b.store_code,
+          market: b.store_name,
+          province: b.province_en || b.province || '',
+          district: b.district_en || b.district || '',
+          commune: b.commune_en || '',
+          commune_kh: b.commune_kh || '',
+          village: '',
+          village_kh: '',
+          google_maps_url: `https://www.google.com/maps?q=${b.latitude},${b.longitude}`
+        }));
+      console.log(`✅ Loaded ${clientBranches.length} client branches`);
     }
-  } catch (err) {
-    console.warn('⚠️ Could not load learned_locations.json (non-critical):', err.message);
-  }
 
-  // 3. Fetch famous markets
-  try {
-    clientMarkets = await fetch(`/data/famous_markets.json?t=${Date.now()}`).then(r => {
-      if (!r.ok) throw new Error(`HTTP status ${r.status}`);
-      return r.json();
-    });
+    // 2. Process routes + learned locations
+    clientRoutes = Array.isArray(resRoutes) ? resRoutes : [];
+    if (Array.isArray(resLearned) && resLearned.length > 0) {
+      clientRoutes = [...clientRoutes, ...resLearned];
+      console.log(`✅ Merged ${resLearned.length} auto-learned locations into routes`);
+    }
+    console.log(`✅ Loaded ${clientRoutes.length} client routes`);
+
+    // 3. Process famous markets
+    clientMarkets = Array.isArray(resMarkets) ? resMarkets : [];
     console.log(`✅ Loaded ${clientMarkets.length} client famous markets`);
   } catch (err) {
-    console.error('❌ Failed to load client famous markets database:', err);
+    console.error('❌ Error during parallel client data loading:', err);
   }
 
   // 4. Merge famous markets into routes
@@ -4058,29 +4042,56 @@ function switchTab(tabId) {
     if (searchOptionsRow) searchOptionsRow.style.display = 'none';
     if (searchRemark) searchRemark.style.display = 'none';
     renderGetAppPage();
-    expandMobileDrawer('sheet-peeking');
+    expandMobileDrawer('sheet-expanded');
   }
 }
 window.switchTab = switchTab;
 
-// PWA Install Trigger — called from the inline onclick in renderGetAppPage
+// PWA Install Trigger — handles native prompt, iOS guide, and Android guide
 window.triggerPwaInstall = async function () {
-  if (!deferredPwaInstallPrompt) return;
-  deferredPwaInstallPrompt.prompt();
-  const { outcome } = await deferredPwaInstallPrompt.userChoice;
-  console.log('[PWA] User choice:', outcome);
-  if (outcome === 'accepted') {
-    pwaInstalled = true;
-    deferredPwaInstallPrompt = null;
-    // Refresh the Get App page to show "Installed!" state
-    renderGetAppPage();
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS) {
+    if (typeof window.openPwaInstallPrompt === 'function') {
+      window.openPwaInstallPrompt(true);
+    }
+    return;
+  }
+
+  const isInAppBrowser = /FBAN|FBAV|Telegram|Line|Instagram|BytedanceWebview/i.test(navigator.userAgent);
+  if (isInAppBrowser) {
+    alert("⚠️ In-App Browser Detected\n\nTelegram / Facebook in-app browser does not support direct app downloads.\n\nPlease tap the 3 dots (⋮) in the top-right corner and select 'Open in Chrome' or 'Open in Safari' to install.");
+    return;
+  }
+
+  if (deferredPwaInstallPrompt) {
+    try {
+      deferredPwaInstallPrompt.prompt();
+      const { outcome } = await deferredPwaInstallPrompt.userChoice;
+      console.log('[PWA] User choice:', outcome);
+      if (outcome === 'accepted') {
+        pwaInstalled = true;
+        deferredPwaInstallPrompt = null;
+        localStorage.setItem('mfe_pwa_installed', 'true');
+        renderGetAppPage();
+      }
+    } catch (err) {
+      console.error('[PWA] User prompt error:', err);
+    }
+  } else {
+    // Open Android Chrome manual guide sheet
+    const androidSheet = document.getElementById('pwaAndroidGuideSheet');
+    if (androidSheet) {
+      androidSheet.style.display = 'flex';
+    } else {
+      alert("To install Metfone Express:\n1. Tap the 3 dots (⋮) at the top-right of Chrome\n2. Select 'Install app' or 'Add to Home screen'.");
+    }
   }
 };
 
 function renderGetAppPage() {
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-  const canInstall = !!deferredPwaInstallPrompt;
+  const isInAppBrowser = /FBAN|FBAV|Telegram|Line|Instagram|BytedanceWebview/i.test(navigator.userAgent);
 
   let installSection = '';
 
@@ -4092,8 +4103,19 @@ function renderGetAppPage() {
         <p style="font-size: 13px; font-weight: 700; color: #15803d; margin: 0;">App Installed!</p>
         <p style="font-size: 11.5px; color: #166534; margin: 6px 0 0 0;">You are running Metfone Express as an installed app.</p>
       </div>`;
+  } else if (isInAppBrowser) {
+    // Inside Telegram or Facebook browser
+    installSection = `
+      <div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 14px; max-width: 280px; text-align: left;">
+        <p style="font-size: 12px; font-weight: 700; color: #92400e; margin: 0 0 6px 0;">⚠️ Open in Browser to Install</p>
+        <p style="font-size: 11.5px; color: #b45309; line-height: 1.45; margin: 0 0 10px 0;">Telegram & Facebook in-app browsers block app downloads.</p>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #78350f;">
+          <div>1. Tap <strong>(⋮ or Share)</strong> at the corner</div>
+          <div>2. Select <strong>"Open in Chrome"</strong> or <strong>"Open in Safari"</strong></div>
+        </div>
+      </div>`;
   } else if (isIOS) {
-    // iOS Safari — no beforeinstallprompt, show manual steps
+    // iOS Safari — show manual steps
     installSection = `
       <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 16px; width: 100%; max-width: 280px; text-align: left;">
         <p style="font-size: 12px; font-weight: 700; color: #1e293b; margin: 0 0 12px 0; text-align: center;">📱 Install on iPhone / iPad</p>
@@ -4113,10 +4135,10 @@ function renderGetAppPage() {
         </div>
       </div>`;
   } else {
-    // Android / Desktop — show install button (enabled when prompt is ready)
+    // Android / Desktop — ALWAYS show active install button
     installSection = `
       <button id="pwaInstallBtn" onclick="window.triggerPwaInstall()" style="
-        display: ${canInstall ? 'flex' : 'none'};
+        display: flex;
         align-items: center; justify-content: center; gap: 10px;
         width: 100%; max-width: 280px;
         padding: 14px 20px;
@@ -4127,9 +4149,11 @@ function renderGetAppPage() {
         font-family: var(--font-heading);
         transition: transform 0.15s, box-shadow 0.15s;
       " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
-        📲 Install App
+        📲 Install App (ដំឡើងកម្មវិធី)
       </button>
-      ${!canInstall ? `<p style="font-size: 11px; color: #94a3b8; text-align: center; max-width: 240px;">Open this page in Chrome or Edge on Android to install it as an app.</p>` : ''}`;
+      <p style="font-size: 11px; color: #64748b; text-align: center; max-width: 260px; margin: 4px 0 0 0;">
+        Tap above to install Metfone Express on your device.
+      </p>`;
   }
 
   resultsList.innerHTML = `
@@ -5088,6 +5112,34 @@ function setupPwaSmartPrompt() {
     });
   }
 
+  const androidSheet = document.getElementById('pwaAndroidGuideSheet');
+  const androidBackdrop = document.getElementById('pwaAndroidBackdrop');
+  const androidCloseBtn = document.getElementById('pwaAndroidCloseBtn');
+  const androidGotItBtn = document.getElementById('pwaAndroidGotItBtn');
+
+  function closeAndroidSheet() {
+    if (androidSheet) {
+      androidSheet.style.display = 'none';
+    }
+  }
+
+  function openAndroidSheet() {
+    hideBanner(0);
+    if (androidSheet) {
+      androidSheet.style.display = 'flex';
+    }
+  }
+
+  // Android Sheet modal listeners
+  if (androidBackdrop) androidBackdrop.addEventListener('click', closeAndroidSheet);
+  if (androidCloseBtn) androidCloseBtn.addEventListener('click', closeAndroidSheet);
+  if (androidGotItBtn) {
+    androidGotItBtn.addEventListener('click', () => {
+      closeAndroidSheet();
+      localStorage.setItem('mfe_pwa_banner_dismissed_until', (Date.now() + 7 * 24 * 60 * 60 * 1000).toString());
+    });
+  }
+
   // Install trigger click listener
   if (installBtn) {
     installBtn.addEventListener('click', async () => {
@@ -5112,9 +5164,8 @@ function setupPwaSmartPrompt() {
           console.error('[PWA] Prompt trigger error:', err);
         }
       } else {
-        // Fallback instructions if browser has not surfaced deferred prompt
-        alert('To install Metfone Express:\n1. Tap your browser menu (⋮ or ...) at the top right.\n2. Tap "Install app" or "Add to Home Screen".');
-        hideBanner(3);
+        // Open Android/Chrome manual guide sheet
+        openAndroidSheet();
       }
     });
   }
@@ -5138,7 +5189,7 @@ function setupPwaSmartPrompt() {
     } else if (deferredPwaInstallPrompt) {
       showBanner(force);
     } else {
-      showBanner(force);
+      openAndroidSheet();
     }
   };
 
