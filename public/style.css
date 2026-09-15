@@ -3347,3 +3347,308 @@ input:checked + .slider:before {
   gap: 10px;
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+   📲 SMART PWA FIRST-TIME INSTALL BANNER & PROMPTS
+   ────────────────────────────────────────────────────────────────────────── */
+.pwa-install-banner {
+  position: fixed;
+  bottom: 18px;
+  left: 14px;
+  right: 14px;
+  max-width: 440px;
+  margin: 0 auto;
+  z-index: 10005;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(220, 38, 38, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18), 0 4px 12px rgba(220, 38, 38, 0.08);
+  padding: 14px 16px;
+  transform: translateY(140%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  font-family: var(--font-sans);
+}
+
+.pwa-install-banner.pwa-banner-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pwa-banner-content {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.pwa-banner-icon-col {
+  flex-shrink: 0;
+}
+
+.pwa-banner-app-icon {
+  position: relative;
+  width: 46px;
+  height: 46px;
+}
+
+.pwa-banner-app-icon img {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(218, 37, 29, 0.2);
+  border: 1.5px solid rgba(218, 37, 29, 0.15);
+  object-fit: cover;
+}
+
+.pwa-banner-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.pwa-banner-text-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.pwa-banner-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.pwa-banner-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+  font-family: var(--font-heading);
+}
+
+.pwa-banner-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pwa-banner-close:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.pwa-banner-desc {
+  margin: 0 0 8px 0;
+  font-size: 11.5px;
+  color: #475569;
+  line-height: 1.45;
+  font-family: 'Battambang', var(--font-sans);
+}
+
+.pwa-banner-perks {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.pwa-perk-chip {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.pwa-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pwa-banner-btn-install {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.32);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.pwa-banner-btn-install:active {
+  transform: scale(0.98);
+}
+
+.pwa-banner-btn-later {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.pwa-banner-btn-later:hover {
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   📱 iOS SAFARI "ADD TO HOME SCREEN" POPUP MODAL
+   ────────────────────────────────────────────────────────────────────────── */
+.pwa-ios-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.pwa-ios-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.25s ease;
+}
+
+.pwa-ios-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  padding: 18px 20px 24px 20px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-sans);
+}
+
+.pwa-ios-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pwa-ios-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pwa-ios-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.pwa-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pwa-ios-arrow-cue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.bounce-arrow {
+  display: inline-block;
+  animation: bounce-arrow-anim 1.4s infinite;
+}
+
+@keyframes bounce-arrow-anim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* Dark Theme overrides for PWA components */
+body.dark-theme .pwa-install-banner {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(220, 38, 38, 0.4);
+  color: #f1f5f9;
+}
+
+body.dark-theme .pwa-banner-title {
+  color: #f8fafc;
+}
+
+body.dark-theme .pwa-banner-desc {
+  color: #cbd5e1;
+}
+
+body.dark-theme .pwa-banner-btn-later {
+  color: #94a3b8;
+}
+
+body.dark-theme .pwa-ios-card {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+body.dark-theme .pwa-ios-step {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+

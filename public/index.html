@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
-  <link rel="stylesheet" href="style.css?v=3.1.9" />
+  <link rel="stylesheet" href="style.css?v=3.2.0" />
   <style>
     @keyframes pulse-overlay {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); }
@@ -420,6 +420,78 @@
         <div id="smartPasteResult" class="smart-paste-result" style="display: none;"></div>
       </div>
     </div>
+  <!-- First-Time PWA Recommendation Banner (Mobile / App Install) -->
+  <div id="pwaInstallBanner" class="pwa-install-banner" style="display: none;" role="dialog" aria-label="Install Metfone Express App">
+    <div class="pwa-banner-content">
+      <div class="pwa-banner-icon-col">
+        <div class="pwa-banner-app-icon">
+          <img src="/icon-192.png" alt="Metfone Express" width="46" height="46" />
+          <span class="pwa-banner-badge">APP</span>
+        </div>
+      </div>
+      <div class="pwa-banner-text-col">
+        <div class="pwa-banner-header-row">
+          <h4 class="pwa-banner-title">Metfone Express App</h4>
+          <button id="pwaBannerDismissBtn" class="pwa-banner-close" title="Dismiss" aria-label="Close">✕</button>
+        </div>
+        <p class="pwa-banner-desc">ដំឡើងលើអេក្រង់ទូរស័ព្ទ — ងាយស្រួលបើក ដំណើរការលឿន មិនបាច់ដោនឡូតពី Play/App Store!</p>
+        <div class="pwa-banner-perks">
+          <span class="pwa-perk-chip">⚡ 1-Tap Open</span>
+          <span class="pwa-perk-chip">📶 Works Offline</span>
+          <span class="pwa-perk-chip">📦 0MB Storage</span>
+        </div>
+        <div class="pwa-banner-actions">
+          <button id="pwaBannerInstallBtn" class="pwa-banner-btn-install">
+            <span class="pwa-btn-icon">📲</span>
+            <span id="pwaBannerInstallText">Add to Home Screen</span>
+          </button>
+          <button id="pwaBannerLaterBtn" class="pwa-banner-btn-later">Maybe Later</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- iOS Safari Add to Home Screen Step-by-Step Guide Sheet -->
+  <div id="pwaIosGuideSheet" class="pwa-ios-sheet" style="display: none;">
+    <div class="pwa-ios-backdrop" id="pwaIosBackdrop"></div>
+    <div class="pwa-ios-card">
+      <div class="pwa-ios-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">📲</span>
+          <span style="font-weight: 800; font-size: 15px; color: #0f172a; font-family: var(--font-heading);">Install on iPhone / Safari</span>
+        </div>
+        <button id="pwaIosCloseBtn" class="pwa-banner-close" title="Close" aria-label="Close">✕</button>
+      </div>
+      <p style="font-size: 12px; color: #64748b; margin: 6px 0 14px 0; line-height: 1.5;">3 ជំហានងាយៗដើម្បីដាក់លើអេក្រង់ទូរស័ព្ទ (Add to Home Screen):</p>
+      
+      <div class="pwa-ios-steps">
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">1</div>
+          <div class="pwa-step-body">
+            <p style="margin:0; font-size: 12px; line-height: 1.5; color: #334155;">ចុចប៊ូតុង <strong>Share</strong> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; display: inline-block;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> នៅរបារខាងក្រោមនៃ Safari</p>
+          </div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">2</div>
+          <div class="pwa-step-body">
+            <p style="margin:0; font-size: 12px; line-height: 1.5; color: #334155;">រំកិលចុះក្រោម រួចជ្រើសរើស <strong>"Add to Home Screen"</strong> (ឬ <strong>"បន្ថែមទៅអេក្រង់ដើម"</strong>) ➕</p>
+          </div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">3</div>
+          <div class="pwa-step-body">
+            <p style="margin:0; font-size: 12px; line-height: 1.5; color: #334155;">ចុច <strong>"Add"</strong> នៅជ្រុងខាងលើស្ដាំ — រួចរាល់! កម្មវិធីនឹងបង្ហាញលើ Home Screen ភ្លាម។</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pwa-ios-arrow-cue">
+        <span class="bounce-arrow">👇</span>
+        <span>Tap the Share button at the bottom of Safari</span>
+      </div>
+
+      <button id="pwaIosGotItBtn" class="smart-btn-primary" style="width: 100%; margin-top: 14px; padding: 11px; font-size: 13px;">ខ្ញុំយល់ហើយ (Got It!)</button>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -430,7 +502,7 @@
     // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
     window.CARTO_API_KEY = "";
   </script>
-  <script src="app.js?v=3.1.9"></script>
+  <script src="app.js?v=3.2.0"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>

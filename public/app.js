@@ -310,6 +310,7 @@ const selectedMarketIcon = L.divIcon({
   setupGpsButton();         // 1-Tap GPS Near Me
   setupSmartPasteModal();   // Smart Order / Telegram Paste
   setupQuickPills();        // Mobile quick action pills
+  setupPwaSmartPrompt();    // Smart first-time PWA prompt on mobile
   // Clear/empty map state at startup
   showState('welcome');
 
@@ -3664,6 +3665,9 @@ function setupHamburgerMenu() {
         
         switchTab(tabId);
         closeDrawer();
+        if (tab === 'GetApp' && typeof window.openPwaInstallPrompt === 'function') {
+          window.openPwaInstallPrompt(true);
+        }
       });
     }
   });
@@ -4998,7 +5002,153 @@ function setupQuickPills() {
   }
 }
 
+// ──────────────────────────────────────────────────────────────────────────
+// 📲 SMART PWA FIRST-TIME RECOMMENDATION LOGIC
+// ──────────────────────────────────────────────────────────────────────────
+function isAppRunningStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true ||
+         document.referrer.includes('android-app://') ||
+         localStorage.getItem('mfe_pwa_installed') === 'true' ||
+         pwaInstalled;
+}
 
+function setupPwaSmartPrompt() {
+  const banner = document.getElementById('pwaInstallBanner');
+  const installBtn = document.getElementById('pwaBannerInstallBtn');
+  const installText = document.getElementById('pwaBannerInstallText');
+  const laterBtn = document.getElementById('pwaBannerLaterBtn');
+  const dismissBtn = document.getElementById('pwaBannerDismissBtn');
+  const iosSheet = document.getElementById('pwaIosGuideSheet');
+  const iosBackdrop = document.getElementById('pwaIosBackdrop');
+  const iosCloseBtn = document.getElementById('pwaIosCloseBtn');
+  const iosGotItBtn = document.getElementById('pwaIosGotItBtn');
 
+  if (!banner) return;
 
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isMobile = window.innerWidth <= 820 || /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
 
+  // Customize install button text for iOS vs Android/Desktop
+  if (installText) {
+    if (isIOS) {
+      installText.textContent = 'Add to Home Screen (របៀបដំឡើង)';
+    } else {
+      installText.textContent = 'Install App (ដំឡើងកម្មវិធី)';
+    }
+  }
+
+  function hideBanner(snoozeDays = 5) {
+    banner.classList.remove('pwa-banner-visible');
+    setTimeout(() => {
+      banner.style.display = 'none';
+    }, 450);
+    if (snoozeDays > 0) {
+      const snoozeUntil = Date.now() + (snoozeDays * 24 * 60 * 60 * 1000);
+      localStorage.setItem('mfe_pwa_banner_dismissed_until', snoozeUntil.toString());
+    }
+  }
+
+  function showBanner(force = false) {
+    if (!force) {
+      if (isAppRunningStandalone()) return;
+      const dismissedUntil = parseInt(localStorage.getItem('mfe_pwa_banner_dismissed_until') || '0', 10);
+      if (Date.now() < dismissedUntil) return;
+    }
+    banner.style.display = 'block';
+    requestAnimationFrame(() => {
+      banner.classList.add('pwa-banner-visible');
+    });
+  }
+
+  function closeIosSheet() {
+    if (iosSheet) {
+      iosSheet.style.display = 'none';
+    }
+  }
+
+  function openIosSheet() {
+    hideBanner(0); // Hide the bottom chip smoothly
+    if (iosSheet) {
+      iosSheet.style.display = 'flex';
+    }
+  }
+
+  // Dismiss listeners
+  if (dismissBtn) dismissBtn.addEventListener('click', () => hideBanner(5));
+  if (laterBtn) laterBtn.addEventListener('click', () => hideBanner(5));
+
+  // iOS Sheet modal listeners
+  if (iosBackdrop) iosBackdrop.addEventListener('click', closeIosSheet);
+  if (iosCloseBtn) iosCloseBtn.addEventListener('click', closeIosSheet);
+  if (iosGotItBtn) {
+    iosGotItBtn.addEventListener('click', () => {
+      closeIosSheet();
+      localStorage.setItem('mfe_pwa_banner_dismissed_until', (Date.now() + 7 * 24 * 60 * 60 * 1000).toString());
+    });
+  }
+
+  // Install trigger click listener
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (isIOS) {
+        openIosSheet();
+        return;
+      }
+
+      if (deferredPwaInstallPrompt) {
+        try {
+          deferredPwaInstallPrompt.prompt();
+          const { outcome } = await deferredPwaInstallPrompt.userChoice;
+          console.log('[PWA] Banner install choice:', outcome);
+          if (outcome === 'accepted') {
+            pwaInstalled = true;
+            deferredPwaInstallPrompt = null;
+            localStorage.setItem('mfe_pwa_installed', 'true');
+            hideBanner(365);
+            showPwaInstalledToast();
+          }
+        } catch (err) {
+          console.error('[PWA] Prompt trigger error:', err);
+        }
+      } else {
+        // Fallback instructions if browser has not surfaced deferred prompt
+        alert('To install Metfone Express:\n1. Tap your browser menu (⋮ or ...) at the top right.\n2. Tap "Install app" or "Add to Home Screen".');
+        hideBanner(3);
+      }
+    });
+  }
+
+  function showPwaInstalledToast() {
+    const toast = document.createElement('div');
+    toast.className = 'copy-toast show';
+    toast.style.background = '#15803d';
+    toast.innerHTML = '🎉 Metfone Express added to Home Screen!';
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+  }
+
+  // Global trigger function for menu and buttons
+  window.openPwaInstallPrompt = function (force = true) {
+    if (isIOS) {
+      openIosSheet();
+    } else if (deferredPwaInstallPrompt) {
+      showBanner(force);
+    } else {
+      showBanner(force);
+    }
+  };
+
+  // First-time mobile visitor auto-trigger after 2.8 seconds
+  if (isMobile && !isAppRunningStandalone()) {
+    const dismissedUntil = parseInt(localStorage.getItem('mfe_pwa_banner_dismissed_until') || '0', 10);
+    if (Date.now() >= dismissedUntil) {
+      setTimeout(() => {
+        showBanner(false);
+      }, 2800);
+    }
+  }
+}
