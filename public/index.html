@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
-  <link rel="stylesheet" href="style.css?v=3.2.3" />
+  <link rel="stylesheet" href="style.css?v=3.2.4" />
   <style>
     @keyframes pulse-overlay {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); }
@@ -110,45 +110,11 @@
 
       <!-- Section 01: Search Bar & Options -->
       <section class="grid-section" style="padding-top: var(--space-4);">
-        <!-- Dropdown is now placed above search bar -->
-        <div class="search-options-row" style="margin-bottom: var(--space-2);">
-          <select id="provinceSelect" class="province-dropdown">
-            <option value="">All Provinces (Cambodia)</option>
-            <option value="Phnom Penh">Phnom Penh (ភ្នំពេញ)</option>
-            <option value="Banteay Meanchey">Banteay Meanchey (បន្ទាយមានជ័យ)</option>
-            <option value="Battambang">Battambang (បាត់ដំបង)</option>
-            <option value="Kampong Cham">Kampong Cham (កំពង់ចាម)</option>
-            <option value="Kampong Chhnang">Kampong Chhnang (កំពង់ឆ្នាំង)</option>
-            <option value="Kampong Speu">Kampong Speu (កំពង់ស្ពឺ)</option>
-            <option value="Kampong Thom">Kampong Thom (កំពង់ធំ)</option>
-            <option value="Kampot">Kampot (កំពត)</option>
-            <option value="Kandal">Kandal (កណ្តាល)</option>
-            <option value="Kep">Kep (កែប)</option>
-            <option value="Koh Kong">Koh Kong (កោះកុង)</option>
-            <option value="Kratie">Kratie (ក្រចេះ)</option>
-            <option value="Mondulkiri">Mondulkiri (មណ្ឌលគិរី)</option>
-            <option value="Otdar Meanchey">Otdar Meanchey (ឧត្តរមានជ័យ)</option>
-            <option value="Pailin">Pailin (ប៉ៃលិន)</option>
-            <option value="Preah Sihanouk">Preah Sihanouk (ព្រះសីហនុ)</option>
-            <option value="Preah Vihear">Preah Vihear (ព្រះវិហារ)</option>
-            <option value="Prey Veng">Prey Veng (ព្រៃវែង)</option>
-            <option value="Pursat">Pursat (ពោធិ៍សាត់)</option>
-            <option value="Ratanakiri">Ratanakiri (រតនគិរី)</option>
-            <option value="Siem Reap">Siem Reap (សៀមរាប)</option>
-            <option value="Stung Treng">Stung Treng (ស្ទឹងត្រែង)</option>
-            <option value="Svay Rieng">Svay Rieng (ស្វាយរៀង)</option>
-            <option value="Takeo">Takeo (តាកែវ)</option>
-            <option value="Tboung Khmum">Tboung Khmum (ត្បូងឃ្មុំ)</option>
-          </select>
-          <select id="districtSelect" class="province-dropdown" style="display: none; margin-top: 8px;">
-            <option value="">All Districts (Municipality/Khan)</option>
-          </select>
-          <select id="communeSelect" class="province-dropdown" style="display: none; margin-top: 8px;">
-            <option value="">All Communes (Sangkat)</option>
-          </select>
-          <select id="villageSelect" class="province-dropdown" style="display: none; margin-top: 8px;">
-            <option value="">All Villages (Phum)</option>
-          </select>
+        <!-- Legacy administrative dropdowns hidden to eliminate duplicates in sidebar and mobile -->
+        <div class="search-options-row" style="display: none !important;">
+          <select id="districtSelect" style="display: none;"></select>
+          <select id="communeSelect" style="display: none;"></select>
+          <select id="villageSelect" style="display: none;"></select>
         </div>
 
         <!-- Warning label explaining search best practices -->
@@ -184,10 +150,10 @@
           <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
         </div>
 
-        <!-- Streamlined Mobile Action Bar (Top Essentials: Province Dropdown, Smart Paste, Compare) -->
-        <div class="mobile-quick-pills" id="mobileQuickPills">
+        <!-- Unified Action Bar (Province Dropdown, Smart Paste, Compare) -->
+        <div class="mobile-quick-pills action-quick-pills" id="mobileQuickPills">
           <div class="mobile-province-pill-wrap">
-            <select id="mobileProvinceSelect" class="mobile-province-select">
+            <select id="provinceSelect" class="mobile-province-select" title="Select Province to View Branches">
               <option value="">📍 All Provinces (25 ខេត្ត-ក្រុង)</option>
               <option value="Phnom Penh">Phnom Penh (ភ្នំពេញ)</option>
               <option value="Kandal">Kandal (កណ្តាល)</option>
@@ -639,7 +605,7 @@
     // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
     window.CARTO_API_KEY = "";
   </script>
-  <script src="app.js?v=3.2.3"></script>
+  <script src="app.js?v=3.2.4"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>

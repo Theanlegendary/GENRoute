@@ -2492,8 +2492,7 @@ input:checked + .slider:before {
   }
 
   .drawer-content .search-options-row {
-    display: block !important;
-    width: 100% !important;
+    display: none !important;
   }
 
   .drawer-content .results-panel {
@@ -3673,7 +3672,7 @@ body.dark-theme .pwa-ios-step {
   outline: none;
   appearance: none;
   -webkit-appearance: none;
-  max-width: 175px;
+  max-width: 220px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

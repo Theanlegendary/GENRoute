@@ -808,50 +808,10 @@ function clientGetNearbyPOs(lat, lng, radiusKm = 10, limitCount = 10) {
     .slice(0, limitCount);
 }
 
-// Show all POs in a selected province on the map and sidebar
+// Show all POs in a selected province on the map and sidebar directory
 function showAllPOsInProvince(province) {
-  if (!province) return;
-  const normProv = normalizeKhmer(province);
-  
-  // Also get the Khmer equivalent of the English province name
-  const khmerProvMap = {
-    'phnom penh': 'ភ្នំពេញ', 'banteay meanchey': 'បន្ទាយមានជ័យ', 'battambang': 'បាត់ដំបង',
-    'kampong cham': 'កំពង់ចាម', 'kampong chhnang': 'កំពង់ឆ្នាំង', 'kampong speu': 'កំពង់ស្ពឺ',
-    'kampong thom': 'កំពង់ធំ', 'kampot': 'កំពត', 'kandal': 'កណ្តាល', 'kep': 'កែប',
-    'koh kong': 'កោះកុង', 'kratie': 'ក្រចេះ', 'mondulkiri': 'មណ្ឌលគិរី',
-    'otdar meanchey': 'ឧត្តរមានជ័យ', 'pailin': 'ប៉ៃលិន', 'preah sihanouk': 'ព្រះសីហនុ',
-    'preah vihear': 'ព្រះវិហារ', 'prey veng': 'ព្រៃវែង', 'pursat': 'ពោធិ៍សាត់',
-    'ratanakiri': 'រតនគិរី', 'siem reap': 'សៀមរាប', 'stung treng': 'ស្ទឹងត្រែង',
-    'svay rieng': 'ស្វាយរៀង', 'takeo': 'តាកែវ', 'tboung khmum': 'ត្បូងឃ្មុំ'
-  };
-  const khmerProv = khmerProvMap[province.toLowerCase()] || '';
-  const normKhProv = khmerProv ? normalizeKhmer(khmerProv) : '';
-  
-  // Filter branches that belong to this province
-  const filtered = clientBranches.filter(b => {
-    const pKh = normalizeKhmer(b.province_kh || '');
-    const pEn = normalizeKhmer(b.province || '');
-    return pKh.includes(normProv) || pEn.includes(normProv) || 
-           (normKhProv && pKh.includes(normKhProv));
-  });
-
-  if (filtered.length === 0) {
-    showState('empty');
-    if (resultsCount) resultsCount.innerHTML = `No POs found in <b>${escHtml(province)}</b>`;
-    return;
-  }
-
-  currentResults = filtered;
-  showState('none');
-  if (resultsCount) resultsCount.innerHTML = `${filtered.length} Post Offices in <b>${escHtml(province)}</b>`;
-
-  renderResultsList(filtered, false, null);
-  renderMapMarkers(filtered);
-
-  // Fit map to show all markers in the province
-  const bounds = L.latLngBounds(filtered.filter(b => b.latitude && b.longitude).map(b => [b.latitude, b.longitude]));
-  if (bounds.isValid()) {
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+  if (typeof selectProvinceAndShowBranches === 'function') {
+    selectProvinceAndShowBranches(province);
   }
 }
 
@@ -4659,12 +4619,14 @@ function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
   wrap.innerHTML = headerHtml;
   resultsList.appendChild(wrap);
 
-  // Setup Province Chips
+  // Setup Province Chips (all 25 provinces + All)
   const provChipsContainer = wrap.querySelector('#branchProvChips');
   const provinces = [
-    'All', 'Phnom Penh', 'Kandal', 'Battambang', 'Siem Reap', 'Kampong Cham',
-    'Preah Sihanouk', 'Kampot', 'Takeo', 'Prey Veng', 'Banteay Meanchey',
-    'Kampong Speu', 'Kampong Chhnang', 'Kampong Thom', 'Pursat', 'Svay Rieng'
+    'All', 'Phnom Penh', 'Kandal', 'Siem Reap', 'Battambang', 'Kampong Cham',
+    'Preah Sihanouk', 'Kampong Speu', 'Kampot', 'Takeo', 'Prey Veng', 'Svay Rieng',
+    'Banteay Meanchey', 'Kampong Chhnang', 'Kampong Thom', 'Pursat', 'Tboung Khmum',
+    'Kratie', 'Stung Treng', 'Ratanakiri', 'Mondulkiri', 'Preah Vihear', 'Koh Kong',
+    'Otdar Meanchey', 'Kep', 'Pailin'
   ];
 
   provinces.forEach(p => {
@@ -4674,6 +4636,8 @@ function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
     btn.textContent = p === 'All' ? `All (${allCount})` : p;
     btn.addEventListener('click', () => {
       branchSelectedProvince = p === 'All' ? '' : p;
+      const sel = document.getElementById('provinceSelect') || document.getElementById('mobileProvinceSelect');
+      if (sel) sel.value = branchSelectedProvince;
       filterAndRenderBranchCards();
       // Update active class
       wrap.querySelectorAll('.branch-prov-btn').forEach(b => b.classList.remove('active'));
@@ -4698,12 +4662,16 @@ function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
     if (!listEl) return;
     listEl.innerHTML = '';
 
-    const q = branchFilterQuery.toLowerCase();
-    const prov = branchSelectedProvince.toLowerCase();
+    const q = branchFilterQuery.toLowerCase().trim();
+    const prov = branchSelectedProvince.toLowerCase().trim();
 
     let filtered = clientBranches.filter(b => {
-      if (prov && (!b.province || !b.province.toLowerCase().includes(prov))) {
-        return false;
+      if (prov) {
+        const bp = (b.province_en || b.province || '').toLowerCase();
+        const bpKh = (b.province_kh || '').toLowerCase();
+        if (!bp.includes(prov) && !prov.includes(bp) && !bpKh.includes(prov)) {
+          return false;
+        }
       }
       if (!q) return true;
       const code = (b.store_code || b.branch_id || '').toLowerCase();
@@ -4713,7 +4681,14 @@ function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
       return code.includes(q) || name.includes(q) || nameKh.includes(q) || addr.includes(q);
     });
 
+    const badge = wrap.querySelector('.branch-directory-badge');
+    if (badge) {
+      badge.textContent = branchSelectedProvince ? `${filtered.length} Branches (${branchSelectedProvince})` : `${allCount} Branches`;
+    }
+
     if (filtered.length === 0) {
+      clearAllMapLayers();
+      activeMarkers = [];
       listEl.innerHTML = `
         <div style="text-align: center; padding: 30px 10px; color: #94a3b8;">
           <p style="font-size: 24px; margin: 0 0 6px 0;">🔍</p>
@@ -4722,6 +4697,18 @@ function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
         </div>
       `;
       return;
+    }
+
+    // Automatically plot all matched branches on the map and fit view!
+    renderMapMarkers(filtered);
+    const normP = (branchSelectedProvince || '').toLowerCase().trim();
+    if (normP && PROVINCE_BBOXES && PROVINCE_BBOXES[normP]) {
+      const bbox = PROVINCE_BBOXES[normP];
+      map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { animate: true, padding: [30, 30] });
+    } else if (filtered.length > 0) {
+      fitMapToMarkers(13);
+    } else {
+      map.setView([12.5657, 104.9910], 7.5);
     }
 
     filtered.slice(0, 80).forEach(b => {
@@ -4986,59 +4973,48 @@ function resolveSmartPasteOrder() {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// 📱 MOBILE QUICK-ACTION PILLS WIRING
+// 📍 CENTRALIZED PROVINCE BRANCH SELECTION HANDLER
+// ──────────────────────────────────────────────────────────────────────────
+function selectProvinceAndShowBranches(prov) {
+  const normProv = (prov || '').trim();
+  const sel = document.getElementById('provinceSelect') || document.getElementById('mobileProvinceSelect');
+  if (sel && sel.value !== normProv) {
+    sel.value = normProv;
+  }
+
+  // Close autocomplete if open
+  if (typeof closeAutocomplete === 'function') {
+    closeAutocomplete();
+  }
+
+  // Clear search bar so user sees the full province branch list cleanly
+  if (typeof searchInput !== 'undefined' && searchInput) {
+    searchInput.value = '';
+    if (typeof clearBtn !== 'undefined' && clearBtn) clearBtn.style.display = 'none';
+  }
+
+  // Directly switch to Branches tab (identical to clicking "Branches" tab)
+  switchTab('branches');
+  renderAllBranchesDirectory('', normProv);
+
+  if (window.innerWidth <= 768) {
+    expandMobileDrawer('sheet-expanded');
+  }
+}
+window.selectProvinceAndShowBranches = selectProvinceAndShowBranches;
+
+// ──────────────────────────────────────────────────────────────────────────
+// 📱 UNIFIED ACTION PILLS WIRING
 // ──────────────────────────────────────────────────────────────────────────
 function setupQuickPills() {
-  const mobileProvinceSelect = document.getElementById('mobileProvinceSelect');
+  const provinceSelect = document.getElementById('provinceSelect') || document.getElementById('mobileProvinceSelect');
   const pillSmartPaste = document.getElementById('pillSmartPaste');
   const pillCompare = document.getElementById('pillCompare');
 
-  // Direct Inline Province Select on Mobile
-  if (mobileProvinceSelect) {
-    mobileProvinceSelect.addEventListener('change', () => {
-      const prov = mobileProvinceSelect.value.trim();
-      const mainSelect = document.getElementById('provinceSelect');
-      if (mainSelect) {
-        mainSelect.value = prov;
-      }
-      
-      if (!prov) {
-        clearAllMapLayers();
-        activeMarkers = [];
-        currentResults = [];
-        showState('welcome');
-        map.setView([12.5657, 104.9910], 7.5);
-        return;
-      }
-
-      const normProv = prov.toLowerCase();
-      const filtered = clientBranches.filter(b => {
-        const bp = (b.province_en || b.province || '').toLowerCase();
-        return bp.includes(normProv) || normProv.includes(bp);
-      });
-
-      currentResults = filtered;
-      currentPage = 1;
-      clearAllMapLayers();
-      plotPickupBranches(filtered);
-      renderResultsList(filtered);
-
-      const countEl = document.getElementById('resultsCount');
-      if (countEl) {
-        countEl.textContent = `Found ${filtered.length} branches in ${prov}`;
-      }
-
-      const bbox = PROVINCE_BBOXES[normProv];
-      if (bbox) {
-        map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { animate: true, padding: [30, 30] });
-      } else if (filtered.length > 0) {
-        const bounds = L.latLngBounds(filtered.map(b => [b.latitude, b.longitude]));
-        map.fitBounds(bounds, { animate: true, padding: [30, 30] });
-      }
-
-      if (window.innerWidth <= 768) {
-        expandMobileDrawer('sheet-expanded');
-      }
+  // Direct Inline Province Select
+  if (provinceSelect) {
+    provinceSelect.addEventListener('change', () => {
+      selectProvinceAndShowBranches(provinceSelect.value);
     });
   }
 
