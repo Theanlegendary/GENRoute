@@ -30,10 +30,17 @@ function initMap() {
     attributionControl: true
   }).setView([12.5657, 104.9910], 7); // Center Cambodia
   
-  // Voyager base layer
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
+  // Basemap layer: CARTO (if key provided) or Google Streets (watermark-free default)
+  const urlParams = new URLSearchParams(window.location.search);
+  const cartoKey = window.CARTO_API_KEY || urlParams.get('carto_key') || localStorage.getItem('carto_api_key') || '';
+  const tileUrl = cartoKey 
+    ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${cartoKey}`
+    : 'https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
+  L.tileLayer(tileUrl, {
+    attribution: cartoKey 
+      ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      : 'Map data &copy; Google · Metfone Smart Grid',
+    subdomains: cartoKey ? 'abcd' : '0123',
     maxZoom: 20
   }).addTo(pmMap);
   

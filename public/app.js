@@ -343,33 +343,80 @@ function initMap() {
     bounceAtZoomLimits: false
   }).setView([12.5657, 104.9910], 7.5);
 
-  tileLayers.voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> · Metfone Smart Grid',
-    subdomains: 'abcd',
+  // CARTO Basemap API Key support (https://carto.com/basemaps/apikey/)
+  // Supports window.CARTO_API_KEY, ?carto_key=... URL query parameter, or localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const CARTO_API_KEY = window.CARTO_API_KEY || urlParams.get('carto_key') || localStorage.getItem('carto_api_key') || '';
+  const cartoKeySuffix = CARTO_API_KEY ? `?key=${CARTO_API_KEY}` : '';
+
+  // 1. Google Streets Roadmap (Crisp, fast, 100% watermark-free without API key)
+  const googleStreets = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    attribution: 'Map data &copy; Google · Metfone Smart Grid',
+    subdomains: '0123',
     maxZoom: 20
   });
 
-  tileLayers.dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> · Metfone Smart Grid',
-    subdomains: 'abcd',
-    maxZoom: 20
-  });
+  // 2. Voyager layer: CARTO Voyager (if key present) or Google Streets (watermark-free default)
+  if (CARTO_API_KEY) {
+    tileLayers.voyager = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${cartoKeySuffix}`, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> · Metfone Smart Grid',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+  } else {
+    tileLayers.voyager = googleStreets;
+  }
 
-  tileLayers.positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> · Metfone Smart Grid',
-    subdomains: 'abcd',
-    maxZoom: 20
-  });
+  // 3. Dark layer: CARTO Dark (if key present) or Esri Dark Gray (watermark-free)
+  if (CARTO_API_KEY) {
+    tileLayers.dark = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png${cartoKeySuffix}`, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> · Metfone Smart Grid',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+  } else {
+    tileLayers.dark = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ · Metfone Smart Grid',
+      maxZoom: 16
+    });
+  }
 
-  // Hybrid Satellite = Google Hybrid (Satellite + Roads/Labels)
-  tileLayers.satellite = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
-    attribution: 'Map data &copy; Google',
+  // 4. Positron / Gray layer: CARTO Positron (if key present) or Esri Light Gray (watermark-free)
+  if (CARTO_API_KEY) {
+    tileLayers.positron = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${cartoKeySuffix}`, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> · Metfone Smart Grid',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+  } else {
+    tileLayers.positron = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ · Metfone Smart Grid',
+      maxZoom: 16
+    });
+  }
+
+  // 5. Hybrid Satellite = Google Hybrid (Satellite + Roads/Labels)
+  tileLayers.satellite = L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+    attribution: 'Map data &copy; Google · Metfone Smart Grid',
+    subdomains: '0123',
     maxZoom: 20
   });
 
   // Set default active layer
   tileLayers.voyager.addTo(map);
   activeTileLayer = tileLayers.voyager;
+
+  // Developer / User helpers to easily set or clear CARTO key from browser console
+  window.setCartoKey = function(key) {
+    if (key && key.trim()) {
+      localStorage.setItem('carto_api_key', key.trim());
+      console.log('✅ CARTO API Key saved to localStorage. Reloading...');
+    } else {
+      localStorage.removeItem('carto_api_key');
+      console.log('ℹ️ CARTO API Key cleared. Reloading...');
+    }
+    location.reload();
+  };
 
   L.control.zoom({ position: 'topright' }).addTo(map);
   markerClusterGroup = L.markerClusterGroup({

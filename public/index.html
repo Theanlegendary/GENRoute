@@ -360,7 +360,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
-  <script src="app.js?v=3.1.6"></script>
+  <script>
+    // Optional CARTO Basemaps API key (free at https://carto.com/basemaps/apikey/)
+    // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
+    window.CARTO_API_KEY = "";
+  </script>
+  <script src="app.js?v=3.1.8"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>
