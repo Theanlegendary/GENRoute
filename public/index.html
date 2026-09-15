@@ -17,17 +17,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Metfone Express" />
   
-  <!-- Google Fonts: Battambang (Khmer) + Inter (UI/Body) + Outfit (Headings) -->
+  <!-- Google Fonts: Battambang (Khmer) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet" />
   
   <!-- Leaflet Map CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
-  <link rel="stylesheet" href="style.css?v=3.2.2" />
+  <link rel="stylesheet" href="style.css?v=3.2.3" />
   <style>
     @keyframes pulse-overlay {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); }
@@ -41,7 +41,7 @@
 <body>
 
   <!-- Full-Screen Loading Overlay -->
-  <div id="loadingOverlay" style="position: fixed; inset: 0; background: #0f172a; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; transition: opacity 0.5s ease, visibility 0.5s; font-family: 'Inter', sans-serif; text-align: center;">
+  <div id="loadingOverlay" style="position: fixed; inset: 0; background: #0f172a; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; transition: opacity 0.5s ease, visibility 0.5s; font-family: Arial, sans-serif; text-align: center;">
     <div style="max-width: 400px; padding: 20px;">
       <!-- Metfone Express Styled Icon with Pulsing Effect -->
       <div style="background: rgba(220, 38, 38, 0.15); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; border: 2.5px solid #dc2626; box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); animation: pulse-overlay 2s infinite;">
@@ -639,7 +639,7 @@
     // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
     window.CARTO_API_KEY = "";
   </script>
-  <script src="app.js?v=3.2.2"></script>
+  <script src="app.js?v=3.2.3"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>

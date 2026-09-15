@@ -4764,7 +4764,7 @@ function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
         L.popup()
           .setLatLng([b.latitude, b.longitude])
           .setContent(`
-            <div style="font-family: 'Inter', sans-serif; min-width: 180px;">
+            <div style="font-family: Arial, sans-serif; min-width: 180px;">
               <div style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; display: inline-block; margin-bottom: 6px;">${escHtml(code)}</div>
               <h4 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 700;">${escHtml(nameKh || nameEn)}</h4>
               <p style="margin: 0 0 8px 0; font-size: 11px; color: #64748b;">${escHtml(addr)}</p>
