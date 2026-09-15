@@ -310,6 +310,7 @@ const selectedMarketIcon = L.divIcon({
   setupGpsButton();         // 1-Tap GPS Near Me
   setupSmartPasteModal();   // Smart Order / Telegram Paste
   setupQuickPills();        // Mobile quick action pills
+  setupComparator();        // Logistics Route & Branch Comparator
   setupPwaSmartPrompt();    // Smart first-time PWA prompt on mobile
   // Clear/empty map state at startup
   showState('welcome');
@@ -4988,21 +4989,56 @@ function resolveSmartPasteOrder() {
 // 📱 MOBILE QUICK-ACTION PILLS WIRING
 // ──────────────────────────────────────────────────────────────────────────
 function setupQuickPills() {
-  const pillNearMe = document.getElementById('pillNearMe');
-  const pillAllBranches = document.getElementById('pillAllBranches');
+  const mobileProvinceSelect = document.getElementById('mobileProvinceSelect');
   const pillSmartPaste = document.getElementById('pillSmartPaste');
-  const pillBrowseProvince = document.getElementById('pillBrowseProvince');
+  const pillCompare = document.getElementById('pillCompare');
 
-  if (pillNearMe) {
-    pillNearMe.addEventListener('click', () => {
-      const gpsBtn = document.getElementById('gpsLocateBtn');
-      if (gpsBtn) gpsBtn.click();
-    });
-  }
+  // Direct Inline Province Select on Mobile
+  if (mobileProvinceSelect) {
+    mobileProvinceSelect.addEventListener('change', () => {
+      const prov = mobileProvinceSelect.value.trim();
+      const mainSelect = document.getElementById('provinceSelect');
+      if (mainSelect) {
+        mainSelect.value = prov;
+      }
+      
+      if (!prov) {
+        clearAllMapLayers();
+        activeMarkers = [];
+        currentResults = [];
+        showState('welcome');
+        map.setView([12.5657, 104.9910], 7.5);
+        return;
+      }
 
-  if (pillAllBranches) {
-    pillAllBranches.addEventListener('click', () => {
-      switchTab('branches');
+      const normProv = prov.toLowerCase();
+      const filtered = clientBranches.filter(b => {
+        const bp = (b.province_en || b.province || '').toLowerCase();
+        return bp.includes(normProv) || normProv.includes(bp);
+      });
+
+      currentResults = filtered;
+      currentPage = 1;
+      clearAllMapLayers();
+      plotPickupBranches(filtered);
+      renderResultsList(filtered);
+
+      const countEl = document.getElementById('resultsCount');
+      if (countEl) {
+        countEl.textContent = `Found ${filtered.length} branches in ${prov}`;
+      }
+
+      const bbox = PROVINCE_BBOXES[normProv];
+      if (bbox) {
+        map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { animate: true, padding: [30, 30] });
+      } else if (filtered.length > 0) {
+        const bounds = L.latLngBounds(filtered.map(b => [b.latitude, b.longitude]));
+        map.fitBounds(bounds, { animate: true, padding: [30, 30] });
+      }
+
+      if (window.innerWidth <= 768) {
+        expandMobileDrawer('sheet-expanded');
+      }
     });
   }
 
@@ -5012,17 +5048,428 @@ function setupQuickPills() {
     });
   }
 
-  if (pillBrowseProvince) {
-    pillBrowseProvince.addEventListener('click', () => {
-      const hamburger = document.getElementById('hamburgerMenuBtn');
-      if (hamburger) {
-        hamburger.click();
-        setTimeout(() => {
-          const provToggle = document.getElementById('drawerProvinceToggle');
-          if (provToggle) provToggle.click();
-        }, 150);
+  if (pillCompare) {
+    pillCompare.addEventListener('click', () => {
+      if (typeof window.openComparatorModal === 'function') {
+        window.openComparatorModal();
       }
     });
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// ⚖️ LOGISTICS ROUTE & BRANCH COMPARATOR
+// ──────────────────────────────────────────────────────────────────────────
+let comparatorPolyline = null;
+let comparatorMidMarker = null;
+let comparatorOriginBranch = null;
+let comparatorDestBranch = null;
+
+function setupComparator() {
+  const modal = document.getElementById('comparatorModal');
+  const backdrop = document.getElementById('comparatorBackdrop');
+  const closeBtn = document.getElementById('comparatorCloseBtn');
+  const pillCompare = document.getElementById('pillCompare');
+
+  const tabBranchToBranch = document.getElementById('tabBranchToBranch');
+  const tabLocationToBranch = document.getElementById('tabLocationToBranch');
+  const viewBranchToBranch = document.getElementById('compViewBranchToBranch');
+  const viewLocationToBranch = document.getElementById('compViewLocationToBranch');
+
+  const originInput = document.getElementById('compOriginInput');
+  const originDropdown = document.getElementById('compOriginDropdown');
+  const destInput = document.getElementById('compDestInput');
+  const destDropdown = document.getElementById('compDestDropdown');
+  const swapBtn = document.getElementById('compSwapBtn');
+  const calculateBtn = document.getElementById('compCalculateBtn');
+
+  const locInput = document.getElementById('compLocInput');
+  const useGpsBtn = document.getElementById('compUseGpsBtn');
+  const findClosestBtn = document.getElementById('compFindClosestBtn');
+  const resultContainer = document.getElementById('comparatorResult');
+
+  if (!modal) return;
+
+  function openModal() {
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  window.openComparatorModal = openModal;
+  window.closeComparatorModal = closeModal;
+
+  if (pillCompare) pillCompare.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+
+  // Tab switching
+  if (tabBranchToBranch && tabLocationToBranch) {
+    tabBranchToBranch.addEventListener('click', () => {
+      tabBranchToBranch.classList.add('active');
+      tabLocationToBranch.classList.remove('active');
+      viewBranchToBranch.style.display = 'block';
+      viewLocationToBranch.style.display = 'none';
+    });
+
+    tabLocationToBranch.addEventListener('click', () => {
+      tabLocationToBranch.classList.add('active');
+      tabBranchToBranch.classList.remove('active');
+      viewLocationToBranch.style.display = 'block';
+      viewBranchToBranch.style.display = 'none';
+    });
+  }
+
+  // Autocomplete search helper
+  function setupBranchAutocomplete(input, dropdown, onSelect) {
+    if (!input || !dropdown) return;
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q || q.length < 1) {
+        dropdown.style.display = 'none';
+        return;
+      }
+
+      const matches = clientBranches.filter(b => {
+        const code = (b.store_code || '').toLowerCase();
+        const name = (b.store_name || '').toLowerCase();
+        const kh = (b.store_name_kh || '').toLowerCase();
+        const prov = (b.province_en || b.province || '').toLowerCase();
+        const dist = (b.district_en || b.district || '').toLowerCase();
+        return code.includes(q) || name.includes(q) || kh.includes(q) || prov.includes(q) || dist.includes(q);
+      }).slice(0, 8);
+
+      if (matches.length === 0) {
+        dropdown.innerHTML = '<div style="padding:8px 12px; font-size:11px; color:#94a3b8;">No branches found</div>';
+        dropdown.style.display = 'block';
+        return;
+      }
+
+      dropdown.innerHTML = matches.map(b => `
+        <div class="comp-auto-item" data-code="${escHtml(b.store_code)}">
+          <div>
+            <div style="font-weight:700; color:#0f172a;">${escHtml(b.store_code)} - ${escHtml(b.store_name_kh || b.store_name)}</div>
+            <div style="font-size:10.5px; color:#64748b;">${escHtml(b.province_en || '')} · ${escHtml(b.district_en || '')}</div>
+          </div>
+          <span style="font-size:10px; font-weight:800; color:#dc2626; background:#fef2f2; padding:2px 6px; border-radius:4px;">Select</span>
+        </div>
+      `).join('');
+      dropdown.style.display = 'block';
+
+      dropdown.querySelectorAll('.comp-auto-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const code = el.getAttribute('data-code');
+          const branch = clientBranches.find(b => b.store_code === code);
+          if (branch) {
+            input.value = `${branch.store_code} - ${branch.store_name_kh || branch.store_name}`;
+            dropdown.style.display = 'none';
+            onSelect(branch);
+          }
+        });
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  }
+
+  setupBranchAutocomplete(originInput, originDropdown, (b) => {
+    comparatorOriginBranch = b;
+  });
+
+  setupBranchAutocomplete(destInput, destDropdown, (b) => {
+    comparatorDestBranch = b;
+  });
+
+  // Swap button
+  if (swapBtn) {
+    swapBtn.addEventListener('click', () => {
+      const tempBranch = comparatorOriginBranch;
+      comparatorOriginBranch = comparatorDestBranch;
+      comparatorDestBranch = tempBranch;
+
+      const tempVal = originInput.value;
+      originInput.value = destInput.value;
+      destInput.value = tempVal;
+
+      if (comparatorOriginBranch && comparatorDestBranch) {
+        calculateBtn.click();
+      }
+    });
+  }
+
+  // Calculate & Draw Route
+  if (calculateBtn) {
+    calculateBtn.addEventListener('click', () => {
+      if (!comparatorOriginBranch || !comparatorDestBranch) {
+        alert('Please select both Origin and Destination branches.');
+        return;
+      }
+
+      const bA = comparatorOriginBranch;
+      const bB = comparatorDestBranch;
+
+      const straightKm = calculateHaversineDistance(bA.latitude, bA.longitude, bB.latitude, bB.longitude);
+      const roadKm = Math.round(straightKm * 1.22 * 10) / 10;
+
+      const provA = (bA.province_en || bA.province || '').toLowerCase();
+      const provB = (bB.province_en || bB.province || '').toLowerCase();
+      const isSameProvince = provA && provB && (provA === provB || provA.includes(provB) || provB.includes(provA));
+
+      let estHours = 0;
+      let timeText = '';
+      if (isSameProvince) {
+        estHours = Math.max(0.4, Math.round((roadKm / 28) * 10) / 10);
+        const mins = Math.round(estHours * 60);
+        timeText = mins < 60 ? `~${mins} mins` : `~${Math.floor(mins / 60)}h ${mins % 60}m`;
+      } else {
+        estHours = Math.max(1.2, Math.round((roadKm / 55) * 10) / 10);
+        const mins = Math.round(estHours * 60);
+        timeText = `~${Math.floor(mins / 60)}h ${mins % 60}m`;
+      }
+
+      const baseFee = isSameProvince ? '$1.00 - $1.25' : '$1.75 - $2.50';
+      const sla = isSameProvince ? '⚡ Same-Day Delivery' : '📦 Next-Day (24-48 Hours)';
+      const slaKh = isSameProvince ? 'ដឹកជូនក្នុងថ្ងៃ' : 'ដឹកឆ្លងខេត្ត (២៤-៤៨ ម៉ោង)';
+
+      const waybillTelegramText = `📦 Metfone Express Delivery Route Waybill:\n` +
+        `🟢 Origin (ផ្ញើចេញ): ${bA.store_code} - ${bA.store_name_kh || bA.store_name} (${bA.province_en || ''})\n` +
+        `📞 Origin Phone: ${bA.phone || bA.contact_phone || 'N/A'}\n` +
+        `🔴 Destination (ទទួល): ${bB.store_code} - ${bB.store_name_kh || bB.store_name} (${bB.province_en || ''})\n` +
+        `📞 Destination Phone: ${bB.phone || bB.contact_phone || 'N/A'}\n` +
+        `📏 Distance: ~${roadKm} km\n` +
+        `⏱️ Transit: ${timeText} (${slaKh})\n` +
+        `💵 Est. Shipping Fee: ${baseFee}\n` +
+        `🗺️ Track Route: https://mapmfe.vercel.app/`;
+
+      resultContainer.style.display = 'flex';
+      resultContainer.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:11px; font-weight:800; color:#15803d; background:#dcfce7; padding:3px 8px; border-radius:6px;">ROUTE CALCULATED</span>
+          <span style="font-size:12px; font-weight:800; color:#dc2626;">${escHtml(bA.store_code)} ➔ ${escHtml(bB.store_code)}</span>
+        </div>
+
+        <div class="comp-stat-grid">
+          <div class="comp-stat-box">
+            <div class="comp-stat-val" style="color:#dc2626;">${roadKm} <span style="font-size:11px;">km</span></div>
+            <div class="comp-stat-lbl">Road Distance</div>
+          </div>
+          <div class="comp-stat-box">
+            <div class="comp-stat-val" style="color:#0284c7;">${timeText}</div>
+            <div class="comp-stat-lbl">Drive Transit</div>
+          </div>
+          <div class="comp-stat-box">
+            <div class="comp-stat-val" style="color:#16a34a;">${baseFee}</div>
+            <div class="comp-stat-lbl">Est. Base Rate</div>
+          </div>
+          <div class="comp-stat-box">
+            <div class="comp-stat-val" style="font-size:12px; color:#d97706; padding-top:3px;">${sla}</div>
+            <div class="comp-stat-lbl">Delivery SLA</div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div class="comp-branch-card">
+            <div style="font-size:10px; font-weight:800; color:#16a34a;">🟢 ORIGIN BRANCH:</div>
+            <div style="font-size:12.5px; font-weight:800; color:#0f172a;">${escHtml(bA.store_name_kh || bA.store_name)} [${escHtml(bA.store_code)}]</div>
+            <div style="font-size:11px; color:#64748b;">📍 ${escHtml(bA.address || bA.province_en || '')}</div>
+            ${bA.phone ? `<div style="font-size:11px; color:#0284c7; font-weight:600;">📞 ${escHtml(bA.phone)}</div>` : ''}
+          </div>
+
+          <div class="comp-branch-card">
+            <div style="font-size:10px; font-weight:800; color:#dc2626;">🔴 DESTINATION BRANCH:</div>
+            <div style="font-size:12.5px; font-weight:800; color:#0f172a;">${escHtml(bB.store_name_kh || bB.store_name)} [${escHtml(bB.store_code)}]</div>
+            <div style="font-size:11px; color:#64748b;">📍 ${escHtml(bB.address || bB.province_en || '')}</div>
+            ${bB.phone ? `<div style="font-size:11px; color:#0284c7; font-weight:600;">📞 ${escHtml(bB.phone)}</div>` : ''}
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:4px;">
+          <button id="compViewOnMapBtn" class="smart-btn-primary" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <span>🗺️</span> View Route on Map
+          </button>
+          <button id="compCopyWaybillBtn" class="smart-btn-secondary" style="display:flex; align-items:center; justify-content:center; gap:6px;">
+            <span>📋</span> Copy Waybill
+          </button>
+        </div>
+      `;
+
+      const copyBtn = resultContainer.querySelector('#compCopyWaybillBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(waybillTelegramText).then(() => {
+            copyBtn.textContent = '✅ Copied!';
+            setTimeout(() => copyBtn.innerHTML = '<span>📋</span> Copy Waybill', 2000);
+          });
+        });
+      }
+
+      const viewMapBtn = resultContainer.querySelector('#compViewOnMapBtn');
+      if (viewMapBtn) {
+        viewMapBtn.addEventListener('click', () => {
+          closeModal();
+          drawComparatorRouteOnMap(bA, bB, roadKm, timeText);
+        });
+      }
+
+      drawComparatorRouteOnMap(bA, bB, roadKm, timeText);
+    });
+  }
+
+  // Location to Closest Branches
+  if (useGpsBtn) {
+    useGpsBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert('Geolocation not supported on this device.');
+        return;
+      }
+      useGpsBtn.textContent = '📡 Locating...';
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          useGpsBtn.innerHTML = '<span>🛰️</span> GPS Acquired!';
+          locInput.value = `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+          findAndCompareClosest(pos.coords.latitude, pos.coords.longitude, 'My Current Location');
+        },
+        (err) => {
+          useGpsBtn.innerHTML = '<span>🛰️</span> Use My Current GPS';
+          alert('GPS error: ' + err.message);
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    });
+  }
+
+  if (findClosestBtn) {
+    findClosestBtn.addEventListener('click', () => {
+      const q = locInput.value.trim();
+      if (!q) {
+        alert('Please enter a location or tap Use My Current GPS.');
+        return;
+      }
+
+      const coordMatch = q.match(/(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)/);
+      if (coordMatch) {
+        const lat = parseFloat(coordMatch[1]);
+        const lng = parseFloat(coordMatch[2]);
+        if (!isNaN(lat) && !isNaN(lng) && lat >= 9 && lat <= 15 && lng >= 102 && lng <= 108) {
+          findAndCompareClosest(lat, lng, 'Entered Location');
+          return;
+        }
+      }
+
+      const matchedMarket = clientMarkets.find(m => {
+        const name = (m.market || '').toLowerCase();
+        const kh = (m.market_kh || '').toLowerCase();
+        return name.includes(q.toLowerCase()) || kh.includes(q.toLowerCase());
+      });
+
+      if (matchedMarket && matchedMarket.latitude && matchedMarket.longitude) {
+        findAndCompareClosest(matchedMarket.latitude, matchedMarket.longitude, matchedMarket.market_kh || matchedMarket.market);
+        return;
+      }
+
+      alert('Location not recognized. Please enter a known market, district, or GPS coordinates.');
+    });
+  }
+
+  function findAndCompareClosest(targetLat, targetLng, locationName = 'Customer Location') {
+    const scored = clientBranches.map(b => {
+      const distKm = calculateHaversineDistance(targetLat, targetLng, b.latitude, b.longitude);
+      const roadKm = Math.round(distKm * 1.25 * 10) / 10;
+      return { branch: b, roadKm, distKm };
+    }).sort((a, b) => a.distKm - b.distKm).slice(0, 3);
+
+    if (scored.length === 0) return;
+
+    resultContainer.style.display = 'flex';
+    resultContainer.innerHTML = `
+      <div style="font-size:12px; font-weight:800; color:#0f172a;">
+        📍 Top Closest Branches to <span style="color:#dc2626;">${escHtml(locationName)}</span>:
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        ${scored.map((item, idx) => `
+          <div class="comp-branch-card" style="border-left: 4px solid ${idx === 0 ? '#16a34a' : idx === 1 ? '#0284c7' : '#94a3b8'};">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; font-weight:800; color:${idx === 0 ? '#16a34a' : '#475569'};">
+                ${idx === 0 ? '🏆 #1 RECOMMENDED' : `#${idx + 1} OPTION`}
+              </span>
+              <span style="font-size:12px; font-weight:800; color:#dc2626;">~${item.roadKm} km</span>
+            </div>
+            <div style="font-size:13px; font-weight:800; color:#0f172a;">${escHtml(item.branch.store_name_kh || item.branch.store_name)} [${escHtml(item.branch.store_code)}]</div>
+            <div style="font-size:11px; color:#64748b;">📍 ${escHtml(item.branch.address || item.branch.province_en || '')}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span style="font-size:11px; color:#0284c7; font-weight:600;">📞 ${escHtml(item.branch.phone || item.branch.contact_phone || 'N/A')}</span>
+              <button class="smart-btn-secondary comp-select-branch-btn" data-code="${escHtml(item.branch.store_code)}" style="padding:4px 10px; font-size:11px;">
+                🗺️ Select & Map
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    resultContainer.querySelectorAll('.comp-select-branch-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.getAttribute('data-code');
+        const b = clientBranches.find(x => x.store_code === code);
+        if (b) {
+          closeModal();
+          map.setView([b.latitude, b.longitude], 16, { animate: true });
+          L.popup()
+            .setLatLng([b.latitude, b.longitude])
+            .setContent(`<b>${escHtml(b.store_code)}: ${escHtml(b.store_name_kh || b.store_name)}</b><br>${escHtml(b.address || '')}`)
+            .openOn(map);
+          if (window.innerWidth <= 768) {
+            expandMobileDrawer('sheet-collapsed');
+          }
+        }
+      });
+    });
+  }
+
+  function drawComparatorRouteOnMap(bA, bB, roadKm, timeText) {
+    if (comparatorPolyline) {
+      map.removeLayer(comparatorPolyline);
+    }
+    if (comparatorMidMarker) {
+      map.removeLayer(comparatorMidMarker);
+    }
+
+    const latlngs = [
+      [bA.latitude, bA.longitude],
+      [bB.latitude, bB.longitude]
+    ];
+
+    comparatorPolyline = L.polyline(latlngs, {
+      color: '#dc2626',
+      weight: 4,
+      opacity: 0.85,
+      dashArray: '8, 8',
+      lineCap: 'round'
+    }).addTo(map);
+
+    const midLat = (bA.latitude + bB.latitude) / 2;
+    const midLng = (bA.longitude + bB.longitude) / 2;
+
+    comparatorMidMarker = L.marker([midLat, midLng], {
+      icon: L.divIcon({
+        className: 'route-distance-label',
+        html: `<span>🚗 ${roadKm} km (${timeText})</span>`,
+        iconSize: [140, 26],
+        iconAnchor: [70, 13]
+      })
+    }).addTo(map);
+
+    map.fitBounds(comparatorPolyline.getBounds(), { padding: [60, 60], animate: true });
+    if (window.innerWidth <= 768) {
+      expandMobileDrawer('sheet-collapsed');
+    }
   }
 }
 

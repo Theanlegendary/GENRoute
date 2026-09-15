@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
-  <link rel="stylesheet" href="style.css?v=3.2.1" />
+  <link rel="stylesheet" href="style.css?v=3.2.2" />
   <style>
     @keyframes pulse-overlay {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); }
@@ -184,19 +184,43 @@
           <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
         </div>
 
-        <!-- Quick Action Category Pills (Near Me, All Branches, Smart Paste) -->
+        <!-- Streamlined Mobile Action Bar (Top Essentials: Province Dropdown, Smart Paste, Compare) -->
         <div class="mobile-quick-pills" id="mobileQuickPills">
-          <button class="quick-pill active-pill" id="pillNearMe">
-            <span class="pill-icon">📍</span> Near Me
-          </button>
-          <button class="quick-pill" id="pillAllBranches">
-            <span class="pill-icon">🏢</span> All Branches
-          </button>
-          <button class="quick-pill" id="pillSmartPaste">
+          <div class="mobile-province-pill-wrap">
+            <select id="mobileProvinceSelect" class="mobile-province-select">
+              <option value="">📍 All Provinces (25 ខេត្ត-ក្រុង)</option>
+              <option value="Phnom Penh">Phnom Penh (ភ្នំពេញ)</option>
+              <option value="Kandal">Kandal (កណ្តាល)</option>
+              <option value="Siem Reap">Siem Reap (សៀមរាប)</option>
+              <option value="Battambang">Battambang (បាត់ដំបង)</option>
+              <option value="Kampong Cham">Kampong Cham (កំពង់ចាម)</option>
+              <option value="Preah Sihanouk">Preah Sihanouk (ព្រះសីហនុ)</option>
+              <option value="Kampong Speu">Kampong Speu (កំពង់ស្ពឺ)</option>
+              <option value="Kampot">Kampot (កំពត)</option>
+              <option value="Takeo">Takeo (តាកែវ)</option>
+              <option value="Prey Veng">Prey Veng (ព្រៃវែង)</option>
+              <option value="Svay Rieng">Svay Rieng (ស្វាយរៀង)</option>
+              <option value="Banteay Meanchey">Banteay Meanchey (បន្ទាយមានជ័យ)</option>
+              <option value="Kampong Chhnang">Kampong Chhnang (កំពង់ឆ្នាំង)</option>
+              <option value="Kampong Thom">Kampong Thom (កំពង់ធំ)</option>
+              <option value="Pursat">Pursat (ពោធិ៍សាត់)</option>
+              <option value="Tboung Khmum">Tboung Khmum (ត្បូងឃ្មុំ)</option>
+              <option value="Kratie">Kratie (ក្រចេះ)</option>
+              <option value="Stung Treng">Stung Treng (ស្ទឹងត្រែង)</option>
+              <option value="Ratanakiri">Ratanakiri (រតនគិរី)</option>
+              <option value="Mondulkiri">Mondulkiri (មណ្ឌលគិរី)</option>
+              <option value="Preah Vihear">Preah Vihear (ព្រះវិហារ)</option>
+              <option value="Koh Kong">Koh Kong (កោះកុង)</option>
+              <option value="Otdar Meanchey">Otdar Meanchey (ឧត្តរមានជ័យ)</option>
+              <option value="Kep">Kep (កែប)</option>
+              <option value="Pailin">Pailin (ប៉ៃលិន)</option>
+            </select>
+          </div>
+          <button class="quick-pill" id="pillSmartPaste" title="Smart Order Paste">
             <span class="pill-icon">📋</span> Smart Paste
           </button>
-          <button class="quick-pill" id="pillBrowseProvince">
-            <span class="pill-icon">🏛️</span> Provinces
+          <button class="quick-pill" id="pillCompare" title="Compare Logistics Routes & Branches">
+            <span class="pill-icon">⚖️</span> Compare
           </button>
         </div>
       </section>
@@ -420,6 +444,81 @@
         <div id="smartPasteResult" class="smart-paste-result" style="display: none;"></div>
       </div>
     </div>
+  </div>
+
+  <!-- Logistics Route & Branch Comparator Modal -->
+  <div id="comparatorModal" class="comparator-modal" style="display: none;">
+    <div class="comparator-backdrop" id="comparatorBackdrop"></div>
+    <div class="comparator-dialog">
+      <div class="comparator-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 24px;">⚖️</span>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; font-family: var(--font-heading);">Logistics Route Comparator</h3>
+            <p style="margin: 0; font-size: 11px; color: #64748b;">ប្រៀបធៀបសាខា ចម្ងាយផ្លូវ តម្លៃផ្ញើ និងរយៈពេលដឹកជញ្ជូន</p>
+          </div>
+        </div>
+        <button id="comparatorCloseBtn" class="smart-paste-close" title="Close">✕</button>
+      </div>
+      
+      <!-- Mode Tabs: Branch to Branch VS Location to Nearest Branch -->
+      <div class="comparator-tabs">
+        <button class="comparator-tab active" id="tabBranchToBranch">🏢 Branch ➔ Branch</button>
+        <button class="comparator-tab" id="tabLocationToBranch">📍 Location ➔ Closest</button>
+      </div>
+
+      <div class="comparator-body">
+        <!-- View 1: Branch to Branch -->
+        <div id="compViewBranchToBranch" class="comp-view">
+          <div class="comp-input-group">
+            <label class="comp-label">🟢 Origin Branch (A - សាខាផ្ញើចេញ):</label>
+            <div class="comp-input-wrapper">
+              <input type="text" id="compOriginInput" placeholder="Type origin branch code or name (e.g. PNP001, Phnom Penh)..." autocomplete="off" />
+              <div id="compOriginDropdown" class="comp-autocomplete-dropdown"></div>
+            </div>
+          </div>
+
+          <div class="comp-swap-row">
+            <button id="compSwapBtn" class="comp-swap-btn" title="Swap Origin & Destination">⇅ Swap Branches</button>
+          </div>
+
+          <div class="comp-input-group">
+            <label class="comp-label">🔴 Destination Branch (B - សាខាទទួល):</label>
+            <div class="comp-input-wrapper">
+              <input type="text" id="compDestInput" placeholder="Type destination branch (e.g. SR002, Siem Reap, KPC)..." autocomplete="off" />
+              <div id="compDestDropdown" class="comp-autocomplete-dropdown"></div>
+            </div>
+          </div>
+
+          <button id="compCalculateBtn" class="smart-btn-primary" style="width: 100%; margin-top: 10px; padding: 11px; font-size: 13px;">
+            ⚡ Compare Distance & Calculate Route
+          </button>
+        </div>
+
+        <!-- View 2: Location to Nearest Branches -->
+        <div id="compViewLocationToBranch" class="comp-view" style="display: none;">
+          <div class="comp-input-group">
+            <label class="comp-label">📍 Customer Location or GPS (ទីតាំងភ្ញៀវ):</label>
+            <div class="comp-input-wrapper">
+              <input type="text" id="compLocInput" placeholder="Enter market, address, Google Maps link, or use GPS..." />
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 8px;">
+            <button id="compUseGpsBtn" class="smart-btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <span>🛰️</span> Use My Current GPS
+            </button>
+            <button id="compFindClosestBtn" class="smart-btn-primary" style="flex: 1;">
+              🔍 Find & Compare Top 3
+            </button>
+          </div>
+        </div>
+
+        <!-- Results Card Area -->
+        <div id="comparatorResult" class="comparator-result" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- First-Time PWA Recommendation Banner (Mobile / App Install) -->
   <div id="pwaInstallBanner" class="pwa-install-banner" style="display: none;" role="dialog" aria-label="Install Metfone Express App">
     <div class="pwa-banner-content">
@@ -540,7 +639,7 @@
     // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
     window.CARTO_API_KEY = "";
   </script>
-  <script src="app.js?v=3.2.1"></script>
+  <script src="app.js?v=3.2.2"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>
