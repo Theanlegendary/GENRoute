@@ -4840,72 +4840,216 @@ function resolveSmartPasteOrder() {
     return;
   }
 
-  // 1. Extract phone number (Cambodia standard formats)
-  const phoneRegex = /(?:\+?855|0)[1-9]\d{7,8}/;
+  // 1. Extract phone number (Cambodia standard formats, handles spaces and hyphens)
+  const phoneRegex = /(?:\+?855|0)\s*[1-9](?:[\s.-]*\d){6,8}\b/;
   const phoneMatch = text.match(phoneRegex);
-  const detectedPhone = phoneMatch ? phoneMatch[0] : '';
+  const detectedPhone = phoneMatch ? phoneMatch[0].replace(/[\s.-]/g, '') : '';
 
-  // 2. Extract Google Maps link or coordinates if present
-  let cleanQuery = text;
-  const gmapsRegex = /https?:\/\/(?:maps\.app\.goo\.gl\/[^\s]+|www\.google\.com\/maps[^\s]+|maps\.google\.com[^\s]+)/i;
-  const linkMatch = text.match(gmapsRegex);
-  if (linkMatch) {
-    cleanQuery = linkMatch[0];
-  }
-
-  // 3. Search and resolve branch
-  let matchedBranch = null;
-
-  // Direct check if user pasted a branch code like PNP008
+  // 2. Check direct branch code (e.g. PNP008, BATS001)
   const codeMatch = text.match(/\b([A-Z]{3,4}\d{3})\b/i);
   if (codeMatch) {
     const code = codeMatch[1].toUpperCase();
-    matchedBranch = clientBranches.find(b => (b.store_code || b.branch_id || '').toUpperCase() === code);
+    const branch = clientBranches.find(b => (b.store_code || b.branch_id || '').toUpperCase() === code);
+    if (branch) {
+      renderSmartPasteSuccess(branch, 'Direct Branch Code Matched: ' + code, null, detectedPhone, text);
+      return;
+    }
   }
 
-  if (!matchedBranch) {
-    // Spatial / text search using keyword matching
-    const qLower = text.toLowerCase();
-    
-    // Check nearest branch if query has market or commune
-    for (const b of clientBranches) {
-      const bName = (b.store_name || '').toLowerCase();
-      const bNameKh = (b.store_name_kh || '').toLowerCase();
-      if ((bName && qLower.includes(bName)) || (bNameKh && qLower.includes(bNameKh))) {
-        matchedBranch = b;
+  // 3. Extract GPS coordinates if present (e.g. "11.5307, 104.9192" or in Google Maps link)
+  let targetCoords = null;
+  const coordRegex = /(-?\d{1,2}\.\d{3,})[,\s/]+(10[2-8]\.\d{3,})/;
+  const coordMatch = text.match(coordRegex);
+  if (coordMatch) {
+    targetCoords = { lat: parseFloat(coordMatch[1]), lng: parseFloat(coordMatch[2]), label: 'GPS Location' };
+  }
+
+  // 4. Clean text: remove phone numbers, links, and chat greeting words
+  let cleanQ = text
+    .replace(/(?:\+?855|0)\s*[1-9](?:[\s.-]*\d){6,8}\b/g, ' ')
+    .replace(/https?:\/\/[^\s]+/g, ' ')
+    .replace(/(សួស្តី|ជម្រាបសួរ|ផ្ញើទៅ|ផ្ញើមក|ផ្ញើឥវ៉ាន់|ផ្ញើអីវ៉ាន់|ផ្ញើ|ទីតាំង|អូន|បង|កន្លែង|hello|hi|send to|to:|loc:|addr:|address:|phone:|tel:)/gi, ' ')
+    .replace(/[()[\].,:;!?'"#-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!targetCoords && !cleanQ) {
+    renderSmartPasteError('Could not detect any address, market, or coordinates from the pasted text.');
+    return;
+  }
+
+  // 5. Intelligent NLP Location Resolver
+  let matchedLocation = null;
+
+  if (targetCoords) {
+    matchedLocation = {
+      latitude: targetCoords.lat,
+      longitude: targetCoords.lng,
+      label: `GPS (${targetCoords.lat.toFixed(4)}, ${targetCoords.lng.toFixed(4)})`,
+      province: 'Coordinates'
+    };
+  } else {
+    const qNorm = normalizeKhmer(cleanQ);
+    const qLower = qNorm.toLowerCase();
+
+    function extractCoreName(str) {
+      if (!str) return '';
+      let s = normalizeKhmer(str);
+      s = s.replace(/^(ផ្សារ|ទីផ្សារ|វត្ត|វិទ្យាល័យ|សាលា|សង្កាត់|ឃុំ|ភូមិ|រង្វង់មូល|ខណ្ឌ|ស្រុក|ក្រុង|ខេត្ត|រាជធានី)\s*/gi, '');
+      return s.trim();
+    }
+
+    // Detect province context
+    const provMap = {
+      'ភ្នំពេញ': 'phnom penh', 'phnom penh': 'phnom penh',
+      'សៀមរាប': 'siem reap', 'siem reap': 'siem reap',
+      'បាត់ដំបង': 'battambang', 'battambang': 'battambang',
+      'កំពង់ចាម': 'kampong cham', 'kampong cham': 'kampong cham',
+      'កណ្តាល': 'kandal', 'kandal': 'kandal',
+      'កំពង់ស្ពឺ': 'kampong speu', 'kampong speu': 'kampong speu',
+      'ព្រះសីហនុ': 'preah sihanouk', 'sihanouk': 'preah sihanouk',
+      'កំពត': 'kampot', 'kampot': 'kampot',
+      'តាកែវ': 'takeo', 'takeo': 'takeo',
+      'ព្រៃវែង': 'prey veng', 'prey veng': 'prey veng',
+      'ស្វាយរៀង': 'svay rieng', 'svay rieng': 'svay rieng',
+      'បន្ទាយមានជ័យ': 'banteay meanchey', 'banteay meanchey': 'banteay meanchey',
+      'ពោធិ៍សាត់': 'pursat', 'pursat': 'pursat',
+      'កំពង់ធំ': 'kampong thom', 'kampong thom': 'kampong thom',
+      'កំពង់ឆ្នាំង': 'kampong chhnang', 'kampong chhnang': 'kampong chhnang'
+    };
+
+    let detectedProv = '';
+    let qSearch = qNorm;
+    for (const [k, v] of Object.entries(provMap)) {
+      if (qLower.includes(k)) {
+        detectedProv = v;
+        qSearch = qSearch.replace(new RegExp(k, 'gi'), ' ').trim();
         break;
       }
     }
-    
-    // Fallback: search markets
-    if (!matchedBranch && clientMarkets && clientMarkets.length > 0) {
-      for (const m of clientMarkets) {
-        const mName = (m.market || '').toLowerCase();
-        const mNameKh = (m.market_kh || '').toLowerCase();
-        if ((mName && qLower.includes(mName)) || (mNameKh && qLower.includes(mNameKh))) {
-          // Find nearest branch to this market
-          let closest = null;
-          let minD = Infinity;
-          for (const b of clientBranches) {
-            const d = haversine(m.latitude, m.longitude, b.latitude, b.longitude);
-            if (d < minD) {
-              minD = d;
-              closest = b;
-            }
-          }
-          if (closest) {
-            matchedBranch = closest;
-            break;
-          }
+    const qCore = extractCoreName(qSearch || qNorm);
+
+    // Search against all routes + markets database
+    const allLocations = [...clientMergedRoutes, ...(clientMarkets || [])];
+    let bestLoc = null;
+    let bestScore = -1;
+
+    for (const item of allLocations) {
+      if (!item.latitude || !item.longitude) continue;
+
+      const mKh = normalizeKhmer(item.market_kh || '');
+      const mEn = (item.market || '').toLowerCase().trim();
+      const cKh = normalizeKhmer(item.commune_kh || '');
+      const cEn = (item.commune || '').toLowerCase().trim();
+      const vKh = normalizeKhmer(item.village_kh || '');
+      const vEn = (item.village || '').toLowerCase().trim();
+      const pEn = (item.province || '').toLowerCase().trim();
+
+      // CRITICAL: Skip corrupted generic database records (e.g. market_kh: 'ផ្សា' or 'ផ្សារ')
+      if (mKh === 'ផ្សា' || mKh === 'ផ្សារ' || mKh === 'ទីផ្សារ' || mKh === 'វត្ត' || mKh === 'ភូមិ' || mKh === 'សាលា') continue;
+
+      const mKhCore = extractCoreName(mKh);
+      const cKhCore = extractCoreName(cKh);
+      const vKhCore = extractCoreName(vKh);
+
+      if (mKhCore.length < 2 && cKhCore.length < 2 && vKhCore.length < 2) continue;
+
+      let score = 0;
+
+      // 1. Exact full match
+      if (mKh && (mKh === qNorm || qNorm === mKh)) score += 150;
+      if (cKh && (cKh === qNorm || qNorm === cKh)) score += 120;
+
+      // 2. Substring full name match
+      if (mKh && mKh.length >= 4 && (qNorm.includes(mKh) || mKh.includes(qNorm))) score += 110;
+      if (cKh && cKh.length >= 4 && (qNorm.includes(cKh) || cKh.includes(qNorm))) score += 90;
+
+      // 3. Core landmark match (e.g. 'ដើមថ្កូវ' matching 'សង្កាត់ផ្សារដើមថ្កូវ' or 'វិទ្យាល័យផ្សារដើមថ្កូវ')
+      if (qCore.length >= 2) {
+        if (mKhCore && (mKhCore === qCore || mKhCore.includes(qCore) || qCore.includes(mKhCore))) {
+          score += 100;
+        }
+        if (cKhCore && (cKhCore === qCore || cKhCore.includes(qCore) || qCore.includes(cKhCore))) {
+          score += 80;
+        }
+        if (vKhCore && (vKhCore === qCore || vKhCore.includes(qCore) || qCore.includes(vKhCore))) {
+          score += 60;
         }
       }
+
+      // 4. English match
+      if (mEn && mEn.length >= 4 && (qLower.includes(mEn) || mEn.includes(qLower))) {
+        score += 70;
+      }
+
+      // Province bonus / penalty
+      if (detectedProv) {
+        if (pEn.includes(detectedProv)) {
+          score += 40;
+        } else if (score > 0) {
+          score -= 100;
+        }
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestLoc = item;
+      }
+    }
+
+    if (bestLoc && bestScore >= 40) {
+      matchedLocation = {
+        latitude: parseFloat(bestLoc.latitude),
+        longitude: parseFloat(bestLoc.longitude),
+        label: bestLoc.market_kh || bestLoc.market || bestLoc.commune_kh || bestLoc.commune || cleanQ,
+        province: bestLoc.province_kh || bestLoc.province || ''
+      };
     }
   }
 
-  // Default fallback if no specific market or branch was in text
-  if (!matchedBranch) {
-    matchedBranch = clientBranches[0];
+  // 6. If no location found, display helpful error - NEVER silently fallback to Battambang!
+  if (!matchedLocation || !matchedLocation.latitude || !matchedLocation.longitude) {
+    renderSmartPasteError('Could not recognize a specific market or commune in this text. Please ensure it includes a recognized market (e.g. ផ្សារដើមថ្កូវ, ផ្សារទួលទំពូង), commune, or Google Maps link.');
+    return;
   }
+
+  // 7. Calculate distance to all branches and pick the genuine nearest branch!
+  const sortedBranches = clientBranches
+    .filter(b => b.latitude && b.longitude)
+    .map(b => ({
+      branch: b,
+      dist: haversine(matchedLocation.latitude, matchedLocation.longitude, parseFloat(b.latitude), parseFloat(b.longitude))
+    }))
+    .sort((a, b) => a.dist - b.dist);
+
+  if (sortedBranches.length === 0) {
+    renderSmartPasteError('No pickup branches found in database.');
+    return;
+  }
+
+  const nearestBranch = sortedBranches[0].branch;
+  const distKm = sortedBranches[0].dist.toFixed(2);
+  const altBranches = sortedBranches.slice(1, 3).map(x => ({ branch: x.branch, distKm: x.dist.toFixed(2) }));
+
+  renderSmartPasteSuccess(nearestBranch, matchedLocation.label, distKm, detectedPhone, text, altBranches, matchedLocation);
+}
+
+function renderSmartPasteError(msg) {
+  const resultContainer = document.getElementById('smartPasteResult');
+  if (!resultContainer) return;
+  resultContainer.style.display = 'flex';
+  resultContainer.innerHTML = `
+    <div style="background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 10px; padding: 14px; text-align: center; width: 100%;">
+      <p style="font-size: 22px; margin: 0 0 6px 0;">⚠️</p>
+      <h4 style="margin: 0 0 6px 0; font-size: 13.5px; font-weight: 800; color: #991b1b;">Location Not Recognized</h4>
+      <p style="margin: 0; font-size: 11.5px; color: #64748b; line-height: 1.5;">${escHtml(msg)}</p>
+    </div>
+  `;
+}
+
+function renderSmartPasteSuccess(matchedBranch, locLabel, distKm, detectedPhone, originalText, altBranches = [], locObj = null) {
+  const resultContainer = document.getElementById('smartPasteResult');
+  if (!resultContainer) return;
 
   const code = matchedBranch.store_code || matchedBranch.branch_id || 'MFE';
   const nameEn = matchedBranch.store_name || 'Metfone Branch';
@@ -4914,7 +5058,7 @@ function resolveSmartPasteOrder() {
   const branchPhone = matchedBranch.phone || '012 844 844';
   const mapsUrl = matchedBranch.google_maps_url || `https://www.google.com/maps?q=${matchedBranch.latitude},${matchedBranch.longitude}`;
 
-  const telegramReplyText = `📦 Metfone Express Pickup Branch:\n📍 Branch: ${nameEn} (${nameKh || ''}) [${code}]\n🏠 Address: ${addr}\n📞 Branch Contact: ${branchPhone}${detectedPhone ? `\n📱 Customer Phone: ${detectedPhone}` : ''}\n🗺️ Google Maps: ${mapsUrl}`;
+  const telegramReplyText = `📦 Metfone Express Pickup Branch:\n📍 Branch: ${nameEn} (${nameKh || ''}) [${code}]\n🏠 Address: ${addr}\n📞 Branch Contact: ${branchPhone}${detectedPhone ? `\n📱 Customer Phone: ${detectedPhone}` : ''}${distKm ? `\n⚡ Distance to Customer: ${distKm} km` : ''}\n🗺️ Google Maps: ${mapsUrl}`;
 
   resultContainer.style.display = 'flex';
   resultContainer.innerHTML = `
@@ -4922,9 +5066,13 @@ function resolveSmartPasteOrder() {
       <span style="font-size: 11px; font-weight: 800; color: #16a34a; background: #dcfce7; padding: 3px 8px; border-radius: 6px;">✅ MATCHED BRANCH</span>
       <span class="branch-code-badge" style="font-size: 12px;">${escHtml(code)}</span>
     </div>
-    <h4 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a;">${escHtml(nameKh ? `${nameKh} (${nameEn})` : nameEn)}</h4>
-    <p style="margin: 0; font-size: 11.5px; color: #64748b;">📍 ${escHtml(addr)}</p>
-    ${detectedPhone ? `<p style="margin: 0; font-size: 12px; color: #0f172a; font-weight: 600;">📱 Customer: <span style="color:#2563eb;">${escHtml(detectedPhone)}</span></p>` : ''}
+
+    <div>
+      <h4 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a;">${escHtml(nameKh ? `${nameKh} (${nameEn})` : nameEn)}</h4>
+      <p style="margin: 3px 0 0 0; font-size: 11.5px; color: #64748b;">📍 ${escHtml(addr)}</p>
+      ${distKm ? `<p style="margin: 3px 0 0 0; font-size: 11.5px; font-weight: 700; color: #dc2626;">⚡ ~${distKm} km from customer location (${escHtml(locLabel)})</p>` : ''}
+      ${detectedPhone ? `<p style="margin: 3px 0 0 0; font-size: 12px; color: #0f172a; font-weight: 600;">📱 Customer: <span style="color:#2563eb;">${escHtml(detectedPhone)}</span></p>` : ''}
+    </div>
     
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; margin-top: 4px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
@@ -4933,6 +5081,20 @@ function resolveSmartPasteOrder() {
       </div>
       <pre style="margin: 0; font-family: monospace; font-size: 11px; line-height: 1.4; color: #334155; white-space: pre-wrap; word-break: break-word;">${escHtml(telegramReplyText)}</pre>
     </div>
+
+    ${altBranches.length > 0 ? `
+      <div style="margin-top: 6px;">
+        <span style="font-size: 10.5px; font-weight: 800; color: #64748b; text-transform: uppercase;">Other Nearby Branches:</span>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px;">
+          ${altBranches.map(alt => `
+            <div class="alt-branch-pill" data-code="${escHtml(alt.branch.store_code)}" style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 8px; font-size: 11px; cursor: pointer;">
+              <span style="font-weight: 700; color: #0f172a;">${escHtml(alt.branch.store_name_kh || alt.branch.store_name)} [${escHtml(alt.branch.store_code)}]</span>
+              <span style="font-weight: 800; color: #dc2626;">~${alt.distKm} km</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
 
     <div style="display: flex; gap: 8px; margin-top: 6px;">
       <button id="smartPasteViewMapBtn" class="smart-btn-primary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;">
@@ -4955,16 +5117,40 @@ function resolveSmartPasteOrder() {
     });
   }
 
+  // Alt branch selection click
+  resultContainer.querySelectorAll('.alt-branch-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const bCode = pill.getAttribute('data-code');
+      const bObj = clientBranches.find(b => b.store_code === bCode);
+      if (bObj) {
+        renderSmartPasteSuccess(bObj, locLabel, null, detectedPhone, originalText, [], locObj);
+      }
+    });
+  });
+
   // View map handler
   const viewMapBtn = resultContainer.querySelector('#smartPasteViewMapBtn');
   if (viewMapBtn) {
     viewMapBtn.addEventListener('click', () => {
       document.getElementById('smartPasteModal').style.display = 'none';
-      map.setView([matchedBranch.latitude, matchedBranch.longitude], 17, { animate: true });
-      L.popup()
-        .setLatLng([matchedBranch.latitude, matchedBranch.longitude])
-        .setContent(`<b>${escHtml(code)}: ${escHtml(nameKh || nameEn)}</b><br>${escHtml(addr)}`)
-        .openOn(map);
+      clearAllMapLayers();
+      activeMarkers = [];
+
+      // Plot customer location if available
+      if (locObj && locObj.latitude && locObj.longitude) {
+        const custMarker = L.marker([locObj.latitude, locObj.longitude], { icon: selectedMarketIcon }).addTo(markerClusterGroup);
+        custMarker.bindPopup(`<b>📍 Customer Location: ${escHtml(locLabel)}</b>`);
+        activeMarkers.push({ id: 'customer_loc', marker: custMarker });
+      }
+
+      // Plot nearest branch
+      const branchMarker = L.marker([matchedBranch.latitude, matchedBranch.longitude], { icon: redIcon }).addTo(markerClusterGroup);
+      branchMarker.bindPopup(`<b>📮 ${escHtml(code)}: ${escHtml(nameKh || nameEn)}</b><br>${escHtml(addr)}`);
+      activeMarkers.push({ id: matchedBranch.id, marker: branchMarker });
+
+      fitMapToMarkers(15);
+      branchMarker.openPopup();
+
       if (window.innerWidth <= 768) {
         expandMobileDrawer('sheet-collapsed');
       }
