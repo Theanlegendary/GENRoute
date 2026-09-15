@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <!-- Custom Smart Metfone CSS -->
-  <link rel="stylesheet" href="style.css?v=3.1.8" />
+  <link rel="stylesheet" href="style.css?v=3.1.9" />
   <style>
     @keyframes pulse-overlay {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); }
@@ -72,6 +72,12 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </span>
           <span class="nav-label">Search</span>
+        </button>
+        <button class="nav-item" id="navBranches" title="All Branches (700+)">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </span>
+          <span class="nav-label">Branches</span>
         </button>
         <button class="nav-item" id="navSaved" title="Saved Branches">
           <span class="nav-icon">
@@ -177,6 +183,22 @@
           <!-- Autocomplete Dropdown directly attached to search input wrapper -->
           <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
         </div>
+
+        <!-- Quick Action Category Pills (Near Me, All Branches, Smart Paste) -->
+        <div class="mobile-quick-pills" id="mobileQuickPills">
+          <button class="quick-pill active-pill" id="pillNearMe">
+            <span class="pill-icon">📍</span> Near Me
+          </button>
+          <button class="quick-pill" id="pillAllBranches">
+            <span class="pill-icon">🏢</span> All Branches
+          </button>
+          <button class="quick-pill" id="pillSmartPaste">
+            <span class="pill-icon">📋</span> Smart Paste
+          </button>
+          <button class="quick-pill" id="pillBrowseProvince">
+            <span class="pill-icon">🏛️</span> Provinces
+          </button>
+        </div>
       </section>
 
       <!-- Section 02: Directory Results -->
@@ -242,6 +264,18 @@
           <span class="hud-val">Metfone Logistics Network v3.1.7</span>
         </div>
       </div>
+
+      <!-- Floating GPS "Near Me" Target Button -->
+      <button class="gps-locate-btn" id="gpsLocateBtn" title="Find Closest Branch to My GPS Location">
+        <svg class="gps-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="7"></circle>
+          <line x1="12" y1="1" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="23"></line>
+          <line x1="1" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="23" y2="12"></line>
+        </svg>
+        <span class="gps-text">Near Me</span>
+      </button>
 
       <!-- Floating Map style switcher -->
       <div class="map-theme-switcher">
@@ -326,6 +360,10 @@
           <span class="menu-icon" style="font-size: 15px;">🔍</span>
           <span class="menu-text">Search Map</span>
         </button>
+        <button class="drawer-menu-item" data-tab="branches" id="drawerItemBranches" style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; border: none; background: transparent; width: 100%; text-align: left; font-size: 13.5px; font-weight: 600; color: #334155; cursor: pointer; transition: background 0.2s;">
+          <span class="menu-icon" style="font-size: 15px;">🏢</span>
+          <span class="menu-text">All Branches (700+)</span>
+        </button>
         <button class="drawer-menu-item" data-tab="saved" id="drawerItemSaved" style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; border: none; background: transparent; width: 100%; text-align: left; font-size: 13.5px; font-weight: 600; color: #334155; cursor: pointer; transition: background 0.2s;">
           <span class="menu-icon" style="font-size: 15px;">🔖</span>
           <span class="menu-text">Saved Branches</span>
@@ -357,6 +395,33 @@
     </div>
   </div>
 
+  <!-- Smart Telegram / Order Paste Sheet (Mobile & Desktop) -->
+  <div id="smartPasteModal" class="smart-paste-modal" style="display: none;">
+    <div class="smart-paste-backdrop" id="smartPasteBackdrop"></div>
+    <div class="smart-paste-dialog">
+      <div class="smart-paste-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 22px;">📋</span>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; font-family: var(--font-heading);">Smart Order Paste</h3>
+            <p style="margin: 0; font-size: 11px; color: #64748b;">Paste Telegram / Facebook customer message to resolve branch</p>
+          </div>
+        </div>
+        <button id="smartPasteCloseBtn" class="smart-paste-close" title="Close">✕</button>
+      </div>
+      <div class="smart-paste-body">
+        <div class="smart-paste-input-area">
+          <textarea id="smartPasteInput" placeholder="Paste order text here (e.g. ផ្ញើទៅផ្សារដើមថ្កូវ 012 345 678, or Google Maps link, or branch code like PNP008)..." rows="3"></textarea>
+          <div class="smart-paste-actions">
+            <button id="smartPasteClearBtn" class="smart-btn-secondary">Clear</button>
+            <button id="smartPasteResolveBtn" class="smart-btn-primary">⚡ Resolve Nearest Branch</button>
+          </div>
+        </div>
+        <div id="smartPasteResult" class="smart-paste-result" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
@@ -365,7 +430,7 @@
     // Leave empty to automatically use clean Google Streets & Esri basemaps with 0 watermarks!
     window.CARTO_API_KEY = "";
   </script>
-  <script src="app.js?v=3.1.8"></script>
+  <script src="app.js?v=3.1.9"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>

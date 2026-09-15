@@ -307,12 +307,15 @@ const selectedMarketIcon = L.divIcon({
   setupSidebarResizer();
   setupSidebarCurtain();
   renderMobileQuickChips(); // Initialize category chips for mobile
+  setupGpsButton();         // 1-Tap GPS Near Me
+  setupSmartPasteModal();   // Smart Order / Telegram Paste
+  setupQuickPills();        // Mobile quick action pills
   // Clear/empty map state at startup
   showState('welcome');
 
-  // Enforce a minimum of 4 seconds loading screen for branding & training presentation stability
+  // Smooth loading screen transition once data is ready
   const elapsed = Date.now() - startTime;
-  const minWait = 4000;
+  const minWait = 400;
   if (elapsed < minWait) {
     await new Promise(resolve => setTimeout(resolve, minWait - elapsed));
   }
@@ -957,17 +960,19 @@ function parseCoordinates(q) {
 // Event Listeners Setup
 function setupEventListeners() {
   const navSearch = document.getElementById('navSearch');
+  const navBranches = document.getElementById('navBranches');
   const navSaved = document.getElementById('navSaved');
   const navRecents = document.getElementById('navRecents');
   const navGetApp = document.getElementById('navGetApp');
   const navPasteMaster = document.getElementById('navPasteMaster');
   
   if (navSearch) navSearch.addEventListener('click', () => switchTab('search'));
+  if (navBranches) navBranches.addEventListener('click', () => switchTab('branches'));
   if (navSaved) navSaved.addEventListener('click', () => switchTab('saved'));
   if (navRecents) navRecents.addEventListener('click', () => switchTab('recents'));
   if (navGetApp) navGetApp.addEventListener('click', () => switchTab('getApp'));
   if (navPasteMaster) navPasteMaster.addEventListener('click', () => {
-    window.location.href = '/pastemaster';
+    openSmartPasteModal();
   });
 
   // Clear search input
@@ -3646,7 +3651,7 @@ function setupHamburgerMenu() {
   if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
 
   // Setup tab selections from hamburger drawer
-  const tabs = ['Search', 'Saved', 'Recents', 'GetApp'];
+  const tabs = ['Search', 'Branches', 'Saved', 'Recents', 'GetApp'];
   tabs.forEach(tab => {
     const item = document.getElementById(`drawerItem${tab}`);
     if (item) {
@@ -3666,8 +3671,8 @@ function setupHamburgerMenu() {
   const drawerItemPasteMaster = document.getElementById('drawerItemPasteMaster');
   if (drawerItemPasteMaster) {
     drawerItemPasteMaster.addEventListener('click', () => {
-      window.location.href = '/pastemaster';
       closeDrawer();
+      openSmartPasteModal();
     });
   }
 }
@@ -4030,6 +4035,11 @@ function switchTab(tabId) {
       if (resultsCount) resultsCount.innerHTML = '';
       expandMobileDrawer('sheet-peeking');
     }
+  } else if (tabId === 'branches') {
+    if (searchOptionsRow) searchOptionsRow.style.display = 'none';
+    if (searchRemark) searchRemark.style.display = 'none';
+    renderAllBranchesDirectory();
+    expandMobileDrawer('sheet-expanded');
   } else if (tabId === 'saved') {
     if (searchOptionsRow) searchOptionsRow.style.display = 'none';
     if (searchRemark) searchRemark.style.display = 'none';
@@ -4512,6 +4522,480 @@ function scoreAutocompleteCandidate(c, query) {
   }
   
   return score;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// 📍 1-TAP GPS "NEAR ME" BUTTON
+// ──────────────────────────────────────────────────────────────────────────
+function setupGpsButton() {
+  const gpsBtn = document.getElementById('gpsLocateBtn');
+  if (!gpsBtn) return;
+
+  gpsBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      customAlert('Geolocation is not supported by your browser.', 'GPS Unavailable');
+      return;
+    }
+
+    gpsBtn.classList.add('locating');
+    const textSpan = gpsBtn.querySelector('.gps-text');
+    if (textSpan) textSpan.textContent = 'Locating...';
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        gpsBtn.classList.remove('locating');
+        if (textSpan) textSpan.textContent = 'Near Me';
+
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        // Visual blue dot for user's GPS position
+        if (window.userGpsMarker) {
+          map.removeLayer(window.userGpsMarker);
+        }
+        window.userGpsMarker = L.circleMarker([lat, lng], {
+          radius: 9,
+          fillColor: '#2563eb',
+          color: '#ffffff',
+          weight: 3,
+          opacity: 1,
+          fillOpacity: 0.95
+        }).addTo(map);
+        window.userGpsMarker.bindPopup('<b>📍 Your Current Location</b><br>ទីតាំងបច្ចុប្បន្នរបស់អ្នក').openPopup();
+
+        // Find nearest branch
+        const userLoc = {
+          id: 'user_current_gps',
+          store_name: 'Your GPS Location',
+          store_name_kh: 'ទីតាំងបច្ចុប្បន្នរបស់អ្នក',
+          latitude: lat,
+          longitude: lng,
+          province: '',
+          district: '',
+          isGps: true
+        };
+
+        selectLocationAndFindNearbyPOs(userLoc);
+      },
+      (err) => {
+        gpsBtn.classList.remove('locating');
+        if (textSpan) textSpan.textContent = 'Near Me';
+        console.warn('GPS location error:', err);
+        customAlert(
+          'Could not retrieve your GPS location. Please ensure Location/GPS permissions are allowed in your browser settings.',
+          'Location Access Required'
+        );
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 30000
+      }
+    );
+  });
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// 🏢 ALL BRANCHES (700+) DIRECTORY
+// ──────────────────────────────────────────────────────────────────────────
+let branchFilterQuery = '';
+let branchSelectedProvince = '';
+
+function renderAllBranchesDirectory(filterQuery = '', selectedProv = '') {
+  if (filterQuery !== undefined) branchFilterQuery = filterQuery;
+  if (selectedProv !== undefined) branchSelectedProvince = selectedProv;
+
+  showState('none');
+  resultsList.innerHTML = '';
+  if (resultsCount) resultsCount.innerHTML = '';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'branch-directory-wrap';
+
+  // Header & Search
+  const allCount = clientBranches.length || 593;
+  const headerHtml = `
+    <div class="branch-directory-header">
+      <h3 class="branch-directory-title">
+        <span>🏢</span> All Metfone Branches
+      </h3>
+      <span class="branch-directory-badge">${allCount} Branches</span>
+    </div>
+    <div class="branch-search-box">
+      <input type="text" id="branchSearchInput" class="branch-filter-input" placeholder="🔍 Search branch code (e.g. PNP008), name, or province..." value="${escHtml(branchFilterQuery)}" />
+    </div>
+    <div class="branch-province-chips" id="branchProvChips"></div>
+    <div id="branchCardsList" style="display: flex; flex-direction: column; gap: 10px; margin-top: 4px;"></div>
+  `;
+  wrap.innerHTML = headerHtml;
+  resultsList.appendChild(wrap);
+
+  // Setup Province Chips
+  const provChipsContainer = wrap.querySelector('#branchProvChips');
+  const provinces = [
+    'All', 'Phnom Penh', 'Kandal', 'Battambang', 'Siem Reap', 'Kampong Cham',
+    'Preah Sihanouk', 'Kampot', 'Takeo', 'Prey Veng', 'Banteay Meanchey',
+    'Kampong Speu', 'Kampong Chhnang', 'Kampong Thom', 'Pursat', 'Svay Rieng'
+  ];
+
+  provinces.forEach(p => {
+    const btn = document.createElement('button');
+    const isAct = (p === 'All' && !branchSelectedProvince) || (branchSelectedProvince === p);
+    btn.className = `branch-prov-btn ${isAct ? 'active' : ''}`;
+    btn.textContent = p === 'All' ? `All (${allCount})` : p;
+    btn.addEventListener('click', () => {
+      branchSelectedProvince = p === 'All' ? '' : p;
+      filterAndRenderBranchCards();
+      // Update active class
+      wrap.querySelectorAll('.branch-prov-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+    provChipsContainer.appendChild(btn);
+  });
+
+  // Filter input event
+  const searchInput = wrap.querySelector('#branchSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      branchFilterQuery = e.target.value.trim();
+      filterAndRenderBranchCards();
+    });
+    // Focus without scrolling out
+    searchInput.focus();
+  }
+
+  function filterAndRenderBranchCards() {
+    const listEl = wrap.querySelector('#branchCardsList');
+    if (!listEl) return;
+    listEl.innerHTML = '';
+
+    const q = branchFilterQuery.toLowerCase();
+    const prov = branchSelectedProvince.toLowerCase();
+
+    let filtered = clientBranches.filter(b => {
+      if (prov && (!b.province || !b.province.toLowerCase().includes(prov))) {
+        return false;
+      }
+      if (!q) return true;
+      const code = (b.store_code || b.branch_id || '').toLowerCase();
+      const name = (b.store_name || '').toLowerCase();
+      const nameKh = (b.store_name_kh || '').toLowerCase();
+      const addr = ((b.province || '') + ' ' + (b.district || '') + ' ' + (b.commune || '')).toLowerCase();
+      return code.includes(q) || name.includes(q) || nameKh.includes(q) || addr.includes(q);
+    });
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `
+        <div style="text-align: center; padding: 30px 10px; color: #94a3b8;">
+          <p style="font-size: 24px; margin: 0 0 6px 0;">🔍</p>
+          <p style="font-size: 13px; font-weight: 600; margin: 0;">No matching branches found</p>
+          <p style="font-size: 11px; margin: 4px 0 0 0;">Try searching another branch code or province</p>
+        </div>
+      `;
+      return;
+    }
+
+    filtered.slice(0, 80).forEach(b => {
+      const code = b.store_code || b.branch_id || 'MFE';
+      const nameEn = b.store_name || 'Metfone Branch';
+      const nameKh = b.store_name_kh || clientGetKhmerStoreName(b.store_name) || '';
+      const provName = b.province || 'Cambodia';
+      const addr = [b.commune, b.district, b.province].filter(Boolean).join(', ') || 'Cambodia';
+      const phone = b.phone || b.contact_number || '';
+      const gmapsUrl = b.google_maps_url || `https://www.google.com/maps?q=${b.latitude},${b.longitude}`;
+      const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${b.latitude},${b.longitude}`;
+
+      const card = document.createElement('div');
+      card.className = 'branch-card-item';
+      card.innerHTML = `
+        <div class="branch-card-top">
+          <span class="branch-code-badge">${escHtml(code)}</span>
+          <span class="branch-province-pill">${escHtml(provName)}</span>
+        </div>
+        <h4 class="branch-card-name">${escHtml(nameKh ? `${nameKh} (${nameEn})` : nameEn)}</h4>
+        <div class="branch-card-address">
+          <span>📍</span> <span>${escHtml(addr)}</span>
+        </div>
+        ${phone ? `<a href="tel:${phone.replace(/\s+/g, '')}" class="branch-card-phone" onclick="event.stopPropagation();">📞 ${escHtml(phone)}</a>` : ''}
+        <div class="branch-card-actions">
+          <button class="btn-view-map">
+            <span>🗺️</span> View on Map
+          </button>
+          <a href="${dirUrl}" target="_blank" rel="noopener" class="btn-directions" onclick="event.stopPropagation();">
+            <span>🚗</span> Directions
+          </a>
+        </div>
+      `;
+
+      // Click card or View on Map -> zoom to branch on map
+      card.addEventListener('click', () => {
+        map.setView([b.latitude, b.longitude], 17, { animate: true, duration: 1.0 });
+        
+        // Open popup
+        L.popup()
+          .setLatLng([b.latitude, b.longitude])
+          .setContent(`
+            <div style="font-family: 'Inter', sans-serif; min-width: 180px;">
+              <div style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; display: inline-block; margin-bottom: 6px;">${escHtml(code)}</div>
+              <h4 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 700;">${escHtml(nameKh || nameEn)}</h4>
+              <p style="margin: 0 0 8px 0; font-size: 11px; color: #64748b;">${escHtml(addr)}</p>
+              <a href="${dirUrl}" target="_blank" rel="noopener" style="display: inline-block; background: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-decoration: none;">🚗 Directions</a>
+            </div>
+          `)
+          .openOn(map);
+
+        if (window.innerWidth <= 768) {
+          expandMobileDrawer('sheet-collapsed');
+        }
+      });
+
+      listEl.appendChild(card);
+    });
+  }
+
+  filterAndRenderBranchCards();
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// 📋 SMART MOBILE ORDER PASTE MODAL
+// ──────────────────────────────────────────────────────────────────────────
+function setupSmartPasteModal() {
+  const modal = document.getElementById('smartPasteModal');
+  const closeBtn = document.getElementById('smartPasteCloseBtn');
+  const backdrop = document.getElementById('smartPasteBackdrop');
+  const clearBtn = document.getElementById('smartPasteClearBtn');
+  const resolveBtn = document.getElementById('smartPasteResolveBtn');
+  const input = document.getElementById('smartPasteInput');
+  const resultContainer = document.getElementById('smartPasteResult');
+
+  if (!modal) return;
+
+  const close = () => {
+    modal.style.display = 'none';
+  };
+
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (backdrop) backdrop.addEventListener('click', close);
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (input) input.value = '';
+      if (resultContainer) {
+        resultContainer.style.display = 'none';
+        resultContainer.innerHTML = '';
+      }
+      if (input) input.focus();
+    });
+  }
+
+  if (resolveBtn && input) {
+    resolveBtn.addEventListener('click', () => {
+      resolveSmartPasteOrder();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        resolveSmartPasteOrder();
+      }
+    });
+  }
+}
+
+function openSmartPasteModal() {
+  const modal = document.getElementById('smartPasteModal');
+  const input = document.getElementById('smartPasteInput');
+  if (modal) {
+    modal.style.display = 'flex';
+    if (input) {
+      setTimeout(() => input.focus(), 100);
+    }
+  }
+}
+window.openSmartPasteModal = openSmartPasteModal;
+
+function resolveSmartPasteOrder() {
+  const input = document.getElementById('smartPasteInput');
+  const resultContainer = document.getElementById('smartPasteResult');
+  if (!input || !resultContainer) return;
+
+  const text = input.value.trim();
+  if (!text) {
+    customAlert('Please paste or type customer order text.', 'Input Empty');
+    return;
+  }
+
+  // 1. Extract phone number (Cambodia standard formats)
+  const phoneRegex = /(?:\+?855|0)[1-9]\d{7,8}/;
+  const phoneMatch = text.match(phoneRegex);
+  const detectedPhone = phoneMatch ? phoneMatch[0] : '';
+
+  // 2. Extract Google Maps link or coordinates if present
+  let cleanQuery = text;
+  const gmapsRegex = /https?:\/\/(?:maps\.app\.goo\.gl\/[^\s]+|www\.google\.com\/maps[^\s]+|maps\.google\.com[^\s]+)/i;
+  const linkMatch = text.match(gmapsRegex);
+  if (linkMatch) {
+    cleanQuery = linkMatch[0];
+  }
+
+  // 3. Search and resolve branch
+  let matchedBranch = null;
+
+  // Direct check if user pasted a branch code like PNP008
+  const codeMatch = text.match(/\b([A-Z]{3,4}\d{3})\b/i);
+  if (codeMatch) {
+    const code = codeMatch[1].toUpperCase();
+    matchedBranch = clientBranches.find(b => (b.store_code || b.branch_id || '').toUpperCase() === code);
+  }
+
+  if (!matchedBranch) {
+    // Spatial / text search using keyword matching
+    const qLower = text.toLowerCase();
+    
+    // Check nearest branch if query has market or commune
+    for (const b of clientBranches) {
+      const bName = (b.store_name || '').toLowerCase();
+      const bNameKh = (b.store_name_kh || '').toLowerCase();
+      if ((bName && qLower.includes(bName)) || (bNameKh && qLower.includes(bNameKh))) {
+        matchedBranch = b;
+        break;
+      }
+    }
+    
+    // Fallback: search markets
+    if (!matchedBranch && clientMarkets && clientMarkets.length > 0) {
+      for (const m of clientMarkets) {
+        const mName = (m.market || '').toLowerCase();
+        const mNameKh = (m.market_kh || '').toLowerCase();
+        if ((mName && qLower.includes(mName)) || (mNameKh && qLower.includes(mNameKh))) {
+          // Find nearest branch to this market
+          let closest = null;
+          let minD = Infinity;
+          for (const b of clientBranches) {
+            const d = haversine(m.latitude, m.longitude, b.latitude, b.longitude);
+            if (d < minD) {
+              minD = d;
+              closest = b;
+            }
+          }
+          if (closest) {
+            matchedBranch = closest;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  // Default fallback if no specific market or branch was in text
+  if (!matchedBranch) {
+    matchedBranch = clientBranches[0];
+  }
+
+  const code = matchedBranch.store_code || matchedBranch.branch_id || 'MFE';
+  const nameEn = matchedBranch.store_name || 'Metfone Branch';
+  const nameKh = matchedBranch.store_name_kh || clientGetKhmerStoreName(matchedBranch.store_name) || '';
+  const addr = [matchedBranch.commune, matchedBranch.district, matchedBranch.province].filter(Boolean).join(', ');
+  const branchPhone = matchedBranch.phone || '012 844 844';
+  const mapsUrl = matchedBranch.google_maps_url || `https://www.google.com/maps?q=${matchedBranch.latitude},${matchedBranch.longitude}`;
+
+  const telegramReplyText = `📦 Metfone Express Pickup Branch:\n📍 Branch: ${nameEn} (${nameKh || ''}) [${code}]\n🏠 Address: ${addr}\n📞 Branch Contact: ${branchPhone}${detectedPhone ? `\n📱 Customer Phone: ${detectedPhone}` : ''}\n🗺️ Google Maps: ${mapsUrl}`;
+
+  resultContainer.style.display = 'flex';
+  resultContainer.innerHTML = `
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 11px; font-weight: 800; color: #16a34a; background: #dcfce7; padding: 3px 8px; border-radius: 6px;">✅ MATCHED BRANCH</span>
+      <span class="branch-code-badge" style="font-size: 12px;">${escHtml(code)}</span>
+    </div>
+    <h4 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a;">${escHtml(nameKh ? `${nameKh} (${nameEn})` : nameEn)}</h4>
+    <p style="margin: 0; font-size: 11.5px; color: #64748b;">📍 ${escHtml(addr)}</p>
+    ${detectedPhone ? `<p style="margin: 0; font-size: 12px; color: #0f172a; font-weight: 600;">📱 Customer: <span style="color:#2563eb;">${escHtml(detectedPhone)}</span></p>` : ''}
+    
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; margin-top: 4px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 11px; font-weight: 700; color: #475569;">Telegram Format:</span>
+        <button id="smartPasteCopyBtn" style="background: #dc2626; color: white; border: none; border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer;">📋 Copy Reply</button>
+      </div>
+      <pre style="margin: 0; font-family: monospace; font-size: 11px; line-height: 1.4; color: #334155; white-space: pre-wrap; word-break: break-word;">${escHtml(telegramReplyText)}</pre>
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-top: 6px;">
+      <button id="smartPasteViewMapBtn" class="smart-btn-primary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <span>🗺️</span> View on Map
+      </button>
+      <a href="${mapsUrl}" target="_blank" rel="noopener" class="smart-btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;">
+        <span>🚗</span> Directions
+      </a>
+    </div>
+  `;
+
+  // Copy reply handler
+  const copyBtn = resultContainer.querySelector('#smartPasteCopyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(telegramReplyText).then(() => {
+        copyBtn.textContent = '✅ Copied!';
+        setTimeout(() => copyBtn.textContent = '📋 Copy Reply', 2000);
+      });
+    });
+  }
+
+  // View map handler
+  const viewMapBtn = resultContainer.querySelector('#smartPasteViewMapBtn');
+  if (viewMapBtn) {
+    viewMapBtn.addEventListener('click', () => {
+      document.getElementById('smartPasteModal').style.display = 'none';
+      map.setView([matchedBranch.latitude, matchedBranch.longitude], 17, { animate: true });
+      L.popup()
+        .setLatLng([matchedBranch.latitude, matchedBranch.longitude])
+        .setContent(`<b>${escHtml(code)}: ${escHtml(nameKh || nameEn)}</b><br>${escHtml(addr)}`)
+        .openOn(map);
+      if (window.innerWidth <= 768) {
+        expandMobileDrawer('sheet-collapsed');
+      }
+    });
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// 📱 MOBILE QUICK-ACTION PILLS WIRING
+// ──────────────────────────────────────────────────────────────────────────
+function setupQuickPills() {
+  const pillNearMe = document.getElementById('pillNearMe');
+  const pillAllBranches = document.getElementById('pillAllBranches');
+  const pillSmartPaste = document.getElementById('pillSmartPaste');
+  const pillBrowseProvince = document.getElementById('pillBrowseProvince');
+
+  if (pillNearMe) {
+    pillNearMe.addEventListener('click', () => {
+      const gpsBtn = document.getElementById('gpsLocateBtn');
+      if (gpsBtn) gpsBtn.click();
+    });
+  }
+
+  if (pillAllBranches) {
+    pillAllBranches.addEventListener('click', () => {
+      switchTab('branches');
+    });
+  }
+
+  if (pillSmartPaste) {
+    pillSmartPaste.addEventListener('click', () => {
+      openSmartPasteModal();
+    });
+  }
+
+  if (pillBrowseProvince) {
+    pillBrowseProvince.addEventListener('click', () => {
+      const hamburger = document.getElementById('hamburgerMenuBtn');
+      if (hamburger) {
+        hamburger.click();
+        setTimeout(() => {
+          const provToggle = document.getElementById('drawerProvinceToggle');
+          if (provToggle) provToggle.click();
+        }, 150);
+      }
+    });
+  }
 }
 
 
