@@ -312,7 +312,10 @@ const selectedMarketIcon = L.divIcon({
   setupQuickPills();        // Mobile quick action pills
   setupComparator();        // Logistics Route & Branch Comparator
   setupPwaSmartPrompt();    // Smart first-time PWA prompt on mobile
-  // Clear/empty map state at startup
+  // Populate the map with nationwide branch markers on startup!
+  if (clientBranches && clientBranches.length > 0) {
+    renderMapMarkers(clientBranches);
+  }
   showState('welcome');
 
   // Immediately hide the loading overlay as soon as app is ready

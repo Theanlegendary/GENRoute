@@ -3,14 +3,14 @@
 // Caches core app shell for offline/fast load. Data APIs always go network-first.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const CACHE_NAME = 'metfone-express-v3.2.4';
+const CACHE_NAME = 'metfone-express-v3.2.5';
 
 // App shell files to pre-cache on install
 const PRECACHE_URLS = [
   '/',
   '/index.html',
-  '/style.css?v=3.2.4',
-  '/app.js?v=3.2.4',
+  '/style.css?v=3.2.5',
+  '/app.js?v=3.2.5',
   '/icon-192.png',
   '/icon-512.png',
   '/manifest.json',
